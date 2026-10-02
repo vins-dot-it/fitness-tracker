@@ -1,0 +1,1 @@
+{"name":"Fitness Tracker Personale","short_name":"Fitness","description":"Piano alimentare, peso e allenamenti HEVY","start_url":"./","scope":"./","display":"standalone","background_color":"#f8fafc","theme_color":"#059669","lang":"it","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}

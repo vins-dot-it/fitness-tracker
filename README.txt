@@ -1,3 +1,1 @@
-Fitness Tracker PWA
-
-Pubblica tutti i file di questa cartella su un hosting HTTPS statico mantenendo la stessa struttura. Apri il sito in Chrome su Android e usa Installa app/Aggiungi a schermata Home. Dati peso e HEVY sono salvati localmente nel browser.
+Carica tutti i file nella root del repository GitHub Pages. Non caricare lo ZIP come unico file. Dopo il deploy, apri il sito in Chrome Android e scegli Installa app/Aggiungi a schermata Home.

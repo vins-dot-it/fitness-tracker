@@ -1,17 +1,17 @@
 {
+  "name": "Fitness Tracker V2",
   "short_name": "FitnessV2",
-  "name": "Fitness Tracker V2 PWA",
+  "description": "Applicazione PWA per la gestione e pianificazione del piano fitness e monitoraggio peso.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme-color": "#3b82f6",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon.png",
-      "type": "image/png",
       "sizes": "512x512",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
-  ],
-  "start_url": "./index.html",
-  "background_color": "#f9fafb",
-  "theme_color": "#ffffff",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }

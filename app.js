@@ -1,530 +1,558 @@
-// 1. DIZIONARIO COMPLETO DATI ALIMENTARI (DA DOCUMENTO UTENTE)
-const DIZIONARIO_PASTI = {
-    "ON": {
-        "Colazione": { alimenti: "Whey 30 g; latte parz. scremato 250 ml; cereali 50 g; biscotti integrali 15 g; banana 120 g", kcal: 592, pro: 38.8 },
-        "Spuntino 1": { alimenti: "Skyr 170 g; mandorle 20 g", kcal: 223, pro: 22.2 },
-        "Pre-workout": { alimenti: "Pane integrale 50 g; banana 120 g", kcal: 232, pro: 5.8 },
-        "Pranzo": { alimenti: "Riso basmati 110 g crudo; pollo 180 g crudo; zucchine 250 g; olio EVO 10 g", kcal: 724, pro: 52 },
-        "Spuntino 2": { alimenti: "Fiocchi di latte 150 g; mela 180 g", kcal: 241, pro: 18.5 },
-        "Cena": { alimenti: "Salmone 150 g; patate 250 g; insalata 250 g; olio EVO 5 g", kcal: 591, pro: 37 }
-    },
-    "OFF": {
-        "Colazione": { alimenti: "Whey 30 g; latte parz. scremato 250 ml; cereali 40 g; biscotti integrali 20 g; mela 180 g", kcal: 563, pro: 37.5 },
-        "Spuntino 1": { alimenti: "Yogurt greco 0% 170 g; mandorle 20 g", kcal: 216, pro: 21.2 },
-        "Pranzo": { alimenti: "Pasta integrale 90 g cruda; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal: 592, pro: 43 },
-        "Spuntino 2": { alimenti: "Fiocchi di latte 150 g; pera 180 g", kcal: 250, pro: 18.7 },
-        "Cena": { alimenti: "Tacchino 170 g crudo; pane integrale 90 g; broccoli 300 g; olio EVO 10 g", kcal: 597, pro: 56 },
-        "Extra": { alimenti: "Kiwi 150 g", kcal: 92, pro: 1.7 }
-    },
-    // Giorni specifici estratti dal piano con lievi differenze caloriche / frutti diversi
-    "ON_Mercoledi": {
-        "Colazione": { alimenti: "Whey 30 g; latte parz. scremato 250 ml; cereali 50 g; biscotti integrali 15 g; kiwi 150 g", kcal: 577, pro: 39.2 },
-        "Pranzo": { alimenti: "Riso basmati 110 g crudo; tacchino 180 g crudo; peperoni 250 g; olio EVO 10 g", kcal: 755, pro: 52.5 },
-        "Cena": { alimenti: "Merluzzo 200 g; cous cous 80 g crudo; verdure miste 300 g; olio EVO 10 g", kcal: 643, pro: 51 }
-    },
-    "OFF_Giovedi": {
-        "Colazione": { alimenti: "Whey 30 g; latte parz. scremato 250 ml; cereali 40 g; biscotti integrali 20 g; frutti di bosco 150 g", kcal: 544, pro: 38 },
-        "Pranzo": { alimenti: "Riso basmati 80 g crudo; ceci 180 g cotti e sgocciolati; pollo 120 g crudo; zucchine 250 g; olio EVO 10 g", kcal: 766, pro: 48.8 },
-        "Cena": { alimenti: "Tacchino 180 g crudo; pane integrale 70 g; spinaci 300 g; olio EVO 10 g", kcal: 525, pro: 56 }
-    },
-    "ON_Venerdi": {
-        "Pranzo": { alimenti: "Pasta 110 g cruda; pollo 180 g crudo; passata 150 g; zucchine 200 g; olio EVO 10 g", kcal: 754, pro: 58.4 },
-        "Cena": { alimenti: "Manzo magro 170 g; patate 250 g; insalata 250 g; olio EVO 10 g", kcal: 556, pro: 43 }
-    },
-    "ON_Martedi_4Allenamenti": {
-        "Colazione": { alimenti: "Whey 30 g; latte parz. scremato 250 ml; cereali 50 g; biscotti integrali 15 g; mela 180 g", kcal: 579, pro: 38 },
-        "Pranzo": { alimenti: "Pasta integrale 110 g cruda; tonno naturale 150 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal: 701, pro: 53.5 },
-        "Cena": { alimenti: "Tacchino 180 g crudo; pane integrale 100 g; broccoli 300 g; olio EVO 10 g", kcal: 633, pro: 58 }
-    },
-    "ON_Giovedi_4Allenamenti": {
-        "Colazione": { alimenti: "Whey 30 g; latte parz. scremato 250 ml; cereali 50 g; biscotti integrali 15 g; frutti di bosco 150 g", kcal: 527, pro: 38.8 },
-        "Pranzo": { alimenti: "Riso basmati 110 g crudo; ceci 150 g cotti e sgocciolati; pollo 150 g crudo; zucchine 250 g; olio EVO 10 g", kcal: 871, pro: 54 },
-        "Cena": { alimenti: "Tacchino 180 g crudo; pane integrale 100 g; spinaci 300 g; olio EVO 10 g", kcal: 600, pro: 58.5 }
-    },
-    // ALTERNATIVE ABBINATE PRANZO E CENA
-    "ALT_ON_1": {
-        "Pranzo": { alimenti: "Riso basmati 110 g crudo; pollo 180 g crudo; zucchine 250 g; olio EVO 10 g", kcal: 724, pro: 52 },
-        "Cena": { alimenti: "Salmone 150 g; patate 250 g; verdure 300 g; olio EVO 5 g", kcal: 599, pro: 37 }
-    },
-    "ALT_ON_2": {
-        "Pranzo": { alimenti: "Pasta 110 g cruda; tacchino 180 g crudo; passata 150 g; verdure 200 g; olio EVO 10 g", kcal: 735, pro: 56 },
-        "Cena": { alimenti: "Merluzzo 220 g; cous cous 80 g crudo; verdure 300 g; olio EVO 10 g", kcal: 660, pro: 54 }
-    },
-    "ALT_ON_3": {
-        "Pranzo": { alimenti: "Riso basmati 110 g crudo; tonno naturale 150 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal: 704, pro: 47 },
-        "Cena": { alimenti: "Bresaola 100 g; pane integrale 100 g; verdure 300 g; olio EVO 10 g; 1 frutto medio", kcal: 640, pro: 43 }
-    },
-    "ALT_OFF_1": {
-        "Pranzo": { alimenti: "Pasta integrale 90 g cruda; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal: 592, pro: 43 },
-        "Cena": { alimenti: "Tacchino 180 g crudo; pane integrale 70 g; verdure 300 g; olio EVO 10 g", kcal: 545, pro: 56 }
-    },
-    "ALT_OFF_2": {
-        "Pranzo": { alimenti: "Riso basmati 70 g crudo; ceci 150 g cotti e sgocciolati; pollo 120 g crudo; zucchine 250 g; olio EVO 10 g", kcal: 694, pro: 45 },
-        "Cena": { alimenti: "Merluzzo 220 g; pane integrale 80 g; verdure 300 g; olio EVO 10 g", kcal: 560, pro: 50 }
-    },
-    "ALT_OFF_3": {
-        "Pranzo": { alimenti: "Riso basmati 80 g crudo; pollo 150 g crudo; verdure 300 g; olio EVO 10 g", kcal: 631, pro: 43 },
-        "Cena": { alimenti: "Bresaola 100 g; pane integrale 80 g; verdure 300 g; olio EVO 10 g", kcal: 510, pro: 42 }
-    }
+// COSTANTI GIORNI DELLA SETTIMANA FISSI (LUN-VEN)
+const GIORNI = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'];
+
+// DATABASE DEL PIANO ALIMENTARE (ESTRATTO DALL'IMMAGINE E DAL PRECEDENTE DOCUMENTO)
+const VARIANTI_PASTI = {
+    ON: [
+        {
+            id: 'on_base_1',
+            nome: '1- Riso Pollo / Salmone',
+            pranzo: { alimenti: 'Riso basmati 110 g crudo; pollo 180 g crudo; zucchine 250 g; olio EVO 10 g', kcal: 724 },
+            cena: { alimenti: 'Salmone 150 g; patate 250 g; insalata 250 g; olio EVO 5 g', kcal: 591 }
+        },
+        {
+            id: 'on_base_2',
+            nome: '2- Riso Pollo / Merluzzo',
+            pranzo: { alimenti: 'Riso basmati 110 g crudo; pollo 180 g crudo; peperoni 250 g; olio EVO 10 g', kcal: 755 },
+            cena: { alimenti: 'Merluzzo 200 g; cous cous 80 g crudo; verdure miste 300 g; olio EVO 10 g', kcal: 643 }
+        },
+        {
+            id: 'on_base_3',
+            nome: '3- Pasta Pollo / Merluzzo',
+            pranzo: { alimenti: 'Pasta 110 g cruda; pollo 180 g crudo; passata 150 g; zucchine 200 g; olio EVO 10 g', kcal: 754 },
+            cena: { alimenti: 'Merluzzo 220 g; cous cous 80 g crudo; verdure 300 g; olio EVO 10 g', kcal: 660 }
+        },
+        {
+            id: 'on_base_4',
+            nome: '4- Riso Tonno / Bresaola',
+            pranzo: { alimenti: 'Riso basmati 110 g crudo; tonno naturale 150 g sgocciolato; pomodori 250 g; olio EVO 10 g', kcal: 704 },
+            cena: { alimenti: 'Bresaola 100 g; pane integrale 100 g; verdure 300 g; olio EVO 10 g; 1 frutto medio', kcal: 640 }
+        },
+        {
+            id: 'on_base_5',
+            nome: '5- Pasta Tonno / Pollo',
+            pranzo: { alimenti: 'Pasta integrale 110 g cruda; tonno naturale 150 g sgocciolato; pomodori 250 g; olio EVO 10 g', kcal: 701 },
+            cena: { alimenti: 'pollo 180 g crudo; pane integrale 100 g; broccoli 300 g; olio EVO 10 g', kcal: 633 }
+        },
+        {
+            id: 'on_base_6',
+            nome: '6- Riso Ceci Pollo / Pollo',
+            pranzo: { alimenti: 'Riso basmati 110 g crudo; ceci 150 g cotti e sgocciolati; pollo 150 g crudo; zucchine 250 g; olio EVO 10 g', kcal: 871 },
+            cena: { alimenti: 'pollo 180 g crudo; pane integrale 100 g; spinaci 300 g; olio EVO 10 g', kcal: 600 }
+        },
+        {
+            id: 'on_base_7',
+            nome: '7- Pasta Pollo / Manzo',
+            pranzo: { alimenti: 'Pasta 110 g cruda; pollo 180 g crudo; passata 150 g; zucchine 200 g; olio EVO 10 g', kcal: 754 },
+            cena: { alimenti: 'Manzo magro 170 g; patate 250 g; insalata 250 g; olio EVO 10 g', kcal: 556 }
+        }
+    ],
+    OFF: [
+        {
+            id: 'off_base_1',
+            nome: '1- Pasta Tonno / Pollo',
+            pranzo: { alimenti: 'Pasta integrale 90 g cruda; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g', kcal: 592 },
+            cena: { alimenti: 'pollo 170 g crudo; pane integrale 90 g; broccoli 300 g; olio EVO 10 g', kcal: 597 }
+        },
+        {
+            id: 'off_base_2',
+            nome: '2- Riso Pollo / Merluzzo',
+            pranzo: { alimenti: 'Riso basmati 110 g crudo; pollo 180 g crudo; peperoni 250 g; olio EVO 10 g', kcal: 755 },
+            cena: { alimenti: 'Merluzzo 200 g; cous cous 80 g crudo; verdure miste 300 g; olio EVO 10 g', kcal: 643 }
+        },
+        {
+            id: 'off_base_3',
+            nome: '3- Riso Ceci Pollo / Pollo',
+            pranzo: { alimenti: 'Riso basmati 80 g crudo; ceci 180 g cotti e sgocciolati; pollo 120 g crudo; zucchine 250 g; olio EVO 10 g', kcal: 766 },
+            cena: { alimenti: 'pollo 180 g crudo; pane integrale 70 g; spinaci 300 g; olio EVO 10 g', kcal: 525 }
+        },
+        {
+            id: 'off_base_4',
+            nome: '4- Pasta Tonno / Pollo',
+            pranzo: { alimenti: 'Pasta integrale 90 g cruda; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g', kcal: 592 },
+            cena: { alimenti: 'pollo 180 g crudo; pane integrale 70 g; verdure 300 g; olio EVO 10 g', kcal: 545 }
+        },
+        {
+            id: 'off_base_5',
+            nome: '5- Riso Ceci Pollo / Merluzzo',
+            pranzo: { alimenti: 'Riso basmati 70 g crudo; ceci 150 g cotti e sgocciolati; pollo 120 g crudo; zucchine 250 g; olio EVO 10 g', kcal: 694 },
+            cena: { alimenti: 'Merluzzo 220 g; pane integrale 80 g; verdure 300 g; olio EVO 10 g', kcal: 560 }
+        },
+        {
+            id: 'off_base_6',
+            nome: '6- Riso Pollo / Bresaola',
+            pranzo: { alimenti: 'Riso basmati 80 g crudo; pollo 150 g crudo; verdure 300 g; olio EVO 10 g', kcal: 631 },
+            cena: { alimenti: 'Bresaola 100 g; pane integrale 80 g; verdure 300 g; olio EVO 10 g', kcal: 510 }
+        }
+    ]
 };
 
-// Menu Opzioni Cross-Pianificazione per Pranzo/Cena
-const OPZIONI_VARIANTI = [
-    { value: "BASE_ON_LUN", label: "Piano Lunedì ON (Riso/Pollo + Salmone)" },
-    { value: "BASE_ON_MER", label: "Piano Mercoledì ON (Riso/Tacchino + Merluzzo)" },
-    { value: "BASE_ON_VEN", label: "Piano Venerdì ON (Pasta/Pollo + Manzo)" },
-    { value: "BASE_ON_MAR4", label: "Piano Martedì ON 4A (Pasta/Tonno + Tacchino)" },
-    { value: "BASE_ON_GIO4", label: "Piano Giovedì ON 4A (Riso/Ceci/Pollo + Tacchino)" },
-    { value: "ALT_ON_1", label: "Variante ON 1 - Pollo e Salmone" },
-    { value: "ALT_ON_2", label: "Variante ON 2 - Tacchino e Pesce Bianco" },
-    { value: "ALT_ON_3", label: "Variante ON 3 - Tonno e Bresaola" },
-    { value: "BASE_OFF_MAR", label: "Piano Martedì OFF (Pasta/Tonno + Tacchino)" },
-    { value: "BASE_OFF_GIO", label: "Piano Giovedì OFF (Riso/Ceci/Pollo + Tacchino)" },
-    { value: "ALT_OFF_1", label: "Variante OFF 1 - Tonno e Tacchino" },
-    { value: "ALT_OFF_2", label: "Variante OFF 2 - Ceci, Pollo e Pesce Bianco" },
-    { value: "ALT_OFF_3", label: "Variante OFF 3 - Pollo e Bresaola" }
-];
-
-const GIORNI = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"];
-
-// 2. STATO STATICO / LOCALSTORAGE
-let statoApp = {
-    struttura: {}, // Giorno: "ON" o "OFF"
-    sceltePasti: {}, // Giorno: variante key selezionata
-    pesi: [] // { data: "YYYY-MM-DD", valore: X }
+// ALIMENTI FISSI CHE NON CAMBIANO MAI (COLAZIONE E SPUNTINI)
+const PASTI_FISSI = {
+    ON: [
+        { pasto: 'Colazione', ora: '07:00', alimenti: 'Whey 30 g; latte parz. scremato 250 ml; cereali 50 g; biscotti integrali 15 g; banana 120 g', kcal: 592 },
+        { pasto: 'Spuntino', ora: '10:00', alimenti: 'Skyr 170 g; mandorle 20 g', kcal: 223 },
+        { pasto: 'Pre-workout', ora: '12:20', alimenti: 'Pane integrale 50 g; banana 120 g', kcal: 232 },
+        { pasto: 'Spuntino', ora: '17:30', alimenti: 'Fiocchi di latte 150 g; mela 180 g', kcal: 241 }
+    ],
+    OFF: [
+        { pasto: 'Colazione', ora: '07:00', alimenti: 'Whey 30 g; latte parz. scremato 250 ml; cereali 40 g; biscotti integrali 20 g; mela 180 g', kcal: 563 },
+        { pasto: 'Spuntino', ora: '10:00', alimenti: 'Yogurt greco 0% 170 g; mandorle 20 g', kcal: 216 },
+        { pasto: 'Spuntino', ora: '17:30', alimenti: 'Fiocchi di latte 150 g; pera 180 g', kcal: 250 },
+        { pasto: 'Extra', ora: '21:30', alimenti: 'Kiwi 150 g', kcal: 92 }
+    ]
 };
 
-let pesoModificaData = null; // Memorizza se stiamo modificando un peso esistente
-let pesoChart = null;
+// STATO DELLO STORAGE LOCALE
+let statoApp = JSON.parse(localStorage.getItem('fitness_tracker_stato')) || {
+    pianoSelezionato: 3,
+    giorniStruttura: {
+        'Lunedì': 'ON', 'Martedì': 'OFF', 'Mercoledì': 'ON', 'Giovedì': 'OFF', 'Venerdì': 'ON'
+    },
+    sceltePasti: {
+        'Lunedì': 'on_base_1', 'Martedì': 'off_base_1', 'Mercoledì': 'on_base_2', 'Giovedì': 'off_base_3', 'Venerdì': 'on_base_7'
+    },
+    registroPeso: []
+};
 
-// Caricamento Iniziale
-function inizializzaApp() {
-    const salvato = localStorage.getItem("fitness_tracker_v2_data");
-    if (salvato) {
-        statoApp = JSON.parse(salvato);
-    } else {
-        // Default 3 Allenamenti
-        applicaTemplateBase(3);
-    }
-    
-    configuraNavigazione();
-    renderStruttura();
-    renderScegliPasti();
-    renderOggi();
-    renderPeso();
-}
+let giornoOggiIndice = 0; // Indice del giorno visualizzato in OGGI
+let chartPesoIstance = null;
+
+// INIZIALIZZAZIONE APPLICAZIONE
+document.addEventListener('DOMContentLoaded', () => {
+    initNavigazione();
+    initSezioneStruttura();
+    initSezioneScegliPasti();
+    initSezioneOggi();
+    initSezionePeso();
+});
 
 function salvaStato() {
-    localStorage.setItem("fitness_tracker_v2_data", JSON.stringify(statoApp));
+    localStorage.setItem('fitness_tracker_stato', JSON.stringify(statoApp));
 }
 
-// 3. NAVIGAZIONE TAB BLINDATA
-function configuraNavigazione() {
-    const pulsanti = document.querySelectorAll(".nav-btn");
-    const tabs = document.querySelectorAll(".tab-content");
+// GESTIONE NAVIGAZIONE TAB
+function initNavigazione() {
+    const buttons = document.querySelectorAll('.nav-btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.getAttribute('data-target');
+            
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(target).classList.add('active');
 
-    pulsanti.forEach(btn => {
-        btn.addEventListener("click", () => {
-            pulsanti.forEach(p => p.classList.remove("active"));
-            tabs.forEach(t => t.classList.remove("active"));
+            buttons.forEach(b => {
+                b.classList.remove('text-blue-600', 'font-bold');
+                b.classList.add('text-gray-400', 'font-semibold');
+            });
+            btn.classList.remove('text-gray-400', 'font-semibold');
+            btn.classList.add('text-blue-600', 'font-bold');
 
-            btn.classList.add("active");
-            const targetTab = btn.id.replace("nav-", "section-");
-            document.getElementById(targetTab).classList.add("active");
-
-            // Aggiornamenti contestuali al cambio tab
-            if (targetTab === "section-oggi") renderOggi();
-            if (targetTab === "section-pasti") renderScegliPasti();
-            if (targetTab === "section-peso") renderPeso();
+            if (target === 'oggi') initSezioneOggi();
+            if (target === 'scegli-pasti') initSezioneScegliPasti();
+            if (target === 'peso') renderizzaPeso();
         });
     });
-
-    // Collegamento pulsante Genera Settimana
-    document.getElementById("btn-genera-settimana").addEventListener("click", () => {
-        const val = document.getElementById("template-select").value;
-        applicaTemplateBase(parseInt(val));
-        salvaStato();
-        renderStruttura();
-        renderScegliPasti();
-        alert("Settimana generata correttamente in base al piano scelto!");
-    });
-
-    // Logica Form Peso
-    document.getElementById("btn-salva-peso").addEventListener("click", salvaMisuaraPeso);
-    document.getElementById("btn-annulla-peso").addEventListener("click", resetFormPeso);
 }
 
-function applicaTemplateBase(tipo) {
-    statoApp.struttura = {};
-    statoApp.sceltePasti = {};
-    
-    GIORNI.forEach(g => {
-        if (tipo === 3) {
-            // Lun, Mer, Ven ON
-            if (g === "Lunedì") { statoApp.struttura[g] = "ON"; statoApp.sceltePasti[g] = "BASE_ON_LUN"; }
-            else if (g === "Mercoledì") { statoApp.struttura[g] = "ON"; statoApp.sceltePasti[g] = "BASE_ON_MER"; }
-            else if (g === "Venerdì") { statoApp.struttura[g] = "ON"; statoApp.sceltePasti[g] = "BASE_ON_VEN"; }
-            else { statoApp.struttura[g] = "OFF"; statoApp.sceltePasti[g] = g === "Giovedì" ? "BASE_OFF_GIO" : "BASE_OFF_MAR"; }
+// INIZIALIZZAZIONE TAB 2: STRUTTURA
+function initSezioneStruttura() {
+    const btn3 = document.getElementById('btn-piano-3');
+    const btn4 = document.getElementById('btn-piano-4');
+    const container = document.getElementById('struttura-giorni-container');
+
+    function applicaTemplatePiano(num) {
+        statoApp.pianoSelezionato = num;
+        if (num === 3) {
+            statoApp.giorniStruttura = { 'Lunedì': 'ON', 'Martedì': 'OFF', 'Mercoledì': 'ON', 'Giovedì': 'OFF', 'Venerdì': 'ON' };
+            btn3.className = "py-3 px-4 rounded-xl font-bold border-2 border-blue-500 bg-blue-50 text-blue-700";
+            btn4.className = "py-3 px-4 rounded-xl font-bold border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300";
         } else {
-            // Lun, Mar, Gio, Ven ON
-            if (g === "Lunedì") { statoApp.struttura[g] = "ON"; statoApp.sceltePasti[g] = "BASE_ON_LUN"; }
-            else if (g === "Martedì") { statoApp.struttura[g] = "ON"; statoApp.sceltePasti[g] = "BASE_ON_MAR4"; }
-            else if (g === "Giovedì") { statoApp.struttura[g] = "ON"; statoApp.sceltePasti[g] = "BASE_ON_GIO4"; }
-            else if (g === "Venerdì") { statoApp.struttura[g] = "ON"; statoApp.sceltePasti[g] = "BASE_ON_VEN"; }
-            else { statoApp.struttura[g] = "OFF"; statoApp.sceltePasti[g] = "BASE_OFF_MAR"; }
+            statoApp.giorniStruttura = { 'Lunedì': 'ON', 'Martedì': 'ON', 'Mercoledì': 'OFF', 'Giovedì': 'ON', 'Venerdì': 'ON' };
+            btn4.className = "py-3 px-4 rounded-xl font-bold border-2 border-blue-500 bg-blue-50 text-blue-700";
+            btn3.className = "py-3 px-4 rounded-xl font-bold border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300";
         }
-    });
-}
-
-// 4. LOGICA TAB: STRUTTURA
-function renderStruttura() {
-    const container = document.getElementById("struttura-giorni-lista");
-    container.innerHTML = "";
-
-    GIORNI.forEach(g => {
-        const isON = statoApp.struttura[g] === "ON";
-        const div = document.createElement("div");
-        div.className = "flex justify-between items-center bg-white p-3 rounded-xl border border-gray-100 shadow-xs";
-        div.innerHTML = `
-            <span class="font-bold text-lg">${g}</span>
-            <div class="flex items-center gap-2">
-                <span class="text-xs uppercase font-bold text-gray-500">${isON ? 'Allenamento (ON)' : 'Riposo (OFF)'}</span>
-                <input type="checkbox" ${isON ? 'checked' : ''} data-giorno="${g}" class="w-6 h-6 border-gray-300 rounded text-blue-600 focus:ring-blue-500 toggle-onoff">
-            </div>
-        `;
-        container.appendChild(div);
-    });
-
-    // Listener sui checkbox
-    document.querySelectorAll(".toggle-onoff").forEach(cb => {
-        cb.addEventListener("change", (e) => {
-            const g = e.target.getAttribute("data-giorno");
-            const nuovoStato = e.target.checked ? "ON" : "OFF";
-            statoApp.struttura[g] = nuovoStato;
-            
-            // Imposta una variante coerente di base al cambio di ON/OFF
-            if (nuovoStato === "ON") {
-                statoApp.sceltePasti[g] = "BASE_ON_LUN";
-            } else {
-                statoApp.sceltePasti[g] = "BASE_OFF_MAR";
-            }
-            
-            salvaStato();
-            renderStruttura(); // Rinfresca scritte etichette nello stesso tab
-        });
-    });
-}
-
-// Helper per ottenere i pasti esatti di un giorno in base alla scelta effettuata
-function calcolaPastiGiorno(giorno) {
-    const tipoGiornoStruttura = statoApp.struttura[giorno]; // nominale ON o OFF dal tab struttura
-    const scelta = statoApp.sceltePasti[giorno] || (tipoGiornoStruttura === "ON" ? "BASE_ON_LUN" : "BASE_OFF_MAR");
-
-    // Copia i pasti base coerenti con la struttura nominale del giorno
-    let pastiFinali = JSON.parse(JSON.stringify(DIZIONARIO_PASTI[tipoGiornoStruttura]));
-
-    // Se il giorno nominale è OFF ma l'utente ha scelto una variante extra di martedì o giovedì ad esempio, gestiamo
-    // Sovrascrittura o estrazione corretta da DIZIONARIO
-    let sorgentePranzoCena = null;
-
-    if (scelta.startsWith("ALT_")) {
-        sorgentePranzoCena = DIZIONARIO_PASTI[scelta];
-    } else if (scelta === "BASE_ON_LUN") {
-        sorgentePranzoCena = DIZIONARIO_PASTI["ON"];
-    } else if (scelta === "BASE_ON_MER") {
-        sorgentePranzoCena = DIZIONARIO_PASTI["ON_Mercoledi"];
-    } else if (scelta === "BASE_ON_VEN") {
-        sorgentePranzoCena = DIZIONARIO_PASTI["ON_Venerdi"];
-    } else if (scelta === "BASE_ON_MAR4") {
-        sorgentePranzoCena = DIZIONARIO_PASTI["ON_Martedi_4Allenamenti"];
-    } else if (scelta === "BASE_ON_GIO4") {
-        sorgentePranzoCena = DIZIONARIO_PASTI["ON_Giovedi_4Allenamenti"];
-    } else if (scelta === "BASE_OFF_MAR") {
-        sorgentePranzoCena = DIZIONARIO_PASTI["OFF"];
-    } else if (scelta === "BASE_OFF_GIO") {
-        sorgentePranzoCena = DIZIONARIO_PASTI["OFF_Giovedi"];
+        renderizzaSelettoriStruttura();
     }
 
-    // Applica le sovrascritture di Pranzo e Cena se trovate nel record
-    if (sorgentePranzoCena) {
-        if (sorgentePranzoCena["Pranzo"]) pastiFinali["Pranzo"] = sorgentePranzoCena["Pranzo"];
-        if (sorgentePranzoCena["Cena"]) pastiFinali["Cena"] = sorgentePranzoCena["Cena"];
-        
-        // Se la sorgente specifica ha colazione o varianti particolari (es. Mercoledì o Giovedì), le applichiamo
-        if (scelta === "BASE_ON_MER" && sorgentePranzoCena["Colazione"]) pastiFinali["Colazione"] = sorgentePranzoCena["Colazione"];
-        if (scelta === "BASE_ON_MAR4" && sorgentePranzoCena["Colazione"]) pastiFinali["Colazione"] = sorgentePranzoCena["Colazione"];
-        if (scelta === "BASE_ON_GIO4" && sorgentePranzoCena["Colazione"]) pastiFinali["Colazione"] = sorgentePranzoCena["Colazione"];
-        if (scelta === "BASE_OFF_GIO" && sorgentePranzoCena["Colazione"]) pastiFinali["Colazione"] = sorgentePranzoCena["Colazione"];
-    }
+    btn3.addEventListener('click', () => applicaTemplatePiano(3));
+    btn4.addEventListener('click', () => applicaTemplatePiano(4));
 
-    return pastiFinali;
-}
-
-// 5. LOGICA TAB: SCEGLI PASTI (SELEZIONE INCROCIATA LIBERA COMPLETA)
-function renderScegliPasti() {
-    const container = document.getElementById("scelte-pasti-lista");
-    container.innerHTML = "";
-
-    GIORNI.forEach(g => {
-        const tipoGiorno = statoApp.struttura[g];
-        const sceltaCorrente = statoApp.sceltePasti[g] || (tipoGiorno === "ON" ? "BASE_ON_LUN" : "BASE_OFF_MAR");
-
-        const div = document.createElement("div");
-        div.className = "bg-white p-4 rounded-xl border border-gray-100 shadow-xs";
-        
-        let opzioniHtml = "";
-        OPZIONI_VARIANTI.forEach(opt => {
-            const selezionato = opt.value === sceltaCorrente ? "selected" : "";
-            opzioniHtml += `<option value="${opt.value}" ${selezionato}>${opt.label}</option>`;
-        });
-
-        // Mostra info caloriche rapide stimate del blocco scelto
-        const pastiGiorno = calcolaPastiGiorno(g);
-        let kcalTot = 0;
-        Object.values(pastiGiorno).forEach(p => kcalTot += p.kcal);
-
-        div.innerHTML = `
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-lg text-gray-900">${g}</span>
-                <span class="px-2 py-0.5 rounded text-xs font-bold ${tipoGiorno === 'ON' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">Giorno ${tipoGiorno}</span>
-            </div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Abbinamento Pranzo e Cena:</label>
-            <select data-giorno="${g}" class="w-full p-2 border border-gray-300 rounded-lg bg-gray-50 text-base select-variante-pasto">
-                ${opzioniHtml}
-            </select>
-            <div class="mt-2 text-right text-xs font-semibold text-gray-600">
-                Calorie totali stimate: <span class="text-sm font-bold text-gray-900">${kcalTot} kcal</span>
-            </div>
-        `;
-        container.appendChild(div);
-    });
-
-    // Handler variazione menu a tendina
-    document.querySelectorAll(".select-variante-pasto").forEach(sel => {
-        sel.addEventListener("change", (e) => {
-            const g = e.target.getAttribute("data-giorno");
-            statoApp.sceltePasti[g] = e.target.value;
-            salvaStato();
-            renderScegliPasti(); // Aggiorna i calcoli visivi al volo
-        });
-    });
-}
-
-// 6. LOGICA TAB: OGGI
-function renderOggi() {
-    // Determiniamo il giorno reale corrente della settimana
-    const giorniSettimanaIta = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"];
-    const oggiIndex = new Date().getDay(); 
-    const giornoNomeOggi = giorniSettimanaIta[oggiIndex];
-
-    const infoDiv = document.getElementById("oggi-info");
-    infoDiv.innerHTML = `Oggi è <strong>${giornoNomeOggi}</strong>. Tipo impostato in struttura: <strong>${statoApp.struttura[giornoNomeOggi] || 'OFF'}</strong>.`;
-
-    const pastiGiorno = calcolaPastiGiorno(giornoNomeOggi);
-    
-    // Generazione della lista dei pasti a schermo
-    const listaContainer = document.getElementById("oggi-pasti-lista");
-    listaContainer.innerHTML = "";
-
-    let kcalTotale = 0;
-
-    Object.keys(pastiGiorno).forEach(nomePasto => {
-        const pasto = pastiGiorno[nomePasto];
-        kcalTotale += pasto.kcal;
-
-        const pDiv = document.createElement("div");
-        pDiv.className = "bg-white p-3 rounded-xl border border-gray-100 shadow-xs flex justify-between items-start gap-4";
-        pDiv.innerHTML = `
-            <div class="flex-1">
-                <span class="block font-bold text-gray-800 text-base">${nomePasto}</span>
-                <span class="block text-sm text-gray-600 leading-tight mt-0.5">${pasto.alimenti}</span>
-                <span class="inline-block mt-1 bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded font-medium">Proteine: ${pasto.pro}g</span>
-            </div>
-            <div class="text-right whitespace-nowrap">
-                <span class="font-bold text-blue-600 text-base">${pasto.kcal} kcal</span>
-            </div>
-        `;
-        listaContainer.appendChild(pDiv);
-    });
-
-    document.getElementById("oggi-kcal-totale").innerText = `${kcalTotale} kcal`;
-}
-
-// 7. LOGICA TAB: PESO (GESTIONE AVANZATA E PREVISIONE)
-function renderPeso() {
-    // Imposta data odierna nel form se vuota
-    if (!document.getElementById("peso-data").value) {
-        document.getElementById("peso-data").value = new Date().toISOString().substring(0, 10);
-    }
-
-    // Ordina pesi dal più recente al più vecchio
-    statoApp.pesi.sort((a, b) => new Date(b.data) - new Date(a.data));
-
-    // Render Tabella Storico
-    const corpoTabella = document.getElementById("peso-tabella-corpo");
-    corpoTabella.innerHTML = "";
-
-    if (statoApp.pesi.length === 0) {
-        corpoTabella.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-gray-400">Nessun dato registrato</td></tr>`;
-    } else {
-        statoApp.pesi.forEach(p => {
-            const tr = document.createElement("tr");
-            tr.className = "border-b border-gray-100 hover:bg-gray-50";
-            tr.innerHTML = `
-                <td class="p-2 font-medium">${formattaData(p.data)}</td>
-                <td class="p-2 font-bold text-gray-900">${p.valore.toFixed(1)} kg</td>
-                <td class="p-2 text-right space-x-1">
-                    <button onclick="avviaModificaPeso('${p.data}')" class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">Modifica</button>
-                    <button onclick="eliminaPeso('${p.data}')" class="text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded">Elimina</button>
-                </td>
+    function renderizzaSelettoriStruttura() {
+        container.innerHTML = '';
+        GIORNI.forEach(gg => {
+            const statoAttuale = statoApp.giorniStruttura[gg] || 'OFF';
+            const div = document.createElement('div');
+            div.className = "flex items-center justify-between p-3 border border-gray-100 rounded-xl bg-gray-50";
+            div.innerHTML = `
+                <span class="font-bold text-gray-700">${gg}</span>
+                <div class="flex gap-1">
+                    <button data-day="${gg}" data-val="ON" class="toggle-onoff px-4 py-1.5 rounded-lg font-bold text-sm ${statoAttuale === 'ON' ? 'bg-green-500 text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-500'}">ON</button>
+                    <button data-day="${gg}" data-val="OFF" class="toggle-onoff px-4 py-1.5 rounded-lg font-bold text-sm ${statoAttuale === 'OFF' ? 'bg-gray-500 text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-500'}">OFF</button>
+                </div>
             `;
-            corpoTabella.appendChild(tr);
+            container.appendChild(div);
+        });
+
+        document.querySelectorAll('.toggle-onoff').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const day = e.target.getAttribute('data-day');
+                const val = e.target.getAttribute('data-val');
+                statoApp.giorniStruttura[day] = val;
+                
+                // Forza l'assegnazione di un pasto coerente di default se cambia lo stato ON/OFF
+                if (val === 'ON') {
+                    statoApp.sceltePasti[day] = VARIANTI_PASTI.ON[0].id;
+                } else {
+                    statoApp.sceltePasti[day] = VARIANTI_PASTI.OFF[0].id;
+                }
+                renderizzaSelettoriStruttura();
+            });
         });
     }
 
-    // Calcolo Media ultimi 7 giorni
-    const media = calcolaMedia7Giorni();
-    document.getElementById("peso-media-7").innerText = media ? `${media.toFixed(1)} kg` : "--";
+    document.getElementById('btn-salva-settimana').addEventListener('click', () => {
+        salvaStato();
+        alert('Settimana generata e memorizzata con successo!');
+        initSezioneScegliPasti();
+        initSezioneOggi();
+    });
 
-    // Calcolo Previsione Target 72 kg
-    elaboraPrevisioneTarget(media);
+    // Render iniziale della struttura salvata
+    if (statoApp.pianoSelezionato === 4) {
+        btn4.className = "py-3 px-4 rounded-xl font-bold border-2 border-blue-500 bg-blue-50 text-blue-700";
+        btn3.className = "py-3 px-4 rounded-xl font-bold border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300";
+    }
+    renderizzaSelettoriStruttura();
+}
 
-    // Aggiornamento Grafico ChartJS
+// INIZIALIZZAZIONE TAB 3: SCEGLI PASTI (LOGICA RIGIDA RICHIESTA)
+function initSezioneScegliPasti() {
+    const container = document.getElementById('scegli-pasti-container');
+    container.innerHTML = '';
+
+    GIORNI.forEach(gg => {
+        const tipoGiorno = statoApp.giorniStruttura[gg] || 'OFF';
+        const opzioniDisponibili = VARIANTI_PASTI[tipoGiorno]; // Filtra ESCLUSIVAMENTE in base allo stato ON/OFF attuale del giorno
+        
+        let sceltaAttuale = statoApp.sceltePasti[gg];
+        // Validazione di sicurezza se il vecchio pasto non appartiene alla lista filtrata
+        if (!opzioniDisponibili.find(o => o.id === sceltaAttuale)) {
+            sceltaAttuale = opzioniDisponibili[0].id;
+            statoApp.sceltePasti[gg] = sceltaAttuale;
+        }
+
+        const div = document.createElement('div');
+        div.className = "p-4 border border-gray-200 rounded-xl space-y-2 bg-white";
+        
+        let opzioniHTML = opzioniDisponibili.map(opt => `
+            <option value="${opt.id}" ${opt.id === sceltaAttuale ? 'selected' : ''}>${opt.nome}</option>
+        `).join('');
+
+        div.innerHTML = `
+            <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                <span class="font-bold text-gray-800 text-lg">${gg}</span>
+                <span class="text-xs font-bold px-2 py-0.5 rounded-full ${tipoGiorno === 'ON' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}">GIORNO ${tipoGiorno}</span>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Variante Pranzo/Cena (${tipoGiorno})</label>
+                <select data-day="${gg}" class="select-variante w-full border border-gray-300 p-3 rounded-xl bg-gray-50 font-medium outline-none focus:ring-2 focus:ring-blue-500">
+                    ${opzioniHTML}
+                </select>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+
+    document.querySelectorAll('.select-variante').forEach(select => {
+        select.addEventListener('change', (e) => {
+            const day = e.target.getAttribute('data-day');
+            statoApp.sceltePasti[day] = e.target.value;
+            salvaStato();
+        });
+    });
+}
+
+// INIZIALIZZAZIONE TAB 1: OGGI (CON SCORRIMENTO AVANTI/INDIETRO E SENZA PROTEINE)
+function initSezioneOggi() {
+    const labelGiorno = document.getElementById('oggi-giorno');
+    const labelTipo = document.getElementById('oggi-tipo');
+    const labelKcalTotale = document.getElementById('oggi-kcal-totale');
+    const pastiContainer = document.getElementById('oggi-pasti-container');
+
+    function renderizzaGiornoSelezionato() {
+        const gg = GIORNI[giornoOggiIndice];
+        const tipoGiorno = statoApp.giorniStruttura[gg] || 'OFF';
+        
+        labelGiorno.innerText = gg;
+        if (tipoGiorno === 'ON') {
+            labelTipo.innerText = "GIORNO ON";
+            labelTipo.className = "text-sm font-semibold text-green-600 mt-1";
+        } else {
+            labelTipo.innerText = "GIORNO OFF";
+            labelTipo.className = "text-sm font-semibold text-gray-500 mt-1";
+        }
+
+        pastiContainer.innerHTML = '';
+        let kcalTotaliGiorno = 0;
+
+        // 1. Alimenti Fissi (Colazione e Spuntini intermedi)
+        const fissi = PASTI_FISSI[tipoGiorno] || [];
+        
+        // Mappa temporanea per ricostruire la cronologia oraria corretta
+        let sequenzaPasti = [];
+        
+        fissi.forEach(p => {
+            sequenzaPasti.push({ ...p, tipo: 'fisso' });
+            kcalTotaliGiorno += p.kcal;
+        });
+
+        // 2. Variante pranzo/cena selezionata
+        const idVariante = statoApp.sceltePasti[gg];
+        const varianteScelta = VARIANTI_PASTI[tipoGiorno].find(v => v.id === idVariante) || VARIANTI_PASTI[tipoGiorno].find(v => v.id.includes(tipoGiorno.toLowerCase()));
+
+        if (varianteScelta) {
+            sequenzaPasti.push({
+                pasto: 'Pranzo',
+                ora: tipoGiorno === 'ON' ? '14:30' : '13:00',
+                alimenti: varianteScelta.pranzo.alimenti,
+                kcal: varianteScelta.pranzo.kcal,
+                tipo: 'variabile'
+            });
+            kcalTotaliGiorno += varianteScelta.pranzo.kcal;
+
+            sequenzaPasti.push({
+                pasto: 'Cena',
+                ora: '19:30',
+                alimenti: varianteScelta.cena.alimenti,
+                kcal: varianteScelta.cena.kcal,
+                tipo: 'variabile'
+            });
+            kcalTotaliGiorno += varianteScelta.cena.kcal;
+        }
+
+        // Ordina i pasti cronologicamente per ora di inserimento
+        sequenzaPasti.sort((a, b) => a.ora.localeCompare(b.ora));
+
+        // Stampa i singoli blocchi pasto escludendo completamente i valori delle proteine
+        sequenzaPasti.forEach(p => {
+            const card = document.createElement('div');
+            card.className = "bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start gap-3";
+            card.innerHTML = `
+                <div class="space-y-1 flex-1">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded">${p.ora}</span>
+                        <h4 class="font-bold text-gray-800">${p.pasto}</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">${p.alimenti}</p>
+                </div>
+                <div class="text-right min-w-[70px]">
+                    <span class="text-base font-bold text-gray-900">${p.kcal}</span>
+                    <span class="text-xs text-gray-400 block font-medium">kcal</span>
+                </div>
+            `;
+            pastiContainer.appendChild(card);
+        });
+
+        labelKcalTotale.innerText = `${kcalTotaliGiorno} kcal`;
+    }
+
+    // Bottoni scorrimento avanti/indietro giorni
+    document.getElementById('prev-giorno').onclick = () => {
+        giornoOggiIndice = (giornoOggiIndice === 0) ? GIORNI.length - 1 : giornoOggiIndice - 1;
+        renderizzaGiornoSelezionato();
+    };
+
+    document.getElementById('next-giorno').onclick = () => {
+        giornoOggiIndice = (giornoOggiIndice === GIORNI.length - 1) ? 0 : giornoOggiIndice + 1;
+        renderizzaGiornoSelezionato();
+    };
+
+    renderizzaGiornoSelezionato();
+}
+
+// INIZIALIZZAZIONE TAB 4: PESO (CRUD + MEDIA 7g + ALGORITMO PREVISIONALE LINEARE)
+function initSezionePeso() {
+    const form = document.getElementById('peso-form');
+    
+    // Imposta la data odierna come default nell'input
+    document.getElementById('peso-data').value = new Date().toISOString().split('T')[0];
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const index = document.getElementById('peso-index').value;
+        const data = document.getElementById('peso-data').value;
+        const valore = parseFloat(document.getElementById('peso-valore').value);
+
+        const nuovoRecord = { data, valore };
+
+        if (index === '') {
+            // Create
+            statoApp.registroPeso.push(nuovoRecord);
+        } else {
+            // Update
+            statoApp.registroPeso[parseInt(index)] = nuovoRecord;
+            document.getElementById('peso-index').value = '';
+            document.getElementById('peso-submit-btn').innerText = "Salva Record";
+            document.getElementById('peso-cancella-btn').classList.add('hidden');
+        }
+
+        // Ordina cronologicamente
+        statoApp.registroPeso.sort((a, b) => a.data.localeCompare(b.data));
+        salvaStato();
+        form.reset();
+        document.getElementById('peso-data').value = new Date().toISOString().split('T')[0];
+        renderizzaPeso();
+    });
+
+    document.getElementById('peso-cancella-btn').addEventListener('click', () => {
+        form.reset();
+        document.getElementById('peso-data').value = new Date().toISOString().split('T')[0];
+        document.getElementById('peso-index').value = '';
+        document.getElementById('peso-submit-btn').innerText = "Salva Record";
+        document.getElementById('peso-cancella-btn').classList.add('hidden');
+    });
+}
+
+function renderizzaPeso() {
+    const lista = document.getElementById('peso-storico-lista');
+    lista.innerHTML = '';
+
+    // Mostra storico elementi
+    statoApp.registroPeso.forEach((rec, idx) => {
+        const item = document.createElement('div');
+        item.className = "flex items-center justify-between p-3 bg-gray-50 border border-gray-100 rounded-xl text-sm";
+        item.innerHTML = `
+            <div>
+                <span class="font-bold text-gray-700">${rec.valore} kg</span>
+                <span class="text-xs text-gray-400 ml-2">${rec.data.split('-').reverse().join('/')}</span>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="modificaRecordPeso(${idx})" class="text-blue-600 font-bold hover:underline">Modifica</button>
+                <button onclick="eliminaRecordPeso(${idx})" class="text-red-500 font-bold hover:underline">Elimina</button>
+            </div>
+        `;
+        lista.appendChild(item);
+    });
+
+    calcolaMetrichePeso();
     aggiornaGraficoPeso();
 }
 
-function formattaData(dataStr) {
-    const parti = dataStr.split("-");
-    if (parti.length === 3) return `${parti[2]}/${parti[1]}/${parti[0]}`;
-    return dataStr;
-}
+window.modificaRecordPeso = function(idx) {
+    const rec = statoApp.registroPeso[idx];
+    document.getElementById('peso-index').value = idx;
+    document.getElementById('peso-data').value = rec.data;
+    document.getElementById('peso-valore').value = rec.valore;
+    document.getElementById('peso-submit-btn').innerText = "Aggiorna Record";
+    document.getElementById('peso-cancella-btn').classList.remove('hidden');
+};
 
-function calcolaMedia7Giorni() {
-    if (statoApp.pesi.length === 0) return null;
-    
-    // Prendiamo i dati degli ultimi 7 giorni effettivi inseriti
-    const ultimiPesi = statoApp.pesi.slice(0, 7);
-    const somma = ultimiPesi.reduce((acc, p) => acc + p.valore, 0);
-    return somma / ultimiPesi.length;
-}
+window.eliminaRecordPeso = function(idx) {
+    if (confirm("Vuoi eliminare definitivamente questo inserimento di peso?")) {
+        statoApp.registroPeso.splice(idx, 1);
+        salvaStato();
+        renderizzaPeso();
+    }
+};
 
-function elaboraPrevisioneTarget(mediaCorrente) {
-    const previsioneSpan = document.getElementById("peso-previsione");
+function calcolaMetrichePeso() {
+    const labelMedia = document.getElementById('peso-media');
+    const labelPrevisione = document.getElementById('peso-previsione');
     const TARGET = 72.0;
 
-    if (statoApp.pesi.length < 3) {
-        previsioneSpan.innerHTML = "Inserisci almeno 3 record in giorni diversi per visualizzare il trend previsionale.";
+    if (statoApp.registroPeso.length === 0) {
+        labelMedia.innerText = "-- kg";
+        labelPrevisione.innerText = "Inserisci più dati di peso";
         return;
     }
 
-    // Calcolo del trend lineare semplice basato sull'ordine cronologico (dal più vecchio al più recente)
-    const cronologico = [...statoApp.pesi].reverse();
-    const primo = cronologico[0];
-    const ultimo = cronologico[cronologico.length - 1];
+    // 1. Calcolo media ultimi 7 record inseriti
+    const ultimiPesi = statoApp.registroPeso.slice(-7);
+    const somma = ultimiPesi.reduce((acc, curr) => acc + curr.valore, 0);
+    const media = (somma / ultimiPesi.length).toFixed(1);
+    labelMedia.innerText = `${media} kg`;
 
-    const millisecondiDiff = new Date(ultimo.data) - new Date(primo.data);
-    const giorniDiff = millisecondiDiff / (1000 * 60 * 60 * 24);
-    const pesoDiff = ultimo.valore - primo.valore;
-
-    if (giorniDiff <= 0 || pesoDiff === 0) {
-        previsioneSpan.innerHTML = "Andamento stabile. Impossibile calcolare una data stimata di arrivo.";
+    // 2. Algoritmo predittivo lineare (Regressione lineare semplice se ci sono almeno 2 punti distanti nel tempo)
+    if (statoApp.registroPeso.length < 2) {
+        labelPrevisione.innerText = "Inserisci almeno 2 misurazioni in date diverse";
         return;
     }
 
-    const perditaGiornalliera = pesoDiff / giorniDiff; // kg al giorno (negativo se si perde peso)
-    const kgMancanti = TARGET - ultimo.valore;
+    // Trasforma date in millisecondi timestamp
+    const x = statoApp.registroPeso.map(r => new Date(r.data).getTime());
+    const y = statoApp.registroPeso.map(r => r.valore);
 
-    // Se stiamo perdendo peso e l'obiettivo è inferiore, oppure guadagnando e l'obiettivo è superiore
-    if ((perditaGiornalliera < 0 && kgMancanti < 0) || (perditaGiornalliera > 0 && kgMancanti > 0)) {
-        const giorniNecessari = Math.abs(kgMancanti / perditaGiornalliera);
-        const dataStimata = new Date();
-        dataStimata.setDate(dataStimata.getDate() + Math.ceil(giorniNecessari));
-        
-        previsioneSpan.innerHTML = `Mancano <strong>${Math.abs(kgMancanti).toFixed(1)} kg</strong>. Al ritmo attuale, il traguardo di 72 kg è stimato per il <strong>${dataStimata.toLocaleDateString('it-IT')}</strong> (~${Math.ceil(giorniNecessari)} giorni).`;
+    const n = x.length;
+    let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+    for (let i = 0; i < n; i++) {
+        sumX += x[i];
+        sumY += y[i];
+        sumXY += x[i] * y[i];
+        sumXX += x[i] * x[i];
+    }
+
+    const denominatore = (n * sumXX - sumX * sumX);
+    if (denominatore === 0) {
+        labelPrevisione.innerText = "Dati insufficienti o date identiche";
+        return;
+    }
+
+    const pendenza = (n * sumXY - sumX * sumY) / denominatore; // variazione kg per millisecondo
+    const intercetta = (sumY - pendenza * sumX) / n;
+
+    const pesoAttuale = y[n - 1];
+
+    if (pesoAttuale <= TARGET && pendenza <= 0) {
+        labelPrevisione.innerText = "Target già raggiunto! Ottimo lavoro.";
+        return;
+    }
+
+    if (pendenza === 0 || (pendenza > 0 && pesoAttuale > TARGET) || (pendenza < 0 && pesoAttuale < TARGET)) {
+        labelPrevisione.innerText = "L'andamento attuale stazionario o inverso non converge verso il target.";
+        return;
+    }
+
+    // Calcola il tempo stimato in MS: Target = pendenza * t + intercetta -> t = (Target - intercetta) / pendenza
+    const timestampTarget = (TARGET - intercetta) / pendenza;
+    const dataTargetStimata = new Date(timestampTarget);
+
+    if (isNaN(dataTargetStimata.getTime()) || timestampTarget < new Date().getTime()) {
+        // Se la stima è incoerente col passato
+        const giorniStimati = Math.ceil(Math.abs(TARGET - pesoAttuale) / Math.abs(pendenza * 86400000));
+        if (isFinite(giorniStimati)) {
+            labelPrevisione.innerText = `Stima circa: ~${giorniStimati} giorni`;
+        } else {
+            labelPrevisione.innerText = "Calcolo andamento in corso...";
+        }
     } else {
-        previsioneSpan.innerHTML = "Il trend attuale si muove in direzione opposta rispetto al target di 72 kg.";
+        labelPrevisione.innerText = `Raggiungimento stimato il: ${dataTargetStimata.toLocaleDateString('it-IT')}`;
     }
-}
-
-function salvaMisuaraPeso() {
-    const dataInput = document.getElementById("peso-data").value;
-    const valoreInput = parseFloat(document.getElementById("peso-valore").value);
-
-    if (!dataInput || isNaN(valoreInput) || valoreInput <= 0) {
-        alert("Inserisci valori validi.");
-        return;
-    }
-
-    // Se siamo in modalità modifica retroattiva, eliminiamo il vecchio record per la data precedente prima di salvare
-    if (pesoModificaData) {
-        statoApp.pesi = statoApp.pesi.filter(p => p.data !== pesoModificaData);
-    } else {
-        // Altrimenti controlliamo sovrascrittura sulla stessa data per evitare duplicati indesiderati
-        statoApp.pesi = statoApp.pesi.filter(p => p.data !== dataInput);
-    }
-
-    statoApp.pesi.push({ data: dataInput, valore: valoreInput });
-    salvaStato();
-    resetFormPeso();
-    renderPeso();
-}
-
-window.avviaModificaPeso = function(dataStr) {
-    const record = statoApp.pesi.find(p => p.data === dataStr);
-    if (!record) return;
-
-    document.getElementById("peso-data").value = record.data;
-    document.getElementById("peso-valore").value = record.valore;
-    
-    pesoModificaData = dataStr;
-    document.getElementById("peso-form-title").innerText = "Modifica Record Peso";
-    document.getElementById("btn-annulla-peso").classList.remove("hidden");
-    
-    // Scroll in alto sul form
-    document.getElementById("peso-form-title").scrollIntoView({ behavior: 'smooth' });
-};
-
-window.eliminaPeso = function(dataStr) {
-    if (confirm(`Sicuro di voler eliminare il record del ${formattaData(dataStr)}?`)) {
-        statoApp.pesi = statoApp.pesi.filter(p => p.data !== dataStr);
-        salvaStato();
-        renderPeso();
-    }
-};
-
-function resetFormPeso() {
-    pesoModificaData = null;
-    document.getElementById("peso-form-title").innerText = "Aggiungi / Modifica Peso";
-    document.getElementById("btn-annulla-peso").classList.add("hidden");
-    document.getElementById("peso-valore").value = "";
-    document.getElementById("peso-data").value = new Date().toISOString().substring(0, 10);
 }
 
 function aggiornaGraficoPeso() {
     const ctx = document.getElementById('chartPeso').getContext('2d');
     
-    // Estrae i dati ordinati cronologicamente per il grafico (max ultimi 10 inserimenti)
-    const datiGrafico = [...statoApp.pesi].reverse().slice(-10);
-    
-    const labels = datiGrafico.map(p => formattaData(p.data));
-    const valori = datiGrafico.map(p => p.valore);
+    const etichette = statoApp.registroPeso.map(r => r.data.split('-').reverse().slice(0,2).join('/'));
+    const dati = statoApp.registroPeso.map(r => r.valore);
 
-    if (pesoChart) {
-        pesoChart.destroy();
+    if (chartPesoIstance) {
+        chartPesoIstance.destroy();
     }
 
-    pesoChart = new Chart(ctx, {
+    chartPesoIstance = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels: etichette,
             datasets: [{
                 label: 'Peso Corporeo (kg)',
-                data: valori,
-                borderColor: '#2563eb',
-                backgroundColor: 'rgba(37, 99, 235, 0.05)',
+                data: dati,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 132, 246, 0.05)',
                 borderWidth: 3,
                 tension: 0.2,
-                fill: true
+                fill: true,
+                pointBackgroundColor: '#3b82f6'
             }]
         },
         options: {
@@ -533,11 +561,14 @@ function aggiornaGraficoPeso() {
                 legend: { display: false }
             },
             scales: {
-                y: { beginAtZero: false }
+                y: {
+                    beginAtZero: false,
+                    grid: { color: '#e5e7eb' }
+                },
+                x: {
+                    grid: { display: false }
+                }
             }
         }
     });
 }
-
-// Avvio
-window.addEventListener("DOMContentLoaded", inizializzaApp);

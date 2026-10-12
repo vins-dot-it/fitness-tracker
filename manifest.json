@@ -1,18 +1,17 @@
 {
-  "name": "Fitness Tracker PWA V2",
-  "short_name": "Fitness V2",
-  "description": "Pianificazione avanzata ed incrociata dei pasti e del peso corporeo.",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#f9fafb",
-  "theme-color": "#3b82f6",
-  "orientation": "portrait-primary",
+  "short_name": "FitnessV2",
+  "name": "Fitness Tracker V2 PWA",
   "icons": [
     {
       "src": "icon.png",
-      "sizes": "512x512",
       "type": "image/png",
+      "sizes": "512x512",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "start_url": "./index.html",
+  "background_color": "#f9fafb",
+  "theme_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait"
 }

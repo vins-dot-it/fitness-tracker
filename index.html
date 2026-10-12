@@ -5,172 +5,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Tracker V2</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3b82f6">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Fitness V2">
-    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#ffffff">
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        html { font-size: 125%; } /* Ingrandimento del 25% */
-        body { background-color: #f9fafb; color: #1f2937; font-family: system-ui, -apple-system, sans-serif; }
-        .active-tab { border-bottom: 4px solid #3b82f6; color: #3b82f6; font-weight: bold; }
+        html { font-size: 20px; } /* Increased by 25% from 16px */
+        body { background-color: #f9fafb; color: #111827; font-family: system-ui, -apple-system, sans-serif; padding-bottom: 90px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .nav-btn.active { color: #2563eb; border-top-color: #2563eb; }
     </style>
 </head>
-<body class="p-0 m-0 min-h-screen flex flex-col">
+<body>
 
-    <!-- Header -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-md mx-auto px-4 py-3 flex justify-between items-center">
-            <h1 class="text-xl font-black tracking-tight text-gray-900">FITNESS TRACKER <span class="text-blue-600 text-sm font-bold">V2</span></h1>
-            <div id="current-day-badge" class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Lunedì</div>
-        </div>
-    </header>
-
-    <!-- Main Content Box -->
-    <main class="flex-1 max-w-md w-full mx-auto p-4 pb-24">
+    <!-- APP CONTAINER -->
+    <div class="max-w-md mx-auto p-4">
         
-        <!-- SEZIONE 1: OGGI -->
-        <section id="sec-oggi" class="tab-content space-y-4">
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-                <h2 class="text-xs uppercase tracking-wider text-gray-400 font-bold mb-1">Bilancio Giornaliero</h2>
-                <div class="flex justify-between items-baseline">
-                    <span id="oggi-totale-kcal" class="text-4xl font-extrabold text-gray-900">0</span>
-                    <span class="text-gray-500 font-medium text-sm">kcal totali</span>
-                </div>
-                <div class="mt-2 text-sm text-gray-600 flex justify-between">
-                    <span>Proteine Totali: <strong id="oggi-totale-prot" class="text-gray-900">0g</strong></span>
-                    <span id="oggi-status-tipo" class="font-bold text-blue-600 uppercase">ON</span>
+        <!-- SECTION 1: OGGI -->
+        <div id="section-oggi" class="tab-content active">
+            <h1 class="text-3xl font-bold mb-4 text-gray-900">Oggi</h1>
+            <div id="oggi-info" class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                <!-- Dynamic text -->
+            </div>
+            
+            <div class="bg-white p-4 rounded-xl shadow-xs mb-4 border border-gray-100">
+                <h2 class="text-xl font-semibold mb-2 text-gray-700">Riepilogo Calorie</h2>
+                <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                    <span class="font-medium text-gray-600">Totale Giornaliero:</span>
+                    <span id="oggi-kcal-totale" class="text-2xl font-bold text-gray-900">0 kcal</span>
                 </div>
             </div>
 
-            <div class="flex justify-between items-center px-1">
-                <h3 class="text-lg font-bold text-gray-800">I Pasti di Oggi</h3>
-                <select id="select-giorno-corrente" class="bg-white border border-gray-200 rounded-lg px-2 py-1 text-sm font-medium text-gray-700 shadow-xs">
-                    <option value="Lunedì">Lunedì</option>
-                    <option value="Martedì">Martedì</option>
-                    <option value="Mercoledì">Mercoledì</option>
-                    <option value="Giovedì">Giovedì</option>
-                    <option value="Venerdì">Venerdì</option>
-                    <option value="Sabato">Sabato</option>
-                    <option value="Domenica">Domenica</option>
+            <h2 class="text-xl font-bold mb-2 text-gray-800">I Pasti di Oggi</h2>
+            <div id="oggi-pasti-lista" class="space-y-3">
+                <!-- Dynamic list -->
+            </div>
+        </div>
+
+        <!-- SECTION 2: STRUTTURA -->
+        <div id="section-struttura" class="tab-content">
+            <h1 class="text-3xl font-bold mb-4 text-gray-900">Struttura Settimana</h1>
+            
+            <div class="bg-white p-4 rounded-xl shadow-xs mb-4 border border-gray-100">
+                <label class="block text-sm font-bold text-gray-700 mb-2">Seleziona Template Base:</label>
+                <select id="template-select" class="w-full p-2 border border-gray-300 rounded-lg bg-gray-50 text-base">
+                    <option value="3">Piano 3 Allenamenti (Lun, Mer, Ven ON)</option>
+                    <option value="4">Piano 4 Allenamenti (Lun, Mar, Gio, Ven ON)</option>
                 </select>
-            </div>
-
-            <div id="lista-pasti-oggi" class="space-y-3">
-                <!-- Generato da JS -->
-            </div>
-        </section>
-
-        <!-- SEZIONE 2: PIANIFICA SETTIMANA -->
-        <section id="sec-pianifica" class="tab-content space-y-4 hidden">
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-                <h2 class="text-lg font-bold text-gray-900">Configura Nuova Settimana</h2>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Seleziona Template Base</label>
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="app.applicaTemplate(3)" class="py-2.5 px-4 bg-blue-50 border-2 border-blue-500 text-blue-700 font-bold rounded-xl text-center text-sm cursor-pointer hover:bg-blue-100 transition-colors">3 Allenamenti</button>
-                        <button onclick="app.applicaTemplate(4)" class="py-2.5 px-4 bg-gray-50 border border-gray-200 text-gray-700 font-bold rounded-xl text-center text-sm cursor-pointer hover:bg-gray-100 transition-colors">4 Allenamenti</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-                <h3 class="text-base font-bold text-gray-900 mb-3">Modifica Giorni ON / OFF</h3>
-                <div id="lista-giorni-onoff" class="space-y-3">
-                    <!-- Generato da JS -->
-                </div>
-                <button onclick="app.salvaSettimana()" class="w-full mt-5 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-colors cursor-pointer text-base">
-                    Salva e Genera Settimana
-                </button>
-            </div>
-        </section>
-
-        <!-- SEZIONE 3: PIANO SETTIMANALE -->
-        <section id="sec-piano" class="tab-content space-y-4 hidden">
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-                <h2 class="text-lg font-bold text-gray-900 mb-1">Personalizza Pasti Abbinati</h2>
-                <p class="text-xs text-gray-500 mb-4">Scegli liberamente tra tutti i giorni del piano o le varianti pranzo/cena bilanciate.</p>
-                <div id="lista-scelte-pasti" class="space-y-4">
-                    <!-- Generato da JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- SEZIONE 4: PESO -->
-        <section id="sec-peso" class="tab-content space-y-4 hidden">
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-                <h2 class="text-lg font-bold text-gray-900">Registra Peso</h2>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Data</label>
-                        <input type="date" id="peso-data" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Peso (kg)</label>
-                        <input type="number" id="peso-valore" step="0.1" placeholder="es. 74.5" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-blue-500">
-                    </div>
-                </div>
-                <button onclick="app.aggiungiPeso()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-sm text-sm cursor-pointer transition-colors">
-                    Salva Record Peso
+                <button id="btn-genera-settimana" class="mt-3 w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+                    Genera Nuova Settimana
                 </button>
             </div>
 
-            <!-- Dashboard Metriche Peso -->
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <span class="text-xs text-gray-400 font-bold uppercase block mb-1">Media 7 Giorni</span>
-                    <span id="peso-media-7d" class="text-2xl font-black text-gray-900">--</span> <span class="text-xs text-gray-500 font-semibold">kg</span>
+            <h2 class="text-xl font-bold mb-2 text-gray-800">Modifica Giorni ON/OFF</h2>
+            <div id="struttura-giorni-lista" class="space-y-3">
+                <!-- Dynamic checkboxes -->
+            </div>
+        </div>
+
+        <!-- SECTION 3: SCEGLI PASTI -->
+        <div id="section-pasti" class="tab-content">
+            <h1 class="text-3xl font-bold mb-4 text-gray-900">Scegli Pasti</h1>
+            <p class="text-sm text-gray-600 mb-4 bg-yellow-50 p-2 border border-yellow-200 rounded-lg">
+                Scegli liberamente tra tutti i pasti del piano o le alternative abbinate. Pranzo e Cena cambiano insieme mantenendo il bilanciamento.
+            </p>
+            <div id="scelte-pasti-lista" class="space-y-4">
+                <!-- Dynamic selectors per day -->
+            </div>
+        </div>
+
+        <!-- SECTION 4: PESO -->
+        <div id="section-peso" class="tab-content">
+            <h1 class="text-3xl font-bold mb-4 text-gray-900">Registro Peso</h1>
+            
+            <!-- Inserimento/Modifica -->
+            <div class="bg-white p-4 rounded-xl shadow-xs mb-4 border border-gray-100">
+                <h2 id="peso-form-title" class="text-lg font-bold mb-2 text-gray-700">Aggiungi / Modifica Peso</h2>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 uppercase">Data</label>
+                        <input type="date" id="peso-data" class="w-full p-2 border border-gray-300 rounded-lg bg-gray-50 text-base">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 uppercase">Peso (kg)</label>
+                        <input type="number" step="0.1" id="peso-valore" class="w-full p-2 border border-gray-300 rounded-lg bg-gray-50 text-base" placeholder="75.0">
+                    </div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <span class="text-xs text-gray-400 font-bold uppercase block mb-1">Target Fisso</span>
-                    <span class="text-2xl font-black text-blue-600">72.0</span> <span class="text-xs text-gray-500 font-semibold">kg</span>
+                <div class="flex gap-2">
+                    <button id="btn-salva-peso" class="flex-1 bg-green-600 text-white font-bold py-2 rounded-lg text-sm">Salva</button>
+                    <button id="btn-annulla-peso" class="hidden bg-gray-400 text-white font-bold py-2 px-3 rounded-lg text-sm">Annulla</button>
                 </div>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm text-center">
-                <span class="text-xs text-gray-400 font-bold uppercase block mb-1">Previsione Raggiungimento Target</span>
-                <span id="peso-previsione" class="text-base font-bold text-gray-800">Inserisci più dati per calcolare il trend</span>
+            <!-- Statistiche Veloci -->
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <div class="bg-white p-3 rounded-xl border border-gray-100 text-center shadow-xs">
+                    <span class="block text-xs font-bold text-gray-500 uppercase">Media 7 Giorni</span>
+                    <span id="peso-media-7" class="text-xl font-bold text-gray-900">--</span>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-gray-100 text-center shadow-xs">
+                    <span class="block text-xs font-bold text-gray-500 uppercase">Target</span>
+                    <span class="text-xl font-bold text-blue-600">72.0 kg</span>
+                </div>
+            </div>
+            
+            <div class="bg-white p-3 rounded-xl border border-gray-100 mb-4 shadow-xs text-sm">
+                <span class="block font-bold text-gray-600 mb-1">Previsione Raggiungimento:</span>
+                <span id="peso-previsione" class="text-gray-900 font-medium">Inserisci più dati per calcolare il trend.</span>
             </div>
 
             <!-- Grafico -->
-            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                <canvas id="chartPeso" class="w-full" height="200"></canvas>
+            <div class="bg-white p-3 rounded-xl border border-gray-100 mb-4 shadow-xs">
+                <canvas id="chartPeso" width="100" height="60"></canvas>
             </div>
 
-            <!-- Storico List -->
-            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                <h3 class="text-sm font-bold text-gray-800 mb-3">Storico Variazioni</h3>
-                <div id="lista-storico-peso" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                    <!-- Generato da JS -->
-                </div>
+            <!-- Storico Tabella -->
+            <h2 class="text-lg font-bold mb-2 text-gray-800">Storico Misure</h2>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-xs overflow-hidden">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 border-b border-gray-200">
+                            <th class="p-2 font-bold text-gray-600">Data</th>
+                            <th class="p-2 font-bold text-gray-600">Peso</th>
+                            <th class="p-2 font-bold text-gray-600 text-right">Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody id="peso-tabella-corpo" class="divide-y divide-gray-100">
+                        <!-- Righe dinamiche -->
+                    </tbody>
+                </table>
             </div>
-        </section>
-
-    </main>
-
-    <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-lg">
-        <div class="max-w-md mx-auto grid grid-cols-4 h-16 text-center">
-            <button onclick="app.cambiaTab('oggi')" id="tab-oggi" class="flex flex-col items-center justify-center text-xs font-semibold text-gray-500 active-tab cursor-pointer">
-                <span class="text-xl mb-0.5">📅</span>Oggi
-            </button>
-            <button onclick="app.cambiaTab('pianifica')" id="tab-pianifica" class="flex flex-col items-center justify-center text-xs font-semibold text-gray-500 cursor-pointer">
-                <span class="text-xl mb-0.5">⚙️</span>Struttura
-            </button>
-            <button onclick="app.cambiaTab('piano')" id="tab-piano" class="flex flex-col items-center justify-center text-xs font-semibold text-gray-500 cursor-pointer">
-                <span class="text-xl mb-0.5">🍽️</span>Scegli Pasti
-            </button>
-            <button onclick="app.cambiaTab('peso')" id="tab-peso" class="flex flex-col items-center justify-center text-xs font-semibold text-gray-500 cursor-pointer">
-                <span class="text-xl mb-0.5">⚖️</span>Peso
-            </button>
         </div>
+
+    </div>
+
+    <!-- BOTTOM NAVBAR -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg flex justify-around text-center text-xs font-bold z-50 h-16">
+        <button id="nav-oggi" class="nav-btn flex-1 flex flex-col justify-center items-center text-gray-500 border-t-2 border-transparent active">
+            <span class="text-lg">📅</span>
+            <span>Oggi</span>
+        </button>
+        <button id="nav-struttura" class="nav-btn flex-1 flex flex-col justify-center items-center text-gray-500 border-t-2 border-transparent">
+            <span class="text-lg">⚙️</span>
+            <span>Struttura</span>
+        </button>
+        <button id="nav-pasti" class="nav-btn flex-1 flex flex-col justify-center items-center text-gray-500 border-t-2 border-transparent">
+            <span class="text-lg">🥗</span>
+            <span>Scegli Pasti</span>
+        </button>
+        <button id="nav-peso" class="nav-btn flex-1 flex flex-col justify-center items-center text-gray-500 border-t-2 border-transparent">
+            <span class="text-lg">⚖️</span>
+            <span>Peso</span>
+        </button>
     </nav>
 
-    <!-- App Script -->
+    <!-- Core App Logic Script -->
     <script src="app.js"></script>
 </body>
 </html>

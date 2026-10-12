@@ -5,70 +5,176 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Tracker V2</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2563eb">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="theme-color" content="#3b82f6">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>.nav-btn.active { background-color: #2563eb; color: white; }</style>
+    <style>
+        .nav-active { color: #3b82f6; border-bottom: 2px solid #3b82f6; }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans pb-20">
-    <header class="bg-blue-600 text-white p-4 shadow-md sticky top-0 z-50">
-        <h1 class="text-xl font-bold text-center">Fitness Tracker V2</h1>
+<body class="bg-slate-900 text-slate-100 min-h-screen pb-20 font-sans">
+
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50 shadow-md">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-blue-500 tracking-tight">Fitness Tracker V2</h1>
+            <span id="current-day-badge" class="bg-blue-900/50 text-blue-400 text-xs px-2.5 py-1 rounded-full border border-blue-800 font-medium"></span>
+        </div>
     </header>
-    <main class="container mx-auto p-4 max-w-md">
-        <section id="section-oggi" class="app-section">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">Oggi</h2>
-            <div id="oggi-status-card" class="bg-white p-4 rounded-xl shadow mb-4 border-l-4"></div>
-            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 rounded-xl shadow mb-6">
-                <p class="text-sm uppercase tracking-wider opacity-80">Totale Giornaliero</p>
-                <p class="text-3xl font-extrabold"><span id="oggi-totale-kcal">0</span> <span class="text-lg font-normal">kcal</span></p>
-            </div>
-            <div id="oggi-pasti-list" class="space-y-4"></div>
-        </section>
-        <section id="section-pianifica" class="app-section hidden">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">Pianifica Settimana</h2>
-            <div class="bg-white p-4 rounded-xl shadow mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Seleziona Tipo di Piano</label>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <button onclick="selezionaTipoPiano(3)" id="btn-piano-3" class="py-2 px-4 rounded-lg border text-center font-semibold bg-gray-50 border-gray-300">3 Allenamenti</button>
-                    <button onclick="selezionaTipoPiano(4)" id="btn-piano-4" class="py-2 px-4 rounded-lg border text-center font-semibold bg-gray-50 border-gray-300">4 Allenamenti</button>
+
+    <!-- Main Container -->
+    <main class="max-w-md mx-auto p-4 space-y-6">
+
+        <!-- SECTION 1: OGGI -->
+        <section id="sec-oggi" class="app-section space-y-4">
+            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700 shadow-sm">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-lg font-semibold text-slate-200">Stato Giornaliero</h2>
+                    <span id="oggi-status-tipo" class="text-xs uppercase px-2 py-0.5 rounded font-bold"></span>
                 </div>
-                <button onclick="generaSettimana()" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-bold shadow hover:bg-blue-700 transition">Genera Settimana</button>
-            </div>
-            <div id="pianifica-giorni-container" class="space-y-3 hidden">
-                <div id="pianifica-giorni-list" class="space-y-2"></div>
-                <button onclick="salvaSettimana()" class="w-full bg-green-600 text-white py-2.5 rounded-lg font-bold shadow hover:bg-green-700 transition mt-4">Salva Settimana</button>
-            </div>
-        </section>
-        <section id="section-piano" class="app-section hidden">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">Piano Settimanale</h2>
-            <div id="piano-settimanale-container" class="space-y-4"></div>
-        </section>
-        <section id="section-peso" class="app-section hidden">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">Gestione Peso</h2>
-            <div class="bg-white p-4 rounded-xl shadow mb-6">
-                <form id="peso-form" onsubmit="salvaPeso(event)" class="space-y-3">
-                    <input type="hidden" id="peso-id">
-                    <div class="grid grid-cols-2 gap-3">
-                        <input type="date" id="peso-data" required class="w-full p-2 border rounded-lg text-sm">
-                        <input type="number" id="peso-valore" step="0.1" required class="w-full p-2 border rounded-lg text-sm" placeholder="Peso kg">
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <p class="text-xs text-slate-400 uppercase tracking-wider">Kcal Totali</p>
+                        <p id="oggi-totale-kcal" class="text-2xl font-black text-blue-400 mt-1">0</p>
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-bold shadow">Salva Peso</button>
-                </form>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <p class="text-xs text-slate-400 uppercase tracking-wider">Proteine Totali</p>
+                        <p id="oggi-totale-pro" class="text-2xl font-black text-emerald-400 mt-1">0g</p>
+                    </div>
+                </div>
             </div>
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="bg-white p-4 rounded-xl shadow text-center"><p class="text-xs text-gray-500 font-bold">Media 7 Giorni</p><p id="peso-media" class="text-xl font-bold">--</p></div>
-                <div class="bg-white p-4 rounded-xl shadow text-center"><p class="text-xs text-gray-500 font-bold">Previsione</p><p id="peso-previsione" class="text-xs text-blue-600 mt-1">--</p></div>
+
+            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider pl-1">I Pasti di Oggi</h3>
+            <div id="oggi-pasti-list" class="space-y-3">
+                <!-- Caricato dinamicamente -->
             </div>
-            <canvas id="pesoChart" class="w-full mb-4"></canvas>
-            <div id="peso-list" class="bg-white p-4 rounded-xl shadow divide-y max-h-40 overflow-y-auto"></div>
         </section>
+
+        <!-- SECTION 2: PIANIFICA SETTIMANA -->
+        <section id="sec-pianifica" class="app-section space-y-4 hidden">
+            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700 space-y-4">
+                <h2 class="text-lg font-semibold text-slate-200">Genera Nuovo Piano</h2>
+                
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Seleziona Modello Base</label>
+                    <select id="plan-template-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-blue-500">
+                        <option value="3">Piano 3 Allenamenti (Lun, Mer, Ven ON)</option>
+                        <option value="4">Piano 4 Allenamenti (Lun, Mar, Gio, Ven ON)</option>
+                    </select>
+                </div>
+
+                <button onclick="generaSettimana()" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-600/20 transition-all text-sm">
+                    Inizializza Giorni Settimana
+                </button>
+            </div>
+
+            <div id="setup-giorni-container" class="bg-slate-800 rounded-2xl p-5 border border-slate-700 space-y-4 hidden">
+                <h3 class="text-md font-bold text-slate-200">Personalizza Giorni ON/OFF</h3>
+                <p class="text-xs text-slate-400">Modifica lo stato dei giorni per adattarlo alle tue esigenze prima di salvare.</p>
+                
+                <div id="giorni-toggle-list" class="space-y-2.5">
+                    <!-- Dinamico -->
+                </div>
+
+                <button onclick="salvaSettimana()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-emerald-600/20 transition-all text-sm mt-4">
+                    Salva e Attiva Piano Settimanale
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PIANO SETTIMANALE -->
+        <section id="sec-piano-sett" class="app-section space-y-4 hidden">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-slate-200">Gestione Alternative</h2>
+                <span class="text-xs text-amber-400 bg-amber-950/40 border border-amber-900/60 px-2 py-1 rounded-md">Abbinate Pranzo + Cena</span>
+            </div>
+
+            <div id="piano-settimanale-giorni" class="space-y-4">
+                <!-- Dinamico con selettori varianti pranzo/cena dello stesso rigo -->
+            </div>
+        </section>
+
+        <!-- SECTION 4: PESO -->
+        <section id="sec-peso" class="app-section space-y-4 hidden">
+            <!-- Form Inserimento -->
+            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700 space-y-4">
+                <h2 class="text-lg font-semibold text-slate-200">Registra Peso</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Peso (kg)</label>
+                        <input type="number" id="peso-val" step="0.1" placeholder="70.5" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-slate-200 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Data</label>
+                        <input type="date" id="peso-data" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-slate-200 focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                <button onclick="aggiungiPeso()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-sm transition-all">
+                    Salva Record Peso
+                </button>
+            </div>
+
+            <!-- Box Statistiche Target -->
+            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700 grid grid-cols-2 gap-4">
+                <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800 text-center">
+                    <p class="text-xs text-slate-400 uppercase">Media 7 Giorni</p>
+                    <p id="peso-media-7d" class="text-xl font-bold text-slate-200 mt-1">-</p>
+                </div>
+                <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800 text-center">
+                    <p class="text-xs text-slate-400 uppercase">Target Impostato</p>
+                    <p class="text-xl font-bold text-amber-400 mt-1">72.0 kg</p>
+                </div>
+                <div class="col-span-2 bg-slate-900/50 p-3 rounded-xl border border-slate-800 text-center">
+                    <p class="text-xs text-slate-400 uppercase mb-1">Previsione Raggiungimento Target</p>
+                    <p id="peso-previsione" class="text-sm font-semibold text-blue-400">-</p>
+                </div>
+            </div>
+
+            <!-- Grafico -->
+            <div class="bg-slate-800 rounded-2xl p-4 border border-slate-700 shadow-sm">
+                <canvas id="weightChart" class="w-full"></canvas>
+            </div>
+
+            <!-- Storico Pesi -->
+            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700 space-y-3">
+                <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider">Storico Inserimenti</h3>
+                <div id="peso-storico-list" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                    <!-- Dinamico -->
+                </div>
+            </div>
+        </section>
+
     </main>
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg flex justify-around z-50">
-        <button onclick="switchSection('oggi')" id="nav-oggi" class="nav-btn flex-1 py-3 text-xs font-medium text-gray-600 active">Oggi</button>
-        <button onclick="switchSection('pianifica')" id="nav-pianifica" class="nav-btn flex-1 py-3 text-xs font-medium text-gray-600">Pianifica</button>
-        <button onclick="switchSection('piano')" id="nav-piano" class="nav-btn flex-1 py-3 text-xs font-medium text-gray-600">Settimana</button>
-        <button onclick="switchSection('peso')" id="nav-peso" class="nav-btn flex-1 py-3 text-xs font-medium text-gray-600">Peso</button>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 py-2 shadow-xl z-50">
+        <div class="max-w-md mx-auto flex justify-around text-center">
+            <button onclick="switchSection('oggi')" id="nav-oggi" class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-200 transition-colors nav-active">
+                <span class="text-lg font-bold">📅</span>
+                <span class="text-[10px] mt-0.5 font-medium">Oggi</span>
+            </button>
+            <button onclick="switchSection('pianifica')" id="nav-pianifica" class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-200 transition-colors">
+                <span class="text-lg font-bold">⚙️</span>
+                <span class="text-[10px] mt-0.5 font-medium">Pianifica</span>
+            </button>
+            <button onclick="switchSection('piano-sett')" id="nav-piano-sett" class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-200 transition-colors">
+                <span class="text-lg font-bold">🍽️</span>
+                <span class="text-[10px] mt-0.5 font-medium">Settimana</span>
+            </button>
+            <button onclick="switchSection('peso')" id="nav-peso" class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-200 transition-colors">
+                <span class="text-lg font-bold">⚖️</span>
+                <span class="text-[10px] mt-0.5 font-medium">Peso</span>
+            </button>
+        </div>
     </nav>
+
     <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
 </body>
 </html>

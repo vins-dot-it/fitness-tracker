@@ -1,19 +1,25 @@
-const CACHE_NAME = 'fittracker-v2-cache';
+const CACHE_NAME = 'fitness-tracker-v2-cache-v1';
 const ASSETS = [
   'index.html',
   'app.js',
   'manifest.json',
-  'icon.png'
+  'icon.png',
+  'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4',
+  'https://cdn.jsdelivr.net/npm/chart.js'
 ];
 
-self.addEventListener('install', e => {
+self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS);
+    })
   );
 });
 
-self.addEventListener('fetch', e => {
+self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then(response => response || fetch(e.request))
+    caches.match(e.request).then((response) => {
+      return response || fetch(e.request);
+    })
   );
 });

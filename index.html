@@ -6,173 +6,171 @@
     <title>Fitness Tracker V2</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Fitness V2">
+    <link rel="apple-touch-icon" href="icon.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
+        html { font-size: 125%; } /* Ingrandimento del 25% */
+        body { background-color: #f9fafb; color: #1f2937; font-family: system-ui, -apple-system, sans-serif; }
+        .active-tab { border-bottom: 4px solid #3b82f6; color: #3b82f6; font-weight: bold; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen pb-20">
+<body class="p-0 m-0 min-h-screen flex flex-col">
 
-    <!-- Header Fisso -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 px-4 py-3 flex justify-between items-center shadow-xs">
-        <h1 class="text-xl font-bold text-gray-900 flex items-center gap-2">
-            🏃‍♂️ Fitness Tracker <span class="text-sm bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-semibold">V2</span>
-        </h1>
-        <div id="pwa-install-btn" class="hidden text-sm bg-blue-600 text-white px-3 py-1.5 rounded-lg font-medium shadow-xs cursor-pointer active:scale-95 transition">
-            Installa App
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-md mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-black tracking-tight text-gray-900">FITNESS TRACKER <span class="text-blue-600 text-sm font-bold">V2</span></h1>
+            <div id="current-day-badge" class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Lunedì</div>
         </div>
     </header>
 
-    <!-- Contenitore Principale -->
-    <main class="max-w-md mx-auto p-4 space-y-6">
-
-        <!-- SEZIONE: OGGI -->
-        <section id="section-oggi" class="app-section space-y-4">
-            <div class="flex justify-between items-center">
-                <h2 class="text-lg font-bold text-gray-900">📅 Oggi (<span id="oggi-giorno-nome">-</span>)</h2>
-                <span id="oggi-badge-tipo" class="px-2.5 py-1 text-xs font-bold rounded-full">-</span>
-            </div>
-            
-            <!-- Kcal Card -->
-            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs flex justify-between items-center">
-                <div>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Energia Giornaliera</p>
-                    <p class="text-2xl font-black text-gray-900"><span id="oggi-total-kcal">0</span> <span class="text-sm font-normal text-gray-500">kcal</span></p>
+    <!-- Main Content Box -->
+    <main class="flex-1 max-w-md w-full mx-auto p-4 pb-24">
+        
+        <!-- SEZIONE 1: OGGI -->
+        <section id="sec-oggi" class="tab-content space-y-4">
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                <h2 class="text-xs uppercase tracking-wider text-gray-400 font-bold mb-1">Bilancio Giornaliero</h2>
+                <div class="flex justify-between items-baseline">
+                    <span id="oggi-totale-kcal" class="text-4xl font-extrabold text-gray-900">0</span>
+                    <span class="text-gray-500 font-medium text-sm">kcal totali</span>
                 </div>
-                <div class="text-right">
-                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Proteine Totali</p>
-                    <p class="text-lg font-bold text-emerald-600"><span id="oggi-total-proteine">0</span> <span class="text-xs font-normal">g</span></p>
+                <div class="mt-2 text-sm text-gray-600 flex justify-between">
+                    <span>Proteine Totali: <strong id="oggi-totale-prot" class="text-gray-900">0g</strong></span>
+                    <span id="oggi-status-tipo" class="font-bold text-blue-600 uppercase">ON</span>
                 </div>
             </div>
 
-            <!-- Lista Pasti Oggi -->
-            <div id="oggi-lista-pasti" class="space-y-3">
-                <!-- Generato via JS -->
+            <div class="flex justify-between items-center px-1">
+                <h3 class="text-lg font-bold text-gray-800">I Pasti di Oggi</h3>
+                <select id="select-giorno-corrente" class="bg-white border border-gray-200 rounded-lg px-2 py-1 text-sm font-medium text-gray-700 shadow-xs">
+                    <option value="Lunedì">Lunedì</option>
+                    <option value="Martedì">Martedì</option>
+                    <option value="Mercoledì">Mercoledì</option>
+                    <option value="Giovedì">Giovedì</option>
+                    <option value="Venerdì">Venerdì</option>
+                    <option value="Sabato">Sabato</option>
+                    <option value="Domenica">Domenica</option>
+                </select>
+            </div>
+
+            <div id="lista-pasti-oggi" class="space-y-3">
+                <!-- Generato da JS -->
             </div>
         </section>
 
-        <!-- SEZIONE: PIANIFICA SETTIMANA -->
-        <section id="section-pianifica" class="app-section hidden space-y-4">
-            <h2 class="text-lg font-bold text-gray-900">⚙️ Pianifica Settimana</h2>
-            
-            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs space-y-4">
+        <!-- SEZIONE 2: PIANIFICA SETTIMANA -->
+        <section id="sec-pianifica" class="tab-content space-y-4 hidden">
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+                <h2 class="text-lg font-bold text-gray-900">Configura Nuova Settimana</h2>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Scegli il tuo modello base:</label>
-                    <select id="select-piano-base" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
-                        <option value="3">Piano 3 Allenamenti (Lun, Mer, Ven ON)</option>
-                        <option value="4">Piano 4 Allenamenti (Lun, Mar, Gio, Ven ON)</option>
-                    </select>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Seleziona Template Base</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="app.applicaTemplate(3)" class="py-2.5 px-4 bg-blue-50 border-2 border-blue-500 text-blue-700 font-bold rounded-xl text-center text-sm cursor-pointer hover:bg-blue-100 transition-colors">3 Allenamenti</button>
+                        <button onclick="app.applicaTemplate(4)" class="py-2.5 px-4 bg-gray-50 border border-gray-200 text-gray-700 font-bold rounded-xl text-center text-sm cursor-pointer hover:bg-gray-100 transition-colors">4 Allenamenti</button>
+                    </div>
                 </div>
-                <button id="btn-genera-settimana" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg transition active:scale-98 shadow-sm">
-                    Genera Nuova Settimana
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                <h3 class="text-base font-bold text-gray-900 mb-3">Modifica Giorni ON / OFF</h3>
+                <div id="lista-giorni-onoff" class="space-y-3">
+                    <!-- Generato da JS -->
+                </div>
+                <button onclick="app.salvaSettimana()" class="w-full mt-5 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-colors cursor-pointer text-base">
+                    Salva e Genera Settimana
+                </button>
+            </div>
+        </section>
+
+        <!-- SEZIONE 3: PIANO SETTIMANALE -->
+        <section id="sec-piano" class="tab-content space-y-4 hidden">
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                <h2 class="text-lg font-bold text-gray-900 mb-1">Personalizza Pasti Abbinati</h2>
+                <p class="text-xs text-gray-500 mb-4">Scegli liberamente tra tutti i giorni del piano o le varianti pranzo/cena bilanciate.</p>
+                <div id="lista-scelte-pasti" class="space-y-4">
+                    <!-- Generato da JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 4: PESO -->
+        <section id="sec-peso" class="tab-content space-y-4 hidden">
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+                <h2 class="text-lg font-bold text-gray-900">Registra Peso</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Data</label>
+                        <input type="date" id="peso-data" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Peso (kg)</label>
+                        <input type="number" id="peso-valore" step="0.1" placeholder="es. 74.5" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-blue-500">
+                    </div>
+                </div>
+                <button onclick="app.aggiungiPeso()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-sm text-sm cursor-pointer transition-colors">
+                    Salva Record Peso
                 </button>
             </div>
 
-            <!-- Griglia di modifica Giorni -->
-            <div id="config-giorni-container" class="hidden bg-white p-4 rounded-xl border border-gray-200 shadow-xs space-y-3">
-                <h3 class="text-sm font-semibold text-gray-700 border-b pb-2">Personalizza i giorni ON/OFF della settimana</h3>
-                <div id="lista-giorni-config" class="space-y-2.5">
-                    <!-- Generato via JS -->
-                </div>
-                <button id="btn-salva-config" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg transition shadow-xs">
-                    Salva e Applica Modifiche
-                </button>
-            </div>
-        </section>
-
-        <!-- SEZIONE: PIANO SETTIMANALE -->
-        <section id="section-settimana" class="app-section hidden space-y-4">
-            <h2 class="text-lg font-bold text-gray-900">🗺️ Menu & Alternative Settimanali</h2>
-            <p class="text-xs text-gray-500">Pranzo e cena della stessa variante sono bilanciati rigidamente tra loro.</p>
-            
-            <div id="scelte-alternative-container" class="space-y-4">
-                <!-- Generato via JS per ogni giorno -->
-            </div>
-        </section>
-
-        <!-- SEZIONE: PESO -->
-        <section id="section-peso" class="app-section hidden space-y-4">
-            <h2 class="text-lg font-bold text-gray-900">⚖️ Gestione Peso</h2>
-
-            <!-- Inserimento / Modifica Registro -->
-            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs space-y-3">
-                <h3 class="text-sm font-semibold text-gray-700">Registra / Modifica Peso</h3>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-xs text-gray-500 mb-1">Data</label>
-                        <input type="date" id="peso-data" class="w-full bg-gray-50 border border-gray-300 text-sm rounded-lg p-2 text-gray-900">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-500 mb-1">Peso (kg)</label>
-                        <input type="number" step="0.1" id="peso-valore" placeholder="es. 74.5" class="w-full bg-gray-50 border border-gray-300 text-sm rounded-lg p-2 text-gray-900">
-                    </div>
-                </div>
-                <div class="flex gap-2 pt-1">
-                    <button id="btn-salva-peso" class="flex-1 bg-blue-600 text-white text-sm font-bold py-2 rounded-lg shadow-xs hover:bg-blue-700 transition">
-                        Salva Record
-                    </button>
-                    <button id="btn-elimina-peso" class="bg-red-100 text-red-700 hover:bg-red-200 text-sm font-bold px-3 py-2 rounded-lg transition hidden">
-                        Elimina
-                    </button>
-                </div>
-            </div>
-
-            <!-- Statistiche Avanzate -->
+            <!-- Dashboard Metriche Peso -->
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-xs text-center">
-                    <p class="text-xs text-gray-500 font-semibold uppercase">Media 7 Giorni</p>
-                    <p class="text-xl font-black text-gray-900 mt-1"><span id="peso-media-7d">-</span> <span class="text-xs font-normal text-gray-500">kg</span></p>
+                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                    <span class="text-xs text-gray-400 font-bold uppercase block mb-1">Media 7 Giorni</span>
+                    <span id="peso-media-7d" class="text-2xl font-black text-gray-900">--</span> <span class="text-xs text-gray-500 font-semibold">kg</span>
                 </div>
-                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-xs text-center">
-                    <p class="text-xs text-gray-500 font-semibold uppercase">Target</p>
-                    <p class="text-xl font-black text-blue-600 mt-1">72.0 <span class="text-xs font-normal text-gray-500">kg</span></p>
+                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                    <span class="text-xs text-gray-400 font-bold uppercase block mb-1">Target Fisso</span>
+                    <span class="text-2xl font-black text-blue-600">72.0</span> <span class="text-xs text-gray-500 font-semibold">kg</span>
                 </div>
             </div>
 
-            <!-- Previsione Target -->
-            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
-                <p class="text-xs text-gray-500 font-semibold uppercase mb-1">Previsione Raggiungimento Target</p>
-                <p id="peso-previsione" class="text-sm font-medium text-gray-800">-</p>
+            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm text-center">
+                <span class="text-xs text-gray-400 font-bold uppercase block mb-1">Previsione Raggiungimento Target</span>
+                <span id="peso-previsione" class="text-base font-bold text-gray-800">Inserisci più dati per calcolare il trend</span>
             </div>
 
             <!-- Grafico -->
-            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
-                <canvas id="chart-peso" class="w-full h-48"></canvas>
+            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                <canvas id="chartPeso" class="w-full" height="200"></canvas>
             </div>
 
-            <!-- Storico Registro -->
-            <div class="bg-white rounded-xl border border-gray-200 shadow-xs overflow-hidden">
-                <div class="p-3 bg-gray-100 border-b border-gray-200 font-semibold text-xs uppercase text-gray-600 tracking-wider">
-                    Log Ultime Misurazioni
-                </div>
-                <div id="lista-log-peso" class="divide-y divide-gray-100 max-h-48 overflow-y-auto text-sm">
-                    <!-- Generato via JS -->
+            <!-- Storico List -->
+            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                <h3 class="text-sm font-bold text-gray-800 mb-3">Storico Variazioni</h3>
+                <div id="lista-storico-peso" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                    <!-- Generato da JS -->
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Navbar Inferiore Navigazione -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg px-2 py-1 flex justify-around items-center z-50 max-w-md mx-auto">
-        <button data-target="section-oggi" class="nav-btn flex flex-col items-center gap-0.5 text-blue-600 py-1 flex-1 font-semibold text-xs">
-            <span class="text-lg">📅</span> Oggi
-        </button>
-        <button data-target="section-pianifica" class="nav-btn flex flex-col items-center gap-0.5 text-gray-400 py-1 flex-1 text-xs">
-            <span class="text-lg">⚙️</span> Pianifica
-        </button>
-        <button data-target="section-settimana" class="nav-btn flex flex-col items-center gap-0.5 text-gray-400 py-1 flex-1 text-xs">
-            <span class="text-lg">🗺️</span> Settimana
-        </button>
-        <button data-target="section-peso" class="nav-btn flex flex-col items-center gap-0.5 text-gray-400 py-1 flex-1 text-xs">
-            <span class="text-lg">⚖️</span> Peso
-        </button>
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-lg">
+        <div class="max-w-md mx-auto grid grid-cols-4 h-16 text-center">
+            <button onclick="app.cambiaTab('oggi')" id="tab-oggi" class="flex flex-col items-center justify-center text-xs font-semibold text-gray-500 active-tab cursor-pointer">
+                <span class="text-xl mb-0.5">📅</span>Oggi
+            </button>
+            <button onclick="app.cambiaTab('pianifica')" id="tab-pianifica" class="flex flex-col items-center justify-center text-xs font-semibold text-gray-500 cursor-pointer">
+                <span class="text-xl mb-0.5">⚙️</span>Struttura
+            </button>
+            <button onclick="app.cambiaTab('piano')" id="tab-piano" class="flex flex-col items-center justify-center text-xs font-semibold text-gray-500 cursor-pointer">
+                <span class="text-xl mb-0.5">🍽️</span>Scegli Pasti
+            </button>
+            <button onclick="app.cambiaTab('peso')" id="tab-peso" class="flex flex-col items-center justify-center text-xs font-semibold text-gray-500 cursor-pointer">
+                <span class="text-xl mb-0.5">⚖️</span>Peso
+            </button>
+        </div>
     </nav>
 
-    <!-- Collegamento Logica App -->
+    <!-- App Script -->
     <script src="app.js"></script>
 </body>
 </html>

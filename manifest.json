@@ -1,4 +1,4 @@
-{
+{ 
   "short_name": "FitTracker",
   "name": "Fitness Tracker V2 PWA",
   "icons": [
@@ -9,8 +9,8 @@
     }
   ],
   "start_url": "./index.html",
-  "background_color": "#f8fafc",
-  "theme_color": "#0284c7",
+  "background_color": "#f9fafb",
+  "theme_color": "#10b981",
   "display": "standalone",
   "orientation": "portrait"
 }

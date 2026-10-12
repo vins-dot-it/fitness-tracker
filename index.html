@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="it" class="h-full bg-slate-50">
+<!DOCTYPE html> 
+<html lang="it" class="h-full bg-gray-50">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,123 +10,112 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        html { font-size: 20px; } /* Carattere aumentato del 25% */
+        html { font-size: 20px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
     </style>
 </head>
-<body class="h-full flex flex-col text-slate-800 antialiased">
+<body class="h-full flex flex-col text-gray-800">
 
-    <!-- Header Grafico Azzurro Simpatico -->
-    <header class="bg-sky-600 text-white py-4 px-6 sticky top-0 z-10 shadow-md text-center">
-        <h1 class="text-2xl font-black tracking-wide flex items-center justify-center gap-2">
-            ⚡ Fitness Tracker V2 🚀
-        </h1>
+    <header class="bg-white border-b border-gray-200 py-4 px-6 sticky top-0 z-10 shadow-xs">
+        <h1 class="text-2xl font-bold text-center text-emerald-600">Fitness Tracker V2</h1>
     </header>
 
     <main class="flex-1 overflow-y-auto p-4 pb-24 max-w-xl mx-auto w-full">
         
         <!-- Tab 1: OGGI -->
         <section id="tab-oggi" class="tab-content active space-y-4">
-            <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-sky-100 shadow-xs">
-                <button id="prev-day" class="p-2 font-black text-sky-600 hover:bg-sky-50 rounded-xl text-2xl transition">&larr;</button>
-                <h2 id="current-day-title" class="text-xl font-extrabold capitalize text-slate-900 tracking-tight">Lunedì</h2>
-                <button id="next-day" class="p-2 font-black text-sky-600 hover:bg-sky-50 rounded-xl text-2xl transition">&rarr;</button>
+            <div class="flex items-center justify-between bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
+                <button id="prev-day" class="p-2 font-bold text-emerald-600 hover:bg-gray-100 rounded-lg text-xl">&larr;</button>
+                <h2 id="current-day-title" class="text-xl font-bold capitalize text-gray-900">Lunedì</h2>
+                <button id="next-day" class="p-2 font-bold text-emerald-600 hover:bg-gray-100 rounded-lg text-xl">&rarr;</button>
             </div>
-            
-            <div class="bg-sky-50 border border-sky-200 p-4 rounded-2xl text-center shadow-xs">
-                <p class="text-xs font-bold text-sky-800 uppercase tracking-widest">🔥 Kcal Giornaliere Totali</p>
-                <p id="oggi-total-kcal" class="text-4xl font-black text-sky-700 mt-1">0</p>
-                <p id="oggi-day-type" class="text-xs font-black mt-2 inline-block px-3 py-1 rounded-full uppercase tracking-wider"></p>
+           
+            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-xs">
+                <p class="text-sm font-medium text-emerald-800 uppercase tracking-wider">Kcal Totali Giornaliere</p>
+                <p id="oggi-total-kcal" class="text-4xl font-extrabold text-emerald-700 mt-1">0</p>
+                <p id="oggi-day-type" class="text-xs font-bold text-emerald-600 mt-1 uppercase tracking-wide"></p>
             </div>
             <div id="oggi-meals-container" class="space-y-3"></div>
         </section>
 
         <!-- Tab 2: STRUTTURA -->
         <section id="tab-struttura" class="tab-content space-y-4">
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
-                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">⚙️ Configura Settimana</h2>
-                <div class="grid grid-cols-2 gap-2 pt-1">
-                    <button id="btn-plan-3" class="bg-sky-600 hover:bg-sky-700 text-white font-black py-3 px-4 rounded-xl shadow-xs transition cursor-pointer text-sm">3 Allenamenti</button>
-                    <button id="btn-plan-4" class="bg-sky-600 hover:bg-sky-700 text-white font-black py-3 px-4 rounded-xl shadow-xs transition cursor-pointer text-sm">4 Allenamenti</button>
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs space-y-3">
+                <h2 class="text-xl font-bold text-gray-900">Pianificazione Settimanale</h2>
+                <div class="grid grid-cols-2 gap-2 pt-2">
+                    <button id="btn-plan-3" class="bg-emerald-600 text-white font-bold py-3 px-4 rounded-lg shadow-xs">3 Allenamenti</button>
+                    <button id="btn-plan-4" class="bg-emerald-600 text-white font-bold py-3 px-4 rounded-lg shadow-xs">4 Allenamenti</button>
                 </div>
             </div>
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
-                <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">Modifica Giorni (ON/OFF)</h3>
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs space-y-3">
+                <h3 class="text-lg font-bold text-gray-900 border-b border-gray-100 pb-2">Modifica Giorni (ON/OFF)</h3>
                 <div id="struttura-giorni-container" class="space-y-2"></div>
-                <button id="save-struttura" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-black py-3 px-4 rounded-xl shadow-md transition mt-4 cursor-pointer">Salva Struttura 💾</button>
+                <button id="save-struttura" class="w-full bg-emerald-600 text-white font-bold py-3 px-4 rounded-lg shadow-xs mt-4">Salva Struttura</button>
             </div>
         </section>
 
         <!-- Tab 3: SCEGLI PASTI -->
         <section id="tab-pasti" class="tab-content space-y-4">
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-                <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">🍕 Scegli Varianti Pranzo/Cena</h2>
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
+                <h2 class="text-xl font-bold text-gray-900 mb-1">Seleziona Varianti</h2>
                 <div id="scegli-pasti-container" class="space-y-4"></div>
             </div>
         </section>
 
         <!-- Tab 4: PESO -->
         <section id="tab-peso" class="tab-content space-y-4">
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
-                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">📈 Gestione Peso</h2>
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs space-y-3">
+                <h2 class="text-xl font-bold text-gray-900">Gestione Avanzata Peso</h2>
                 <form id="peso-form" class="space-y-3">
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Data</label>
-                            <input type="date" id="peso-date" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 font-semibold text-sm" required>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Data</label>
+                            <input type="date" id="peso-date" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 font-medium" required>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Peso (kg)</label>
-                            <input type="number" step="0.1" id="peso-val" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 font-semibold text-sm" required>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Peso (kg)</label>
+                            <input type="number" step="0.1" id="peso-val" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 font-medium" required>
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-black py-3 px-4 rounded-xl shadow-xs transition cursor-pointer">Registra Peso ⚖️</button>
+                    <button type="submit" class="w-full bg-emerald-600 text-white font-bold py-3 px-4 rounded-lg shadow-xs">Registra Peso</button>
                 </form>
             </div>
             <div class="grid grid-cols-2 gap-2">
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs text-center">
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Media 7 GG</p>
-                    <p id="peso-media" class="text-2xl font-black text-slate-900 mt-1">--</p>
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs text-center">
+                    <p class="text-xs font-bold text-gray-500 uppercase">Media 7 Giorni</p>
+                    <p id="peso-media" class="text-2xl font-extrabold text-gray-900 mt-1">--</p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs text-center">
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Target</p>
-                    <p class="text-2xl font-black text-emerald-600 mt-1">72.0 kg</p>
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs text-center">
+                    <p class="text-xs font-bold text-gray-500 uppercase">Target</p>
+                    <p class="text-2xl font-extrabold text-emerald-600 mt-1">72.0 kg</p>
                 </div>
             </div>
-            <div class="bg-sky-50 border border-sky-200 p-4 rounded-2xl text-center shadow-xs">
-                <p class="text-xs font-bold text-sky-800 uppercase tracking-wider">🔮 Previsione Raggiungimento Target</p>
-                <p id="peso-previsione" class="text-sm font-black text-sky-700 mt-1">Aggiungi più pesi per calcolare...</p>
+            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-xs">
+                <p class="text-xs font-bold text-emerald-800 uppercase">Previsione Raggiungimento Target</p>
+                <p id="peso-previsione" class="text-base font-bold text-emerald-700 mt-1">Inserisci più dati...</p>
             </div>
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
                 <canvas id="weightChart" class="w-full h-48"></canvas>
             </div>
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-                <h3 class="text-xs font-bold text-slate-500 uppercase mb-2 border-b border-slate-100 pb-1">Storico Misure</h3>
-                <div id="peso-log" class="max-h-40 overflow-y-auto divide-y divide-slate-100 text-sm"></div>
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
+                <h3 class="text-sm font-bold text-gray-900 mb-2 border-b border-gray-100 pb-1">Storico Record</h3>
+                <div id="peso-log" class="max-h-40 overflow-y-auto divide-y divide-gray-100 text-sm"></div>
             </div>
         </section>
 
     </main>
 
-    <!-- Navigazione Inferiore con Icone Simpatiche -->
-    <nav class="bg-white border-t border-slate-200 fixed bottom-0 left-0 right-0 z-20 shadow-lg">
+    <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 z-20 shadow-lg">
         <div class="max-w-xl mx-auto flex justify-around">
-            <button data-target="tab-oggi" class="nav-btn flex-1 py-3 text-center text-sky-600 font-black border-t-4 border-sky-600 text-xs flex flex-col items-center gap-0.5 cursor-pointer">
-                <span>📅</span><span>Oggi</span>
-            </button>
-            <button data-target="tab-struttura" class="nav-btn flex-1 py-3 text-center text-slate-500 font-bold text-xs flex flex-col items-center gap-0.5 cursor-pointer">
-                <span>⚙️</span><span>Struttura</span>
-            </button>
-            <button data-target="tab-pasti" class="nav-btn flex-1 py-3 text-center text-slate-500 font-bold text-xs flex flex-col items-center gap-0.5 cursor-pointer">
-                <span>🍕</span><span>Scegli Pasti</span>
-            </button>
-            <button data-target="tab-peso" class="nav-btn flex-1 py-3 text-center text-slate-500 font-bold text-xs flex flex-col items-center gap-0.5 cursor-pointer">
-                <span>📈</span><span>Peso</span>
-            </button>
+            <button data-target="tab-oggi" class="nav-btn flex-1 py-3 text-center text-emerald-600 font-bold border-t-2 border-emerald-600 text-sm">Oggi</button>
+            <button data-target="tab-struttura" class="nav-btn flex-1 py-3 text-center text-gray-500 font-medium text-sm">Struttura</button>
+            <button data-target="tab-pasti" class="nav-btn flex-1 py-3 text-center text-gray-500 font-medium text-sm">Scegli Pasti</button>
+            <button data-target="tab-peso" class="nav-btn flex-1 py-3 text-center text-gray-500 font-medium text-sm">Peso</button>
         </div>
     </nav>
 
     <script src="app.js"></script>
 </body>
 </html>
+

@@ -1,14 +1,13 @@
-const CACHE_NAME = 'fitness-tracker-v4-cache';
+const CACHE_NAME = "ft-v2-cache-v5";
 const ASSETS = [
-  'index.html',
-  'app.js',
-  'manifest.json',
-  'icon.png',
-  'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js',
-  'https://cdn.jsdelivr.net/npm/chart.js'
+  "./",
+  "./index.html",
+  "./app.js",
+  "./manifest.json",
+  "./icon.png"
 ];
 
-self.addEventListener('install', (e) => {
+self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS);
@@ -16,7 +15,7 @@ self.addEventListener('install', (e) => {
   );
 });
 
-self.addEventListener('activate', (e) => {
+self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
@@ -30,7 +29,7 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-self.addEventListener('fetch', (e) => {
+self.addEventListener("fetch", (e) => {
   e.respondWith(
     caches.match(e.request).then((cachedResponse) => {
       return cachedResponse || fetch(e.request);

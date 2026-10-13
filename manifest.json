@@ -1,23 +1,18 @@
 {
-  "short_name": "FitTracker",
-  "name": "Fitness Tracker V2 PWA",
-  "icons": [
-    {
-      "src": "icon.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
-  ],
-  "start_url": "index.html",
-  "background_color": "#f8fafc",
-  "theme_color": "#0284c7",
+  "id": "./",
+  "name": "Fitness Tracker",
+  "short_name": "Fitness",
+  "description": "Piano alimentare ON/OFF e monitoraggio del peso",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "background_color": "#f2f6fb",
+  "theme_color": "#0369a1",
+  "icons": [
+    { "src": "icons/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "icons/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+  ]
 }

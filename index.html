@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Fitness Tracker</title>
-    <meta name="description" content="Piano alimentare ON/OFF e monitoraggio del peso">
+    <meta name="description" content="Piano alimentare ON/OFF e preparazione pasti">
     <meta name="theme-color" content="#0369a1" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
     <link rel="manifest" href="manifest.json">
@@ -79,34 +79,17 @@
         <div id="scegli-pasti-container" class="stack"></div>
     </section>
 
-    <!-- PESO -->
-    <section id="tab-peso" class="tab" aria-label="Peso">
+    <!-- PREP -->
+    <section id="tab-prep" class="tab" aria-label="Preparazione pasti">
         <div class="card">
-            <h2>Registra il peso</h2>
-            <form id="peso-form" class="stack-sm">
-                <div class="grid2">
-                    <label class="field"><span>Data</span><input type="date" id="peso-date" required></label>
-                    <label class="field"><span>Peso (kg)</span><input type="number" step="0.1" min="20" max="400" inputmode="decimal" id="peso-val" placeholder="0.0" required></label>
-                </div>
-                <button type="submit" class="btn btn-block">Registra</button>
-            </form>
+            <h2>Preparazione pasti</h2>
+            <p class="muted">Spunta giorni e pasti da cucinare insieme: il recap somma gli alimenti usando le varianti scelte nel piano.</p>
+            <div id="prep-giorni" class="stack-sm"></div>
         </div>
-
-        <div class="grid2">
-            <div class="stat"><p class="stat-label">Media 7 gg</p><p id="peso-media" class="stat-value">--</p></div>
-            <div class="stat"><p class="stat-label">Target</p><p class="stat-value good">72.0 kg</p></div>
-        </div>
-
-        <div class="stat wide"><p class="stat-label">Previsione target</p><p id="peso-previsione" class="stat-text">Inserisci almeno 3 misure.</p></div>
-
-        <div class="card">
-            <h2>Andamento</h2>
-            <div id="weightChart" class="chart"></div>
-        </div>
-
-        <div class="card">
-            <h2>Storico</h2>
-            <div id="peso-log" class="log"></div>
+        <div id="prep-warn" class="warn" hidden></div>
+        <div class="card" id="prep-recap-card">
+            <div class="recap-head"><h2 id="prep-title">Recap</h2><button id="prep-copy" class="btn btn-sm" type="button">Copia lista</button></div>
+            <div id="prep-recap"></div>
         </div>
     </section>
 
@@ -123,8 +106,8 @@
         <button class="nav-btn" data-target="tab-pasti" role="tab" aria-selected="false">
             <svg viewBox="0 0 24 24"><path d="M7 3v7a2 2 0 0 0 2 2v9M11 3v7a2 2 0 0 1-2 2M9 3v5M17 21V3c-2 1.5-3 4-3 7s1 4 3 4"/></svg><span>Pasti</span>
         </button>
-        <button class="nav-btn" data-target="tab-peso" role="tab" aria-selected="false">
-            <svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/></svg><span>Peso</span>
+        <button class="nav-btn" data-target="tab-prep" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24"><path d="M4 11h16v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3zM2 11h20M8 7.5c0-1.2 1-1.2 1-2.5M12 7.5c0-1.2 1-1.2 1-2.5M16 7.5c0-1.2 1-1.2 1-2.5"/></svg><span>Prep</span>
         </button>
     </div>
 </nav>

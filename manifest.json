@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Fitness Tracker",
   "short_name": "Fitness",
-  "description": "Piano alimentare ON/OFF e monitoraggio del peso",
+  "description": "Piano alimentare ON/OFF e preparazione pasti",
   "lang": "it",
   "start_url": "./",
   "scope": "./",

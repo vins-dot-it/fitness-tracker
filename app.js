@@ -1,4 +1,4 @@
-/* Fitness Tracker – piano alimentare ON/OFF + peso. Nessuna dipendenza esterna. */
+/* Fitness Tracker – piano alimentare ON/OFF + preparazione pasti. Nessuna dipendenza esterna. */
 
 const baseMeals = {
     ON: [
@@ -34,14 +34,59 @@ const variantiOFF = [
     { id: "off_v5", nome: "5- Riso Ceci Pollo / Merluzzo", pranzo: "Riso basmati 95 g; ceci 150 g cotti e sgocciolati; pollo 120 g; zucchine 250 g; olio EVO 10 g", kcal_p: 731, cena: "Merluzzo 220 g; pane integrale 80 g; verdure 300 g; olio EVO 10 g", kcal_c: 545 }
 ];
 
+
+/* ---------- Ingredienti strutturati (per la sezione Prep) ---------- */
+// vita = giorni di conservazione in frigo del cotto (stima prudente)
+const ALIMENTI = {
+    riso:      { n: "Riso basmati",      cat: "Basi",           nota: "a crudo", vita: 3 },
+    pasta:     { n: "Pasta",             cat: "Basi",           nota: "a crudo", vita: 3 },
+    pasta_int: { n: "Pasta integrale",   cat: "Basi",           nota: "a crudo", vita: 3 },
+    couscous:  { n: "Cous cous",         cat: "Basi",           vita: 3 },
+    patate:    { n: "Patate",            cat: "Basi",           vita: 4 },
+    pane:      { n: "Pane integrale",    cat: "Basi",           vita: 4 },
+    pollo:     { n: "Pollo",             cat: "Proteine",       vita: 4 },
+    manzo:     { n: "Manzo magro",       cat: "Proteine",       vita: 4 },
+    salmone:   { n: "Salmone",           cat: "Proteine",       vita: 2 },
+    merluzzo:  { n: "Merluzzo",          cat: "Proteine",       vita: 2 },
+    tonno:     { n: "Tonno naturale",    cat: "Proteine",       nota: "sgocciolato", vita: 4 },
+    bresaola:  { n: "Bresaola",          cat: "Proteine",       vita: 4 },
+    ceci:      { n: "Ceci",              cat: "Proteine",       nota: "cotti e sgocciolati", vita: 4 },
+    zucchine:  { n: "Zucchine",          cat: "Verdure e sughi", vita: 4 },
+    peperoni:  { n: "Peperoni",          cat: "Verdure e sughi", vita: 4 },
+    pomodori:  { n: "Pomodori",          cat: "Verdure e sughi", vita: 4 },
+    broccoli:  { n: "Broccoli",          cat: "Verdure e sughi", vita: 4 },
+    spinaci:   { n: "Spinaci",           cat: "Verdure e sughi", vita: 4 },
+    insalata:  { n: "Insalata",          cat: "Verdure e sughi", vita: 4 },
+    verdure:   { n: "Verdure miste",     cat: "Verdure e sughi", vita: 4 },
+    passata:   { n: "Passata di pomodoro", cat: "Verdure e sughi", vita: 4 },
+    frutto:    { n: "Frutto medio",      cat: "Frutta",         u: "pz" },
+    olio:      { n: "Olio EVO",          cat: "Condimenti" }
+};
+const CATEGORIE = ["Basi", "Proteine", "Verdure e sughi", "Frutta", "Condimenti"];
+
+// [alimento, quantità] per pranzo (p) e cena (c) di ogni variante
+const INGREDIENTI = {
+    on_v1:  { p: [["riso",110],["pollo",180],["zucchine",250],["olio",10]],              c: [["salmone",150],["patate",250],["insalata",250],["olio",5]] },
+    on_v2:  { p: [["riso",110],["pollo",180],["peperoni",250],["olio",10]],              c: [["merluzzo",200],["couscous",80],["verdure",300],["olio",10]] },
+    on_v3:  { p: [["pasta",110],["pollo",180],["passata",150],["verdure",200],["olio",10]], c: [["merluzzo",220],["couscous",80],["verdure",300],["olio",10]] },
+    on_v4:  { p: [["riso",110],["tonno",150],["pomodori",250],["olio",10]],              c: [["bresaola",100],["pane",100],["verdure",300],["olio",10],["frutto",1]] },
+    on_v5:  { p: [["pasta_int",110],["tonno",150],["pomodori",250],["olio",10]],         c: [["manzo",170],["pane",100],["broccoli",300],["olio",10]] },
+    on_v6:  { p: [["riso",110],["ceci",150],["pollo",150],["zucchine",250],["olio",10]], c: [["pollo",180],["pane",100],["spinaci",300],["olio",10]] },
+    on_v7:  { p: [["pasta",110],["pollo",180],["passata",150],["zucchine",200],["olio",10]], c: [["manzo",170],["patate",250],["insalata",250],["olio",10]] },
+    off_v1: { p: [["pasta_int",150],["tonno",120],["pomodori",250],["olio",10]],         c: [["manzo",170],["pane",90],["broccoli",300],["olio",10]] },
+    off_v2: { p: [["riso",110],["pollo",180],["peperoni",250],["olio",10]],              c: [["merluzzo",200],["couscous",80],["verdure",300],["olio",10]] },
+    off_v3: { p: [["riso",80],["ceci",180],["pollo",120],["zucchine",250],["olio",10]],  c: [["merluzzo",220],["pane",90],["spinaci",300],["olio",10]] },
+    off_v4: { p: [["pasta_int",115],["tonno",120],["pomodori",250],["olio",10]],         c: [["merluzzo",220],["pane",100],["verdure",300],["olio",10]] },
+    off_v5: { p: [["riso",95],["ceci",150],["pollo",120],["zucchine",250],["olio",10]],  c: [["merluzzo",220],["pane",80],["verdure",300],["olio",10]] }
+};
+
 const GIORNI = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì"];
-const TARGET_KG = 72.0;
 const STORAGE_KEY = "fitTrackerStateV2_BraveAzzurro"; // invariata: i dati già salvati restano
 
 const DEFAULT_STATE = {
     struttura: { "lunedì": "ON", "martedì": "OFF", "mercoledì": "ON", "giovedì": "OFF", "venerdì": "ON" },
     sceltePasti: { "lunedì": "on_v1", "martedì": "off_v1", "mercoledì": "on_v2", "giovedì": "off_v3", "venerdì": "on_v7" },
-    pesi: []
+    prep: { "lunedì": { p: true, c: true }, "martedì": { p: true, c: true }, "mercoledì": { p: true, c: true }, "giovedì": { p: true, c: true }, "venerdì": { p: true, c: true } }
 };
 
 /* ---------- Stato ---------- */
@@ -52,7 +97,7 @@ function loadState() {
             return {
                 struttura: { ...DEFAULT_STATE.struttura, ...(s.struttura || {}) },
                 sceltePasti: { ...DEFAULT_STATE.sceltePasti, ...(s.sceltePasti || {}) },
-                pesi: Array.isArray(s.pesi) ? s.pesi : []
+                prep: { ...DEFAULT_STATE.prep, ...(s.prep || {}) }
             };
         }
     } catch (e) { /* storage non disponibile o dati corrotti */ }
@@ -66,13 +111,6 @@ const $ = (id) => document.getElementById(id);
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 const listFor = (type) => (type === "ON" ? variantiON : variantiOFF);
 function findVariante(type, id) { return listFor(type).find(v => v.id === id); }
-function localISO(d = new Date()) {
-    const p = (n) => String(n).padStart(2, "0");
-    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
-}
-function fmtDate(iso, opts = { day: "numeric", month: "short", year: "numeric" }) {
-    return new Date(iso + "T12:00:00").toLocaleDateString("it-IT", opts);
-}
 let toastTimer;
 function toast(msg) {
     const t = $("toast");
@@ -97,7 +135,7 @@ document.querySelectorAll(".nav-btn").forEach(btn => {
         if (target === "tab-oggi") renderOggi();
         if (target === "tab-struttura") renderStruttura();
         if (target === "tab-pasti") renderScegliPasti();
-        if (target === "tab-peso") renderPeso();
+        if (target === "tab-prep") renderPrep();
     });
 });
 
@@ -236,112 +274,114 @@ function updateLivePreview(giorno, varianteId, type) {
         <div class="prev-tot"><span>Pranzo + cena</span><span>${v.kcal_p + v.kcal_c} kcal</span></div>`;
 }
 
-/* ---------- PESO ---------- */
-const sortedAsc = () => [...appState.pesi].sort((a, b) => a.date.localeCompare(b.date));
+/* ---------- PREP ---------- */
+const SHORT = { "lunedì": "lun", "martedì": "mar", "mercoledì": "mer", "giovedì": "gio", "venerdì": "ven" };
 
-function renderPeso() {
-    $("peso-date").value = localISO();
-    const asc = sortedAsc();
-    const desc = [...asc].reverse();
-
-    if (desc.length) {
-        const recent = desc.slice(0, 7);
-        $("peso-media").textContent = `${(recent.reduce((s, p) => s + p.value, 0) / recent.length).toFixed(1)} kg`;
-    } else { $("peso-media").textContent = "--"; }
-
-    calculatePrediction(asc);
-
-    const log = $("peso-log");
-    log.innerHTML = "";
-    if (!desc.length) { log.innerHTML = `<p class="empty">Nessuna misura registrata</p>`; }
-    desc.forEach((p, i) => {
-        const prev = desc[i + 1];
-        let delta = "";
-        if (prev) {
-            const d = Math.round((p.value - prev.value) * 10) / 10;
-            if (d !== 0) delta = `<small class="${d > 0 ? "up" : "down"}">${d > 0 ? "+" : ""}${d.toFixed(1)}</small>`;
-        }
+function renderPrep() {
+    const host = $("prep-giorni");
+    host.innerHTML = "";
+    GIORNI.forEach(g => {
+        const type = appState.struttura[g];
+        const st = appState.prep[g] || { p: false, c: false };
         const row = document.createElement("div");
-        row.className = "log-row";
-        row.innerHTML = `<span class="log-date">${fmtDate(p.date)}</span><span class="log-val">${p.value.toFixed(1)} kg${delta}</span><button class="log-del" type="button">Elimina</button>`;
-        row.querySelector("button").addEventListener("click", () => deleteWeightRecord(p.date));
-        log.appendChild(row);
+        row.className = "prep-row";
+        row.innerHTML = `
+            <label class="chk day"><input type="checkbox" data-g="${g}" data-k="day"><span class="dn">${g}<span class="tag ${type}">${type}</span></span></label>
+            <label class="chk"><input type="checkbox" data-g="${g}" data-k="p" ${st.p ? "checked" : ""}><span>Pranzo</span></label>
+            <label class="chk"><input type="checkbox" data-g="${g}" data-k="c" ${st.c ? "checked" : ""}><span>Cena</span></label>`;
+        const day = row.querySelector('[data-k="day"]');
+        day.checked = st.p && st.c;
+        day.indeterminate = st.p !== st.c;
+        host.appendChild(row);
     });
-    renderWeightChart(asc);
+    host.querySelectorAll("input").forEach(inp => inp.addEventListener("change", () => {
+        const g = inp.dataset.g, k = inp.dataset.k;
+        const st = appState.prep[g] || { p: false, c: false };
+        if (k === "day") { st.p = inp.checked; st.c = inp.checked; } else { st[k] = inp.checked; }
+        appState.prep[g] = st;
+        saveState(); renderPrep();
+    }));
+    renderPrepRecap();
 }
 
-$("peso-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const date = $("peso-date").value;
-    const val = parseFloat($("peso-val").value.replace(",", "."));
-    if (!date || !isFinite(val) || val < 20 || val > 400) { toast("Inserisci un peso valido"); return; }
-    const idx = appState.pesi.findIndex(p => p.date === date);
-    if (idx > -1) appState.pesi[idx].value = val; else appState.pesi.push({ date, value: val });
-    saveState(); $("peso-val").value = ""; renderPeso(); toast("Peso registrato");
+function buildPrep() {
+    const tot = {};        // key -> { qty, porz: [{q, label}] }
+    const meals = [];      // { gi, giorno, k, items }
+    GIORNI.forEach((g, gi) => {
+        const st = appState.prep[g] || {};
+        const ing = INGREDIENTI[appState.sceltePasti[g]];
+        if (!ing) return;
+        [["p", "pranzo"], ["c", "cena"]].forEach(([k, label]) => {
+            if (!st[k]) return;
+            meals.push({ gi, giorno: g, k, label, items: ing[k] });
+            ing[k].forEach(([key, q]) => {
+                const t = tot[key] || (tot[key] = { qty: 0, porz: [] });
+                t.qty += q; t.porz.push({ q, tag: `${SHORT[g]} ${k === "p" ? "pranzo" : "cena"}` });
+            });
+        });
+    });
+    return { tot, meals };
+}
+
+function fmtQty(key, q) { return ALIMENTI[key].u === "pz" ? `${q} pz` : `${q} g`; }
+function porzioniText(key, list) {
+    const by = {};
+    list.forEach(p => { by[p.q] = (by[p.q] || 0) + 1; });
+    return Object.keys(by).map(Number).sort((a, b) => by[b] - by[a] || b - a)
+        .map(q => `${by[q]} × ${fmtQty(key, q)}`).join(" · ");
+}
+
+function renderPrepRecap() {
+    const { tot, meals } = buildPrep();
+    const recap = $("prep-recap"), warn = $("prep-warn");
+    const copyBtn = $("prep-copy");
+    $("prep-title").textContent = meals.length ? `Recap · ${meals.length} ${meals.length === 1 ? "pasto" : "pasti"}` : "Recap";
+    copyBtn.hidden = !meals.length;
+
+    if (!meals.length) { recap.innerHTML = `<p class="empty">Spunta almeno un pranzo o una cena</p>`; warn.hidden = true; return; }
+
+    let html = "";
+    CATEGORIE.forEach(cat => {
+        const keys = Object.keys(tot).filter(k => ALIMENTI[k].cat === cat).sort((a, b) => ALIMENTI[a].n.localeCompare(ALIMENTI[b].n, "it"));
+        if (!keys.length) return;
+        html += `<p class="recap-cat">${cat}</p>`;
+        keys.forEach(k => {
+            const a = ALIMENTI[k], t = tot[k];
+            html += `<div class="ing"><span class="ing-n">${a.n}${a.nota ? `<small>${a.nota}</small>` : ""}</span><span class="ing-q">${fmtQty(k, t.qty)}</span><span class="ing-d">${porzioniText(k, t.porz)}</span></div>`;
+        });
+    });
+    recap.innerHTML = html;
+
+    // Avvisi di conservazione: si assume la cottura il giorno prima del primo pasto selezionato
+    const first = Math.min(...meals.map(m => m.gi));
+    const issues = {};
+    meals.forEach(m => {
+        const age = m.gi - first + 1;
+        m.items.forEach(([key]) => {
+            const v = ALIMENTI[key].vita;
+            if (v && age > v) (issues[key] = issues[key] || []).push(`${SHORT[m.giorno]} ${m.label} (${age} gg)`);
+        });
+    });
+    const keys = Object.keys(issues);
+    if (keys.length) {
+        warn.hidden = false;
+        warn.innerHTML = `<strong>Conservazione in frigo</strong>` + keys.map(k =>
+            `${ALIMENTI[k].n} (max ${ALIMENTI[k].vita} gg dalla cottura): ${[...new Set(issues[k])].join(", ")}.`).join("<br>") +
+            `<br><em>Cuoci questi alimenti a parte più avanti oppure congelali. Stima con cottura il giorno prima del primo pasto.</em>`;
+    } else { warn.hidden = true; }
+}
+
+$("prep-copy").addEventListener("click", async () => {
+    const { tot, meals } = buildPrep();
+    let txt = `Prep · ${meals.length} pasti\n`;
+    CATEGORIE.forEach(cat => {
+        const keys = Object.keys(tot).filter(k => ALIMENTI[k].cat === cat).sort((a, b) => ALIMENTI[a].n.localeCompare(ALIMENTI[b].n, "it"));
+        if (!keys.length) return;
+        txt += `\n${cat.toUpperCase()}\n`;
+        keys.forEach(k => { const a = ALIMENTI[k]; txt += `- ${a.n}${a.nota ? ` (${a.nota})` : ""}: ${fmtQty(k, tot[k].qty)} [${porzioniText(k, tot[k].porz)}]\n`; });
+    });
+    try { await navigator.clipboard.writeText(txt); toast("Lista copiata"); } catch (e) { toast("Copia non disponibile"); }
 });
-
-function deleteWeightRecord(dateStr) {
-    if (confirm("Vuoi davvero eliminare questa misura?")) {
-        appState.pesi = appState.pesi.filter(p => p.date !== dateStr);
-        saveState(); renderPeso();
-    }
-}
-
-function calculatePrediction(sorted) {
-    const el = $("peso-previsione");
-    if (sorted.length < 3) { el.textContent = "Inserisci almeno 3 misure."; return; }
-    const first = sorted[0], last = sorted[sorted.length - 1];
-    const days = (new Date(last.date) - new Date(first.date)) / 86400000;
-    const diff = last.value - first.value;
-    if (days <= 0 || diff === 0) { el.textContent = "Peso stabile nel tempo."; return; }
-    const rate = diff / days;
-    const remaining = TARGET_KG - last.value;
-    if (Math.abs(remaining) < 0.05) { el.textContent = "Target raggiunto 🎯"; return; }
-    if ((remaining < 0 && rate < 0) || (remaining > 0 && rate > 0)) {
-        const d = Math.ceil(remaining / rate);
-        const eta = new Date(last.date + "T12:00:00"); eta.setDate(eta.getDate() + d);
-        el.textContent = `~${d} giorni (circa ${eta.toLocaleDateString("it-IT", { day: "numeric", month: "short", year: "numeric" })})`;
-    } else {
-        el.textContent = `L'andamento attuale si allontana dal target (${TARGET_KG} kg).`;
-    }
-}
-
-/* Grafico SVG leggero (sostituisce Chart.js: niente CDN, funziona offline) */
-function renderWeightChart(sorted) {
-    const host = $("weightChart");
-    if (!sorted.length) { host.innerHTML = `<p class="empty">Registra il primo peso per vedere il grafico</p>`; return; }
-
-    const W = 340, H = 210, L = 34, R = 12, T = 14, B = 26;
-    const vals = sorted.map(p => p.value);
-    let lo = Math.min(...vals, TARGET_KG) - 1, hi = Math.max(...vals, TARGET_KG) + 1;
-    lo = Math.floor(lo); hi = Math.ceil(hi);
-    const t0 = new Date(sorted[0].date).getTime(), t1 = new Date(sorted[sorted.length - 1].date).getTime();
-    const x = (d) => sorted.length === 1 || t1 === t0 ? (L + W - R) / 2 : L + (new Date(d).getTime() - t0) / (t1 - t0) * (W - L - R);
-    const y = (v) => T + (hi - v) / (hi - lo) * (H - T - B);
-
-    let g = "";
-    const steps = 4;
-    for (let i = 0; i <= steps; i++) {
-        const v = lo + (hi - lo) * i / steps, yy = y(v);
-        g += `<line class="grid" x1="${L}" x2="${W - R}" y1="${yy}" y2="${yy}"/><text class="axis" x="${L - 6}" y="${yy + 3}" text-anchor="end">${v.toFixed(v % 1 ? 1 : 0)}</text>`;
-    }
-    const pts = sorted.map(p => `${x(p.date).toFixed(1)},${y(p.value).toFixed(1)}`);
-    const line = sorted.length > 1 ? `<polyline class="line" points="${pts.join(" ")}"/>` : "";
-    const last = sorted[sorted.length - 1];
-    const dots = sorted.length <= 40 ? sorted.map(p => `<circle class="dot" cx="${x(p.date).toFixed(1)}" cy="${y(p.value).toFixed(1)}" r="3.5"/>`).join("") : `<circle class="dot" cx="${x(last.date).toFixed(1)}" cy="${y(last.value).toFixed(1)}" r="4"/>`;
-    const lx = x(last.date), anchor = lx > W - 50 ? "end" : "middle";
-    const ty = y(TARGET_KG);
-
-    host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Andamento del peso">
-        ${g}
-        <line class="target" x1="${L}" x2="${W - R}" y1="${ty}" y2="${ty}"/>
-        <text class="target-l" x="${W - R}" y="${ty - 4}" text-anchor="end">Target ${TARGET_KG}</text>
-        ${line}${dots}
-        <text class="lastv" x="${lx}" y="${y(last.value) - 9}" text-anchor="${anchor}">${last.value.toFixed(1)}</text>
-        <text class="axis" x="${L}" y="${H - 6}" text-anchor="start">${fmtDate(sorted[0].date, { day: "numeric", month: "short" })}</text>
-        ${sorted.length > 1 ? `<text class="axis" x="${W - R}" y="${H - 6}" text-anchor="end">${fmtDate(last.date, { day: "numeric", month: "short" })}</text>` : ""}
-    </svg>`;
-}
 
 /* ---------- PWA: service worker + installazione ---------- */
 if ("serviceWorker" in navigator) {

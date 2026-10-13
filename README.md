@@ -1,6 +1,6 @@
 # Fitness Tracker
 
-PWA per piano alimentare (giorni ON/OFF con kcal di pranzo e cena) e monitoraggio del peso.
+PWA per piano alimentare (giorni ON/OFF con kcal di pranzo e cena) e preparazione pasti (recap ingredienti).
 Nessuna dipendenza esterna: HTML, CSS e JavaScript puri, funziona offline dopo la prima apertura.
 
 ## Pubblicazione su GitHub Pages
@@ -17,4 +17,4 @@ Nessuna dipendenza esterna: HTML, CSS e JavaScript puri, funziona offline dopo l
 ## Aggiornare l'app
 
 Dopo ogni modifica ai file, incrementa `CACHE_NAME` in `sw.js` (es. `fit-tracker-v4`) così i dispositivi scaricano la nuova versione.
-I dati (peso e scelte) restano nel browser del dispositivo (localStorage) e non vengono toccati dagli aggiornamenti.
+I dati (struttura e scelte) restano nel browser del dispositivo (localStorage) e non vengono toccati dagli aggiornamenti.

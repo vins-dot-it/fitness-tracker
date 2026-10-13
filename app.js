@@ -21,16 +21,16 @@ const variantiON = [
     { id: "on_v2", nome: "2- Riso Pollo / Merluzzo", pranzo: "Riso basmati 110 g; pollo 180 g; peperoni 250 g; olio EVO 10 g", kcal_p: 766, cena: "Merluzzo 200 g; cous cous 80 g; verdure miste 300 g; olio EVO 10 g", kcal_c: 634 },
     { id: "on_v3", nome: "3- Pasta Pollo / Merluzzo", pranzo: "Pasta 110 g cruda; pollo 180 g; passata 150 g; verdure 200 g; olio EVO 10 g", kcal_p: 762, cena: "Merluzzo 220 g; cous cous 80 g; verdure 300 g; olio EVO 10 g", kcal_c: 650 },
     { id: "on_v4", nome: "4- Riso Tonno / Bresaola", pranzo: "Riso basmati 110 g; tonno naturale 150 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 710, cena: "Bresaola 100 g; pane integrale 100 g; verdure 300 g; olio EVO 10 g; 1 frutto medio", kcal_c: 645 },
-    { id: "on_v5", nome: "5- Pasta Tonno / Pollo", pranzo: "Pasta integrale 110 g cruda; tonno naturale 150 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 676, cena: "Manzo magro 170 g; pane integrale 100 g; broccoli 300 g; olio EVO 10 g", kcal_c: 664 },
+    { id: "on_v5", nome: "5- Pasta Tonno / Manzo", pranzo: "Pasta integrale 110 g cruda; tonno naturale 150 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 676, cena: "Manzo magro 170 g; pane integrale 100 g; broccoli 300 g; olio EVO 10 g", kcal_c: 664 },
     { id: "on_v6", nome: "6- Riso Ceci Pollo / Pollo", pranzo: "Riso basmati 110 g; ceci 150 g cotti e sgocciolati; pollo 150 g; zucchine 250 g; olio EVO 10 g", kcal_p: 818, cena: "Pollo 180 g; pane integrale 100 g; spinaci 300 g; olio EVO 10 g", kcal_c: 628 },
     { id: "on_v7", nome: "7- Pasta Pollo / Manzo", pranzo: "Pasta 110 g cruda; pollo 180 g; passata 150 g; zucchine 200 g; olio EVO 10 g", kcal_p: 746, cena: "Manzo magro 170 g; patate 250 g; insalata 250 g; olio EVO 10 g", kcal_c: 572 }
 ];
 
 const variantiOFF = [
-    { id: "off_v1", nome: "1- Pasta Tonno / Pollo", pranzo: "Pasta integrale 150 g cruda; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 790, cena: "Manzo magro 170 g; pane integrale 90 g; broccoli 300 g; olio EVO 10 g", kcal_c: 639 },
+    { id: "off_v1", nome: "1- Pasta Tonno / Manzo", pranzo: "Pasta integrale 150 g cruda; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 790, cena: "Manzo magro 170 g; pane integrale 90 g; broccoli 300 g; olio EVO 10 g", kcal_c: 639 },
     { id: "off_v2", nome: "2- Riso Pollo / Merluzzo", pranzo: "Riso basmati 110 g; pollo 180 g; peperoni 250 g; olio EVO 10 g", kcal_p: 766, cena: "Merluzzo 200 g; cous cous 80 g; verdure miste 300 g; olio EVO 10 g", kcal_c: 634 },
-    { id: "off_v3", nome: "3- Riso Ceci Pollo / Pollo", pranzo: "Riso basmati 80 g; ceci 180 g cotti e sgocciolati; pollo 120 g; zucchine 250 g; olio EVO 10 g", kcal_p: 713, cena: "Merluzzo 220 g; pane integrale 90 g; spinaci 300 g; olio EVO 10 g", kcal_c: 560 },
-    { id: "off_v4", nome: "4- Pasta Tonno / Pollo", pranzo: "Pasta integrale 115 g; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 671, cena: "Merluzzo 220 g; pane integrale 100 g; verdure 300 g; olio EVO 10 g", kcal_c: 595 },
+    { id: "off_v3", nome: "3- Riso Ceci Pollo / Merluzzo", pranzo: "Riso basmati 80 g; ceci 180 g cotti e sgocciolati; pollo 120 g; zucchine 250 g; olio EVO 10 g", kcal_p: 713, cena: "Merluzzo 220 g; pane integrale 90 g; spinaci 300 g; olio EVO 10 g", kcal_c: 560 },
+    { id: "off_v4", nome: "4- Pasta Tonno / Merluzzo", pranzo: "Pasta integrale 115 g; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 671, cena: "Merluzzo 220 g; pane integrale 100 g; verdure 300 g; olio EVO 10 g", kcal_c: 595 },
     { id: "off_v5", nome: "5- Riso Ceci Pollo / Merluzzo", pranzo: "Riso basmati 95 g; ceci 150 g cotti e sgocciolati; pollo 120 g; zucchine 250 g; olio EVO 10 g", kcal_p: 731, cena: "Merluzzo 220 g; pane integrale 80 g; verdure 300 g; olio EVO 10 g", kcal_c: 545 }
 ];
 

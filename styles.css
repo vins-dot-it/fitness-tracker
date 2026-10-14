@@ -1,63 +1,63 @@
 :root {
-    --bg: #f0fbfa;
+    --bg: #f5f7f7;
     --card: #ffffff;
-    --text: #12302e;
-    --muted: #587876;
-    --line: #d3ebe8;
+    --head-bg: #ffffff;
+    --text: #0f1c1b;
+    --muted: #5b6d6b;
+    --line: #e2e9e8;
     --primary: #0b817d;
     --primary-2: #0abab5;
-    --primary-soft: #d8f5f2;
-    --on-primary: #ffffff;
-    --accent: #81d8d0;
+    --primary-soft: #e2f4f2;
+    --accent: #0abab5;
     --on: #0a6a66;
-    --on-soft: #d8f5f2;
+    --on-soft: #e2f4f2;
     --off: #8a5a00;
     --off-soft: #fdf0d0;
+    --fill: #0b817d;
+    --on-fill: #ffffff;
+    --sel-tag: rgba(255, 255, 255, .25);
+    --hero-bg: #ffffff;
+    --hero-line: #e2e9e8;
+    --hero-num: #0b817d;
+    --pill-bg: #e2f4f2;
+    --bar-1: #0b817d;
+    --bar-2: #8fd8d1;
+    --bar-track: #e2e9e8;
     --good: #2f8f5b;
     --bad: #dc2626;
-    --grad-a: #8ee3db;
-    --grad-b: #62cfc5;
-    --fill: #6fd3c9;
-    --on-fill: #08403c;
-    --on-head: #08403c;
-    --pill-bg: rgba(255, 255, 255, .5);
-    --bar-1: rgba(8, 64, 60, .75);
-    --bar-2: rgba(8, 64, 60, .4);
-    --bar-track: rgba(255, 255, 255, .45);
-    --shadow-c: 8, 100, 96;
-    --shadow: 0 1px 2px rgba(15, 70, 66, .06), 0 4px 14px rgba(15, 70, 66, .06);
+    --shadow: 0 1px 2px rgba(15, 28, 27, .05), 0 4px 14px rgba(15, 28, 27, .05);
     --radius: 18px;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #0b1a19;
-        --card: #132827;
-        --text: #e6f6f4;
-        --muted: #93b7b3;
-        --line: #234240;
-        --primary: #5fd3cb;
-        --primary-2: #2dc4bc;
-        --primary-soft: #143a38;
-        --on-primary: #05302d;
-        --accent: #81d8d0;
+        --bg: #0d1213;
+        --card: #161d1e;
+        --head-bg: #0d1213;
+        --text: #eef6f5;
+        --muted: #9bb0ae;
+        --line: #263234;
+        --primary: #6fdcd2;
+        --primary-2: #4cc9bf;
+        --primary-soft: #15393a;
+        --accent: #6fdcd2;
         --on: #8be3dc;
-        --on-soft: #143a38;
+        --on-soft: #15393a;
         --off: #f2c46d;
         --off-soft: #3a2f14;
+        --fill: #6fdcd2;
+        --on-fill: #06302d;
+        --sel-tag: rgba(6, 48, 45, .15);
+        --hero-bg: linear-gradient(160deg, #173a3a, #12201f);
+        --hero-line: #2a4a49;
+        --hero-num: #8fe8df;
+        --pill-bg: #15393a;
+        --bar-1: #6fdcd2;
+        --bar-2: #2f6f6a;
+        --bar-track: #263234;
         --good: #6ee7a8;
         --bad: #f87171;
-        --grad-a: #0b6a66;
-        --grad-b: #063f3c;
-        --fill: #5fd3cb;
-        --on-fill: #05302d;
-        --on-head: #e6f6f4;
-        --pill-bg: rgba(255, 255, 255, .18);
-        --bar-1: rgba(255, 255, 255, .85);
-        --bar-2: rgba(255, 255, 255, .5);
-        --bar-track: rgba(255, 255, 255, .18);
-        --shadow-c: 0, 0, 0;
-        --shadow: 0 1px 2px rgba(0, 0, 0, .35);
+        --shadow: none;
     }
 }
 
@@ -84,10 +84,10 @@ h1, h2, p { margin: 0; }
 /* ---------- App bar ---------- */
 .appbar {
     position: sticky; top: 0; z-index: 10;
-    background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
-    color: var(--on-head);
+    background: var(--head-bg);
+    color: var(--text);
     padding-top: env(safe-area-inset-top);
-    box-shadow: 0 2px 12px rgba(var(--shadow-c), .35);
+    box-shadow: 0 1px 0 var(--line);
 }
 .appbar-inner {
     max-width: 34rem; margin: 0 auto;
@@ -95,7 +95,7 @@ h1, h2, p { margin: 0; }
     display: flex; align-items: center; justify-content: space-between;
 }
 .appbar h1 { font-size: 1.15rem; font-weight: 800; letter-spacing: .01em; }
-.appbar-sub { font-size: .65rem; font-weight: 600; opacity: .95; text-transform: capitalize; margin-top: 1px; }
+.appbar-sub { font-size: .65rem; font-weight: 600; color: var(--muted); text-transform: capitalize; margin-top: 1px; }
 
 /* ---------- Layout ---------- */
 main {
@@ -138,26 +138,27 @@ main {
 .day-chip .t.ON { background: var(--on-soft); color: var(--on); }
 .day-chip .t.OFF { background: var(--off-soft); color: var(--off); }
 .day-chip.sel { background: var(--fill); border-color: var(--fill); color: var(--on-fill); }
-.day-chip.sel .t { background: rgba(255, 255, 255, .5); color: inherit; }
+.day-chip.sel .t { background: var(--sel-tag); color: inherit; }
 .day-chip.today:not(.sel) { border-color: var(--primary); }
 
 /* ---------- Hero ---------- */
 .hero {
-    background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
-    color: var(--on-head);
+    background: var(--hero-bg);
+    color: var(--text);
+    border: 1px solid var(--hero-line);
     border-radius: 22px;
     padding: 1.1rem 1rem 1rem;
     text-align: center;
-    box-shadow: 0 8px 22px rgba(var(--shadow-c), .28);
+    box-shadow: var(--shadow);
 }
-.hero-label { font-size: .62rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .95; }
-.hero-value { font-size: 2.6rem; font-weight: 900; line-height: 1.05; margin-top: .15rem; font-variant-numeric: tabular-nums; }
+.hero-label { font-size: .62rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.hero-value { color: var(--hero-num); font-size: 2.6rem; font-weight: 900; line-height: 1.05; margin-top: .15rem; font-variant-numeric: tabular-nums; }
 .hero-value small { font-size: .8rem; font-weight: 700; opacity: .8; margin-left: .3rem; }
 .pill {
     display: inline-block; margin-top: .5rem;
     font-size: .6rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
     padding: .2rem .7rem; border-radius: 99px;
-    background: var(--pill-bg); color: var(--on-head);
+    background: var(--pill-bg); color: var(--on);
 }
 .hero-split { display: flex; height: .45rem; border-radius: 99px; overflow: hidden; margin-top: .85rem; background: var(--bar-track); gap: 2px; }
 .hero-split span { display: block; height: 100%; background: var(--bar-1); }
@@ -281,5 +282,5 @@ input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px s
 .warn strong { display: block; font-size: .75rem; margin-bottom: .2rem; }
 @media (prefers-color-scheme: dark) { .warn { background: #3a2d10; border-color: #7a5c1a; color: #f5c242; } }
 
-.appbar-logo { width: 2.3rem; height: 2.3rem; border-radius: 50%; overflow: hidden; flex: none; box-shadow: 0 0 0 2px rgba(255, 255, 255, .7); }
+.appbar-logo { width: 2.3rem; height: 2.3rem; border-radius: 50%; overflow: hidden; flex: none; box-shadow: none; }
 .appbar-logo img { display: block; width: 100%; height: 100%; }

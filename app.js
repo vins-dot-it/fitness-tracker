@@ -334,11 +334,11 @@ function porzioniText(key, list) {
 function renderPrepRecap() {
     const { tot, meals } = buildPrep();
     const recap = $("prep-recap"), warn = $("prep-warn");
-    const copyBtn = $("prep-copy");
+    [...prepSel].forEach(k => { if (!tot[k]) prepSel.delete(k); });
+    Object.keys(prepSent).forEach(k => { if (!tot[k] || prepSent[k].qty !== tot[k].qty) delete prepSent[k]; });
     $("prep-title").textContent = meals.length ? `Recap · ${meals.length} ${meals.length === 1 ? "pasto" : "pasti"}` : "Recap";
-    copyBtn.hidden = !meals.length;
 
-    if (!meals.length) { recap.innerHTML = `<p class="empty">Spunta almeno un pranzo o una cena</p>`; warn.hidden = true; return; }
+    if (!meals.length) { recap.innerHTML = `<p class="empty">Spunta almeno un pranzo o una cena</p>`; warn.hidden = true; updateSendBar(); return; }
 
     let html = "";
     CATEGORIE.forEach(cat => {
@@ -347,7 +347,8 @@ function renderPrepRecap() {
         html += `<p class="recap-cat">${cat}</p>`;
         keys.forEach(k => {
             const a = ALIMENTI[k], t = tot[k];
-            html += `<div class="ing"><span class="ing-n">${a.n}${a.nota ? `<small>${a.nota}</small>` : ""}</span><span class="ing-q">${fmtQty(k, t.qty)}</span><span class="ing-d">${porzioniText(k, t.porz)}</span></div>`;
+            const sent = prepSent[k] && prepSent[k].qty === t.qty ? `<small class="sent">✓ ${SPESA_STORES[prepSent[k].store]}</small>` : "";
+            html += `<label class="ing"><input type="checkbox" class="ing-chk" data-k="${k}" ${prepSel.has(k) ? "checked" : ""}><span class="ing-n">${a.n}${a.nota ? `<small>${a.nota}</small>` : ""}${sent}</span><span class="ing-q">${fmtQty(k, t.qty)}</span><span class="ing-d">${porzioniText(k, t.porz)}</span></label>`;
         });
     });
     recap.innerHTML = html;
@@ -369,19 +370,81 @@ function renderPrepRecap() {
             `${ALIMENTI[k].n} (max ${ALIMENTI[k].vita} gg dalla cottura): ${[...new Set(issues[k])].join(", ")}.`).join("<br>") +
             `<br><em>Cuoci questi alimenti a parte più avanti oppure congelali. Stima con cottura il giorno prima del primo pasto.</em>`;
     } else { warn.hidden = true; }
+    updateSendBar();
 }
 
-$("prep-copy").addEventListener("click", async () => {
+/* ---------- Invio alla lista SPESA (Supabase) ---------- */
+const prepSel = new Set();      // alimenti spuntati per l'invio
+const prepSent = {};            // alimento -> { store, qty } già inviati in questa sessione
+let sendStore = "eurospin";
+try { const s = localStorage.getItem("fit_send_store"); if (SPESA_STORES[s]) sendStore = s; } catch (e) {}
+let sending = false;
+
+function prepItemText(k, t) { return `${ALIMENTI[k].n} ${fmtQty(k, t.qty)}`; }
+
+function updateSendBar() {
     const { tot, meals } = buildPrep();
-    let txt = `Prep · ${meals.length} pasti\n`;
-    CATEGORIE.forEach(cat => {
-        const keys = Object.keys(tot).filter(k => ALIMENTI[k].cat === cat).sort((a, b) => ALIMENTI[a].n.localeCompare(ALIMENTI[b].n, "it"));
-        if (!keys.length) return;
-        txt += `\n${cat.toUpperCase()}\n`;
-        keys.forEach(k => { const a = ALIMENTI[k]; txt += `- ${a.n}${a.nota ? ` (${a.nota})` : ""}: ${fmtQty(k, tot[k].qty)} [${porzioniText(k, tot[k].porz)}]\n`; });
+    const bar = $("sendbar");
+    bar.hidden = !meals.length;
+    document.querySelectorAll(".seg-b").forEach(b => {
+        const on = b.dataset.s === sendStore;
+        b.classList.toggle("on", on); b.setAttribute("aria-checked", on);
     });
-    try { await navigator.clipboard.writeText(txt); toast("Lista copiata"); } catch (e) { toast("Copia non disponibile"); }
+    const n = prepSel.size;
+    const btn = $("btn-send");
+    btn.textContent = sending ? "Invio..." : `Invia (${n})`;
+    btn.disabled = sending || n === 0;
+}
+
+async function insertSpesa(rows) {
+    const c = SPESA_CONFIG, ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 12000);
+    try {
+        const r = await fetch(`${c.url}/rest/v1/${c.table}`, {
+            method: "POST",
+            headers: { apikey: c.key, Authorization: `Bearer ${c.key}`, "Content-Type": "application/json", Prefer: "return=minimal" },
+            body: JSON.stringify(rows),
+            signal: ctrl.signal
+        });
+        if (!r.ok) {
+            let msg = ""; try { msg = (await r.json()).message; } catch (e) {}
+            throw new Error(msg || `Errore ${r.status}`);
+        }
+    } finally { clearTimeout(timer); }
+}
+
+async function sendPrepToSpesa() {
+    if (sending || !prepSel.size) return;
+    const { tot } = buildPrep();
+    const keys = CATEGORIE.flatMap(cat => [...prepSel].filter(k => tot[k] && ALIMENTI[k].cat === cat)
+        .sort((a, b) => ALIMENTI[a].n.localeCompare(ALIMENTI[b].n, "it")));
+    if (!keys.length) return;
+    const store = sendStore;
+    const rows = keys.map(k => ({ store, item: prepItemText(k, tot[k]), checked: false }));
+    sending = true; updateSendBar();
+    try {
+        await insertSpesa(rows);
+        keys.forEach(k => { prepSent[k] = { store, qty: tot[k].qty }; prepSel.delete(k); });
+        toast(`${rows.length} ${rows.length === 1 ? "prodotto inviato" : "prodotti inviati"} a ${SPESA_STORES[store]}`);
+    } catch (e) {
+        toast(e.name === "AbortError" || e.name === "TypeError" || !navigator.onLine ? "Connessione assente: nulla è stato inviato" : `Invio non riuscito: ${e.message}`);
+    } finally { sending = false; renderPrepRecap(); }
+}
+
+$("prep-recap").addEventListener("change", (e) => {
+    const inp = e.target.closest(".ing-chk");
+    if (!inp) return;
+    if (inp.checked) prepSel.add(inp.dataset.k); else prepSel.delete(inp.dataset.k);
+    updateSendBar();
 });
+document.querySelectorAll(".seg-b").forEach(b => b.addEventListener("click", () => {
+    sendStore = b.dataset.s;
+    try { localStorage.setItem("fit_send_store", sendStore); } catch (e) {}
+    updateSendBar();
+}));
+$("sel-all").addEventListener("click", () => { Object.keys(buildPrep().tot).forEach(k => prepSel.add(k)); renderPrepRecap(); });
+$("sel-none").addEventListener("click", () => { prepSel.clear(); renderPrepRecap(); });
+$("btn-send").addEventListener("click", sendPrepToSpesa);
 
 /* ---------- PWA: service worker + installazione ---------- */
 if ("serviceWorker" in navigator) {

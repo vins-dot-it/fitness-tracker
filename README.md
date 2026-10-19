@@ -18,3 +18,8 @@ Nessuna dipendenza esterna: HTML, CSS e JavaScript puri, funziona offline dopo l
 
 Dopo ogni modifica ai file, incrementa `CACHE_NAME` in `sw.js` (es. `fit-tracker-v4`) così i dispositivi scaricano la nuova versione.
 I dati (struttura e scelte) restano nel browser del dispositivo (localStorage) e non vengono toccati dagli aggiornamenti.
+
+## Invio alla lista SPESA
+
+Nella sezione Prep puoi spuntare gli alimenti, scegliere Eurospin o Esselunga e inviarli alla tabella `shopping_items` di Supabase, la stessa dell'app SPESA (una riga per alimento, ad esempio "Pollo 660 g").
+URL e chiave pubblica del progetto sono in `config.js`.

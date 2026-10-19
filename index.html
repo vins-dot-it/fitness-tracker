@@ -86,8 +86,19 @@
         </div>
         <div id="prep-warn" class="warn" hidden></div>
         <div class="card" id="prep-recap-card">
-            <div class="recap-head"><h2 id="prep-title">Recap</h2><button id="prep-copy" class="btn btn-sm" type="button">Copia lista</button></div>
+            <div class="recap-head"><h2 id="prep-title">Recap</h2></div>
             <div id="prep-recap"></div>
+        </div>
+        <div id="sendbar" class="sendbar" hidden>
+            <div class="seg" role="radiogroup" aria-label="Supermercato">
+                <button type="button" class="seg-b" data-s="eurospin" role="radio">Eurospin</button>
+                <button type="button" class="seg-b" data-s="esselunga" role="radio">Esselunga</button>
+            </div>
+            <div class="sendrow">
+                <button type="button" id="sel-all" class="link">Tutti</button>
+                <button type="button" id="sel-none" class="link">Nessuno</button>
+                <button type="button" id="btn-send" class="btn" disabled>Invia alla spesa</button>
+            </div>
         </div>
     </section>
 
@@ -112,6 +123,7 @@
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+<script src="config.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

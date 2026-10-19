@@ -1,9 +1,10 @@
-const CACHE_NAME = 'fit-tracker-v11';
+const CACHE_NAME = 'fit-tracker-v13';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './app.js',
+  './config.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

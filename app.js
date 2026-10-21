@@ -15,23 +15,29 @@ const baseMeals = {
     ]
 };
 
-// Kcal di pranzo e cena allineate al file "Piani alimentari 3 e 4 allenamenti"
+// Varianti e kcal di pranzo e cena allineate al file "Piani alimentari v4"
 const variantiON = [
-    { id: "on_v1", nome: "1- Riso Pollo / Salmone", pranzo: "Riso basmati 110 g; pollo 180 g; zucchine 250 g; olio EVO 10 g", kcal_p: 731, cena: "Salmone 150 g; patate 250 g; insalata 250 g; olio EVO 5 g", kcal_c: 560 },
-    { id: "on_v2", nome: "2- Riso Pollo / Merluzzo", pranzo: "Riso basmati 110 g; pollo 180 g; peperoni 250 g; olio EVO 10 g", kcal_p: 766, cena: "Merluzzo 200 g; cous cous 80 g; verdure miste 300 g; olio EVO 10 g", kcal_c: 634 },
-    { id: "on_v3", nome: "3- Pasta Pollo / Merluzzo", pranzo: "Pasta 110 g cruda; pollo 180 g; passata 150 g; verdure 200 g; olio EVO 10 g", kcal_p: 762, cena: "Merluzzo 220 g; cous cous 80 g; verdure 300 g; olio EVO 10 g", kcal_c: 650 },
-    { id: "on_v4", nome: "4- Riso Tonno / Bresaola", pranzo: "Riso basmati 110 g; tonno naturale 150 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 710, cena: "Bresaola 100 g; pane integrale 100 g; verdure 300 g; olio EVO 10 g; 1 frutto medio", kcal_c: 645 },
-    { id: "on_v5", nome: "5- Pasta Tonno / Manzo", pranzo: "Pasta integrale 110 g cruda; tonno naturale 150 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 676, cena: "Manzo magro 170 g; pane integrale 100 g; broccoli 300 g; olio EVO 10 g", kcal_c: 664 },
-    { id: "on_v6", nome: "6- Riso Ceci Pollo / Pollo", pranzo: "Riso basmati 110 g; ceci 150 g cotti e sgocciolati; pollo 150 g; zucchine 250 g; olio EVO 10 g", kcal_p: 818, cena: "Pollo 180 g; pane integrale 100 g; spinaci 300 g; olio EVO 10 g", kcal_c: 628 },
-    { id: "on_v7", nome: "7- Pasta Pollo / Manzo", pranzo: "Pasta 110 g cruda; pollo 180 g; passata 150 g; zucchine 200 g; olio EVO 10 g", kcal_p: 746, cena: "Manzo magro 170 g; patate 250 g; insalata 250 g; olio EVO 10 g", kcal_c: 572 }
+    { id: "on_v1", nome: "1- Pollo + salmone", pranzo: "Riso basmati 140 g; Pollo 180 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 820, cena: "Salmone 150 g; Patate 330 g; Insalata 250 g; Olio EVO 5 g", kcal_c: 635 },
+    { id: "on_v2", nome: "2- Pollo + merluzzo", pranzo: "Riso basmati 140 g; Pollo 180 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 845, cena: "Merluzzo 200 g; Cous cous 105 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 705 },
+    { id: "on_v3", nome: "3- Pollo + merluzzo", pranzo: "Pasta 140 g; Pollo 180 g; Passata 150 g; Verdure miste 200 g; Olio EVO 10 g", kcal_p: 880, cena: "Merluzzo 220 g; Cous cous 105 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 720 },
+    { id: "on_v4", nome: "4- Tonno + bresaola", pranzo: "Riso basmati 140 g; Tonno naturale 150 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 790, cena: "Bresaola 100 g; Pane integrale 130 g; Verdure miste 300 g; Olio EVO 10 g; 1 frutto medio", kcal_c: 690 },
+    { id: "on_v5", nome: "5- Tonno + manzo", pranzo: "Pasta integrale 140 g; Tonno naturale 150 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 775, cena: "Manzo magro 170 g; Pane integrale 130 g; Broccoli 300 g; Olio EVO 10 g", kcal_c: 730 },
+    { id: "on_v6", nome: "6- Ceci e pollo + merluzzo", pranzo: "Riso basmati 140 g; Ceci 150 g cotti e sgocciolati; Pollo 150 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 970, cena: "Merluzzo 220 g; Pane integrale 130 g; Spinaci 300 g; Olio EVO 10 g", kcal_c: 660 },
+    { id: "on_v7", nome: "7- Pollo + manzo", pranzo: "Pasta 140 g; Pollo 180 g; Passata 150 g; Zucchine 200 g; Olio EVO 10 g", kcal_p: 865, cena: "Manzo magro 170 g; Patate 330 g; Insalata 250 g; Olio EVO 10 g", kcal_c: 595 },
+    { id: "on_v8", nome: "8- Manzo + POLLO a cena", pranzo: "Riso basmati 150 g; Manzo magro 170 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 890, cena: "Pollo 150 g; Patate 330 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 585 },
+    { id: "on_v9", nome: "9- Tacchino + orata", pranzo: "Pasta 140 g; Tacchino (fesa) 180 g; Passata 150 g; Zucchine 200 g; Olio EVO 10 g", kcal_p: 855, cena: "Orata (filetti) 220 g; Pane integrale 130 g; Insalata 250 g; Olio EVO 10 g", kcal_c: 670 },
+    { id: "on_v10", nome: "10- Gamberi + POLLO a cena", pranzo: "Riso basmati 150 g; Gamberi sgusciati 200 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 830, cena: "Pollo 150 g; Pane integrale 150 g; Spinaci 300 g; Olio EVO 10 g", kcal_c: 700 }
 ];
 
 const variantiOFF = [
-    { id: "off_v1", nome: "1- Pasta Tonno / Manzo", pranzo: "Pasta integrale 150 g cruda; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 790, cena: "Manzo magro 170 g; pane integrale 90 g; broccoli 300 g; olio EVO 10 g", kcal_c: 639 },
-    { id: "off_v2", nome: "2- Riso Pollo / Merluzzo", pranzo: "Riso basmati 110 g; pollo 180 g; peperoni 250 g; olio EVO 10 g", kcal_p: 766, cena: "Merluzzo 200 g; cous cous 80 g; verdure miste 300 g; olio EVO 10 g", kcal_c: 634 },
-    { id: "off_v3", nome: "3- Riso Ceci Pollo / Merluzzo", pranzo: "Riso basmati 80 g; ceci 180 g cotti e sgocciolati; pollo 120 g; zucchine 250 g; olio EVO 10 g", kcal_p: 713, cena: "Merluzzo 220 g; pane integrale 90 g; spinaci 300 g; olio EVO 10 g", kcal_c: 560 },
-    { id: "off_v4", nome: "4- Pasta Tonno / Merluzzo", pranzo: "Pasta integrale 115 g; tonno naturale 120 g sgocciolato; pomodori 250 g; olio EVO 10 g", kcal_p: 671, cena: "Merluzzo 220 g; pane integrale 100 g; verdure 300 g; olio EVO 10 g", kcal_c: 595 },
-    { id: "off_v5", nome: "5- Riso Ceci Pollo / Merluzzo", pranzo: "Riso basmati 95 g; ceci 150 g cotti e sgocciolati; pollo 120 g; zucchine 250 g; olio EVO 10 g", kcal_p: 731, cena: "Merluzzo 220 g; pane integrale 80 g; verdure 300 g; olio EVO 10 g", kcal_c: 545 }
+    { id: "off_v1", nome: "1- Tonno + manzo", pranzo: "Pasta integrale 145 g; Tonno naturale 120 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 760, cena: "Manzo magro 170 g; Pane integrale 130 g; Broccoli 300 g; Olio EVO 10 g", kcal_c: 730 },
+    { id: "off_v2", nome: "2- Pollo + merluzzo", pranzo: "Riso basmati 140 g; Pollo 180 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 845, cena: "Merluzzo 200 g; Cous cous 105 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 705 },
+    { id: "off_v3", nome: "3- Ceci e pollo + merluzzo", pranzo: "Riso basmati 110 g; Ceci 180 g cotti e sgocciolati; Pollo 120 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 865, cena: "Merluzzo 220 g; Pane integrale 120 g; Spinaci 300 g; Olio EVO 10 g", kcal_c: 635 },
+    { id: "off_v4", nome: "4- Tonno + merluzzo", pranzo: "Pasta integrale 145 g; Tonno naturale 120 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 760, cena: "Merluzzo 220 g; Pane integrale 150 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 715 },
+    { id: "off_v5", nome: "5- Ceci e pollo + merluzzo", pranzo: "Riso basmati 125 g; Ceci 150 g cotti e sgocciolati; Pollo 120 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 880, cena: "Merluzzo 220 g; Pane integrale 110 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 615 },
+    { id: "off_v6", nome: "6- Pollo + bresaola", pranzo: "Riso basmati 140 g; Pollo 150 g; Verdure miste 300 g; Olio EVO 10 g", kcal_p: 820, cena: "Bresaola 100 g; Pane integrale 140 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 665 },
+    { id: "off_v7", nome: "7- Tacchino + POLLO a cena", pranzo: "Pasta 150 g; Tacchino (fesa) 170 g; Passata 150 g; Zucchine 200 g; Olio EVO 10 g", kcal_p: 880, cena: "Pollo 130 g; Patate 400 g; Insalata 250 g; Olio EVO 10 g", kcal_c: 580 },
+    { id: "off_v8", nome: "8- Gamberi + salmone", pranzo: "Riso basmati 150 g; Gamberi sgusciati 180 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 835, cena: "Salmone 150 g; Patate 330 g; Insalata 250 g; Olio EVO 5 g", kcal_c: 635 }
 ];
 
 
@@ -48,6 +54,9 @@ const ALIMENTI = {
     manzo:     { n: "Manzo magro",       cat: "Proteine",       vita: 4 },
     salmone:   { n: "Salmone",           cat: "Proteine",       vita: 2 },
     merluzzo:  { n: "Merluzzo",          cat: "Proteine",       vita: 2 },
+    orata:     { n: "Orata (filetti)",   cat: "Proteine",       vita: 2 },
+    gamberi:   { n: "Gamberi sgusciati", cat: "Proteine",       vita: 2 },
+    tacchino:  { n: "Tacchino (fesa)",   cat: "Proteine",       vita: 4 },
     tonno:     { n: "Tonno naturale",    cat: "Proteine",       nota: "sgocciolato", vita: 4 },
     bresaola:  { n: "Bresaola",          cat: "Proteine",       vita: 4 },
     ceci:      { n: "Ceci",              cat: "Proteine",       nota: "cotti e sgocciolati", vita: 4 },
@@ -66,18 +75,24 @@ const CATEGORIE = ["Basi", "Proteine", "Verdure e sughi", "Frutta", "Condimenti"
 
 // [alimento, quantità] per pranzo (p) e cena (c) di ogni variante
 const INGREDIENTI = {
-    on_v1:  { p: [["riso",110],["pollo",180],["zucchine",250],["olio",10]],              c: [["salmone",150],["patate",250],["insalata",250],["olio",5]] },
-    on_v2:  { p: [["riso",110],["pollo",180],["peperoni",250],["olio",10]],              c: [["merluzzo",200],["couscous",80],["verdure",300],["olio",10]] },
-    on_v3:  { p: [["pasta",110],["pollo",180],["passata",150],["verdure",200],["olio",10]], c: [["merluzzo",220],["couscous",80],["verdure",300],["olio",10]] },
-    on_v4:  { p: [["riso",110],["tonno",150],["pomodori",250],["olio",10]],              c: [["bresaola",100],["pane",100],["verdure",300],["olio",10],["frutto",1]] },
-    on_v5:  { p: [["pasta_int",110],["tonno",150],["pomodori",250],["olio",10]],         c: [["manzo",170],["pane",100],["broccoli",300],["olio",10]] },
-    on_v6:  { p: [["riso",110],["ceci",150],["pollo",150],["zucchine",250],["olio",10]], c: [["pollo",180],["pane",100],["spinaci",300],["olio",10]] },
-    on_v7:  { p: [["pasta",110],["pollo",180],["passata",150],["zucchine",200],["olio",10]], c: [["manzo",170],["patate",250],["insalata",250],["olio",10]] },
-    off_v1: { p: [["pasta_int",150],["tonno",120],["pomodori",250],["olio",10]],         c: [["manzo",170],["pane",90],["broccoli",300],["olio",10]] },
-    off_v2: { p: [["riso",110],["pollo",180],["peperoni",250],["olio",10]],              c: [["merluzzo",200],["couscous",80],["verdure",300],["olio",10]] },
-    off_v3: { p: [["riso",80],["ceci",180],["pollo",120],["zucchine",250],["olio",10]],  c: [["merluzzo",220],["pane",90],["spinaci",300],["olio",10]] },
-    off_v4: { p: [["pasta_int",115],["tonno",120],["pomodori",250],["olio",10]],         c: [["merluzzo",220],["pane",100],["verdure",300],["olio",10]] },
-    off_v5: { p: [["riso",95],["ceci",150],["pollo",120],["zucchine",250],["olio",10]],  c: [["merluzzo",220],["pane",80],["verdure",300],["olio",10]] }
+    on_v1: { p: [["riso",140],["pollo",180],["zucchine",250],["olio",10]], c: [["salmone",150],["patate",330],["insalata",250],["olio",5]] },
+    on_v2: { p: [["riso",140],["pollo",180],["peperoni",250],["olio",10]], c: [["merluzzo",200],["couscous",105],["verdure",300],["olio",10]] },
+    on_v3: { p: [["pasta",140],["pollo",180],["passata",150],["verdure",200],["olio",10]], c: [["merluzzo",220],["couscous",105],["verdure",300],["olio",10]] },
+    on_v4: { p: [["riso",140],["tonno",150],["pomodori",250],["olio",10]], c: [["bresaola",100],["pane",130],["verdure",300],["olio",10],["frutto",1]] },
+    on_v5: { p: [["pasta_int",140],["tonno",150],["pomodori",250],["olio",10]], c: [["manzo",170],["pane",130],["broccoli",300],["olio",10]] },
+    on_v6: { p: [["riso",140],["ceci",150],["pollo",150],["zucchine",250],["olio",10]], c: [["merluzzo",220],["pane",130],["spinaci",300],["olio",10]] },
+    on_v7: { p: [["pasta",140],["pollo",180],["passata",150],["zucchine",200],["olio",10]], c: [["manzo",170],["patate",330],["insalata",250],["olio",10]] },
+    on_v8: { p: [["riso",150],["manzo",170],["peperoni",250],["olio",10]], c: [["pollo",150],["patate",330],["verdure",300],["olio",10]] },
+    on_v9: { p: [["pasta",140],["tacchino",180],["passata",150],["zucchine",200],["olio",10]], c: [["orata",220],["pane",130],["insalata",250],["olio",10]] },
+    on_v10: { p: [["riso",150],["gamberi",200],["zucchine",250],["olio",10]], c: [["pollo",150],["pane",150],["spinaci",300],["olio",10]] },
+    off_v1: { p: [["pasta_int",145],["tonno",120],["pomodori",250],["olio",10]], c: [["manzo",170],["pane",130],["broccoli",300],["olio",10]] },
+    off_v2: { p: [["riso",140],["pollo",180],["peperoni",250],["olio",10]], c: [["merluzzo",200],["couscous",105],["verdure",300],["olio",10]] },
+    off_v3: { p: [["riso",110],["ceci",180],["pollo",120],["zucchine",250],["olio",10]], c: [["merluzzo",220],["pane",120],["spinaci",300],["olio",10]] },
+    off_v4: { p: [["pasta_int",145],["tonno",120],["pomodori",250],["olio",10]], c: [["merluzzo",220],["pane",150],["verdure",300],["olio",10]] },
+    off_v5: { p: [["riso",125],["ceci",150],["pollo",120],["zucchine",250],["olio",10]], c: [["merluzzo",220],["pane",110],["verdure",300],["olio",10]] },
+    off_v6: { p: [["riso",140],["pollo",150],["verdure",300],["olio",10]], c: [["bresaola",100],["pane",140],["verdure",300],["olio",10]] },
+    off_v7: { p: [["pasta",150],["tacchino",170],["passata",150],["zucchine",200],["olio",10]], c: [["pollo",130],["patate",400],["insalata",250],["olio",10]] },
+    off_v8: { p: [["riso",150],["gamberi",180],["peperoni",250],["olio",10]], c: [["salmone",150],["patate",330],["insalata",250],["olio",5]] }
 };
 
 const GIORNI = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì"];

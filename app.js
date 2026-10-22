@@ -40,8 +40,8 @@ const variantiON = [
     { id: "on_v5", nome: "5- Tonno + manzo", pranzo: "Pasta integrale 160 g; Tonno naturale 110 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 780, cena: "Manzo magro 100 g; Pane integrale 70 g; Broccoli 200 g; Olio EVO 10 g", kcal_c: 445 },
     { id: "on_v6", nome: "6- Ceci e pollo + merluzzo", pranzo: "Riso basmati 140 g; Ceci 120 g cotti e sgocciolati; Pollo 70 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 835, cena: "Merluzzo 130 g; Pane integrale 80 g; Spinaci 200 g; Olio EVO 10 g", kcal_c: 415 },
     { id: "on_v7", nome: "7- Pollo + manzo", pranzo: "Pasta 160 g; Pollo 100 g; Passata 150 g; Zucchine 200 g; Olio EVO 10 g", kcal_p: 830, cena: "Manzo magro 100 g; Patate 250 g; Insalata 200 g; Olio EVO 10 g", kcal_c: 430 },
-    { id: "on_v8", nome: "8- Manzo + POLLO a cena", pranzo: "Riso basmati 160 g; Manzo magro 120 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 855, cena: "Pollo 100 g; Patate 250 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 430 },
-    { id: "on_v9", nome: "9- Gamberi + POLLO a cena", pranzo: "Riso basmati 160 g; Gamberi sgusciati 140 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 805, cena: "Pollo 100 g; Pane integrale 80 g; Spinaci 200 g; Olio EVO 10 g", kcal_c: 430 }
+    { id: "on_v8", nome: "8- Manzo + pollo", pranzo: "Riso basmati 160 g; Manzo magro 120 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 855, cena: "Pollo 100 g; Patate 250 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 430 },
+    { id: "on_v9", nome: "9- Gamberi + pollo", pranzo: "Riso basmati 160 g; Gamberi sgusciati 140 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 805, cena: "Pollo 100 g; Pane integrale 80 g; Spinaci 200 g; Olio EVO 10 g", kcal_c: 430 }
 ];
 
 const variantiOFF = [
@@ -104,9 +104,7 @@ const INGREDIENTI = {
     off_v5: { p: [["riso",130],["ceci",120],["pollo",70],["zucchine",250],["olio",10]], c: [["merluzzo",130],["pane",80],["verdure",200],["olio",10]] },
     off_v6: { p: [["riso",140],["pollo",100],["verdure",300],["olio",10]], c: [["bresaola",70],["pane",80],["verdure",200],["olio",10]] },
     off_v7: { p: [["pasta",160],["pollo",100],["passata",150],["zucchine",200],["olio",10]], c: [["pollo",100],["patate",250],["verdure",200],["olio",10]] },
-    off_v8: { p: [["riso",160],["gamberi",140],["peperoni",250],["olio",10]], c: [["salmone",110],["patate",200],["insalata",200],["olio",5]] },
-    // Domenica: pasti fissi (il sabato non ha ingredienti definiti)
-    dom: { p: [["riso",160],["pollo",130],["verdure",250],["olio",10]], c: [["bresaola",90],["pane",90],["verdure",250],["olio",10]] }
+    off_v8: { p: [["riso",160],["gamberi",140],["peperoni",250],["olio",10]], c: [["salmone",110],["patate",200],["insalata",200],["olio",5]] }
 };
 
 const GIORNI = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
@@ -116,8 +114,8 @@ const STORAGE_KEY = "fitTrackerStateV2_BraveAzzurro"; // invariata: i dati già 
 
 const DEFAULT_STATE = {
     struttura: { "lunedì": "ON", "martedì": "OFF", "mercoledì": "ON", "giovedì": "OFF", "venerdì": "ON", ...WEEKEND },
-    sceltePasti: { "lunedì": "on_v1", "martedì": "off_v1", "mercoledì": "on_v2", "giovedì": "off_v3", "venerdì": "on_v7", "domenica": "dom" },
-    prep: { "lunedì": { p: true, c: true }, "martedì": { p: true, c: true }, "mercoledì": { p: true, c: true }, "giovedì": { p: true, c: true }, "venerdì": { p: true, c: true }, "domenica": { p: false, c: false } }
+    sceltePasti: { "lunedì": "on_v1", "martedì": "off_v1", "mercoledì": "on_v2", "giovedì": "off_v3", "venerdì": "on_v7" },
+    prep: { "lunedì": { p: true, c: true }, "martedì": { p: true, c: true }, "mercoledì": { p: true, c: true }, "giovedì": { p: true, c: true }, "venerdì": { p: true, c: true } }
 };
 
 /* ---------- Stato ---------- */
@@ -314,8 +312,8 @@ function updateLivePreview(giorno, varianteId, type) {
 }
 
 /* ---------- PREP ---------- */
-const ingFor = (g) => INGREDIENTI[WEEKEND[g] ? (g === "domenica" ? "dom" : null) : appState.sceltePasti[g]];
-const PREP_GIORNI = GIORNI.filter(g => g !== "sabato"); // il sabato non ha ingredienti definiti
+const ingFor = (g) => (WEEKEND[g] ? null : INGREDIENTI[appState.sceltePasti[g]]);
+const PREP_GIORNI = FERIALI; // il Prep copre solo lun–ven
 const SHORT = { "lunedì": "lun", "martedì": "mar", "mercoledì": "mer", "giovedì": "gio", "venerdì": "ven", "sabato": "sab", "domenica": "dom" };
 
 function renderPrep() {

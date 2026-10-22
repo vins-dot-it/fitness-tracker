@@ -1,60 +1,62 @@
-/* Tema "Piano Salutare": blu → teal → verde, accento arancio */
+/* Tema "Shaker & Bowl": fondo chiaro, verde→azzurro del contakcal, accento arancio */
 :root {
-    --bg: #f2f7fb;
+    --bg: #f1f6fa;
     --card: #ffffff;
-    --head-bg: linear-gradient(135deg, #17428f 0%, #1d6fa3 55%, #1f9a8f 100%);
-    --head-text: #ffffff;
-    --head-sub: rgba(255, 255, 255, .78);
-    --text: #0e2036;
-    --muted: #566b82;
-    --line: #dbe6ef;
-    --primary: #1d5fb4;
-    --primary-2: #2b8fd0;
-    --primary-soft: #e3eefb;
+    --head-bg: #ffffff;
+    --head-text: #14283c;
+    --head-sub: #5a7084;
+    --text: #14283c;
+    --muted: #5a7084;
+    --line: #dde7ef;
+    --primary: #2b7a4b;
+    --primary-2: #3f9b52;
+    --primary-soft: #e4f3ea;
     --accent: #f47a20;
     --on: #b4520f;
-    --on-soft: #ffe9d9;
-    --off: #1d4f9a;
-    --off-soft: #e0ebfa;
-    --fill: #1d5fb4;
+    --on-soft: #ffeadb;
+    --off: #2a6584;
+    --off-soft: #e1eef6;
+    --fill: #2b7a4b;
     --on-fill: #ffffff;
     --sel-tag: rgba(255, 255, 255, .25);
-    --hero-bg: linear-gradient(135deg, #1a4a9c 0%, #1d78a6 60%, #1f9c8c 100%);
+    --hero-bg: linear-gradient(135deg, #43a257 0%, #2f8f7a 55%, #2f7ea3 100%);
     --hero-line: transparent;
     --hero-text: #ffffff;
-    --hero-sub: rgba(255, 255, 255, .8);
+    --hero-sub: rgba(255, 255, 255, .85);
     --hero-num: #ffffff;
-    --pill-bg: #f47a20;
+    --pill-bg: #e8650f;
     --pill-text: #ffffff;
     --bar-1: #ffffff;
     --bar-2: rgba(255, 255, 255, .55);
     --bar-track: rgba(255, 255, 255, .22);
-    --good: #168a5c;
+    --good: #1f8f4e;
     --bad: #dc2626;
-    --shadow: 0 1px 2px rgba(14, 32, 54, .05), 0 4px 14px rgba(14, 32, 54, .06);
+    --shadow: 0 1px 2px rgba(20, 40, 60, .05), 0 4px 14px rgba(20, 40, 60, .06);
     --radius: 18px;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #0a1626;
-        --card: #112339;
-        --head-bg: linear-gradient(135deg, #0d2d62 0%, #0c5a73 55%, #10675f 100%);
-        --text: #e8f1fb;
-        --muted: #92a9c2;
-        --line: #1f3550;
-        --primary: #6db3ff;
-        --primary-2: #4aa3f0;
-        --primary-soft: #14304f;
+        --bg: #0e1820;
+        --card: #16232e;
+        --head-bg: #16232e;
+        --head-text: #eaf3f8;
+        --head-sub: #8fa7b8;
+        --text: #eaf3f8;
+        --muted: #8fa7b8;
+        --line: #26384a;
+        --primary: #7fd69b;
+        --primary-2: #5cc283;
+        --primary-soft: #183a2a;
         --accent: #ff8f3d;
         --on: #ffb27a;
         --on-soft: #3a2412;
-        --off: #9cc7ff;
-        --off-soft: #14304f;
-        --fill: #6db3ff;
-        --on-fill: #07192e;
-        --sel-tag: rgba(7, 25, 46, .18);
-        --hero-bg: linear-gradient(135deg, #0d2d62 0%, #0c5a73 60%, #10675f 100%);
+        --off: #8fc6e3;
+        --off-soft: #173247;
+        --fill: #7fd69b;
+        --on-fill: #072214;
+        --sel-tag: rgba(7, 34, 20, .18);
+        --hero-bg: linear-gradient(135deg, #1d5c33 0%, #17604f 55%, #1a5876 100%);
         --pill-bg: #ff8f3d;
         --pill-text: #2a1200;
         --good: #5fe0a4;
@@ -89,7 +91,7 @@ h1, h2, p { margin: 0; }
     background: var(--head-bg);
     color: var(--head-text);
     padding-top: env(safe-area-inset-top);
-    box-shadow: 0 2px 12px rgba(14, 32, 54, .18);
+    box-shadow: 0 1px 0 var(--line);
 }
 .appbar-inner {
     max-width: 34rem; margin: 0 auto;
@@ -255,7 +257,7 @@ input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px s
 .toast {
     position: fixed; left: 50%; bottom: calc(5.4rem + env(safe-area-inset-bottom)); z-index: 40;
     transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
-    background: #0e2036; color: #fff; padding: .55rem 1rem; border-radius: 99px;
+    background: #14283c; color: #fff; padding: .55rem 1rem; border-radius: 99px;
     font-size: .72rem; font-weight: 700; box-shadow: 0 6px 20px rgba(0, 0, 0, .3);
     transition: opacity .2s, transform .2s; max-width: 90vw; text-align: center;
 }
@@ -286,7 +288,7 @@ input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px s
 .warn strong { display: block; font-size: .75rem; margin-bottom: .2rem; }
 @media (prefers-color-scheme: dark) { .warn { background: #3a2d10; border-color: #7a5c1a; color: #f5c242; } }
 
-.appbar-logo { width: 2.5rem; height: 2.5rem; border-radius: 12px; overflow: hidden; flex: none; box-shadow: 0 0 0 2px rgba(255,255,255,.35); }
+.appbar-logo { width: 2.5rem; height: 2.5rem; border-radius: 12px; overflow: hidden; flex: none; box-shadow: 0 1px 4px rgba(20, 40, 60, .18); }
 .appbar-logo img { display: block; width: 100%; height: 100%; }
 
 .ing-chk { width: 1.2rem; height: 1.2rem; accent-color: var(--primary); margin: 0; grid-row: span 2; }

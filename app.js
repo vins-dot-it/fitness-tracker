@@ -2,41 +2,57 @@
 
 const baseMeals = {
     ON: [
-        { pasto: "Colazione", icona: "🥞", alimenti: "Whey 30 g; latte parz. scremato 250 ml; cereali 50 g; biscotti integrali 15 g; banana 120 g", kcal: 592, ordine: 1 },
-        { pasto: "Spuntino", icona: "🍎", alimenti: "Skyr 170 g; mandorle 20 g", kcal: 223, ordine: 2 },
-        { pasto: "Pre-workout", icona: "💪", alimenti: "Pane integrale 50 g; banana 120 g", kcal: 232, ordine: 3 },
-        { pasto: "Spuntino", icona: "🍇", alimenti: "Fiocchi di latte 150 g; mela 180 g", kcal: 241, ordine: 5 }
+        { pasto: "Colazione", icona: "🥞", alimenti: "Proteine 30 g; latte 250 ml; cereali 50 g; biscotti integrali 15 g; banana 120 g", kcal: 589, ordine: 1 },
+        { pasto: "Spuntino", icona: "🍎", alimenti: "Skyr 170 g; mandorle 20 g", kcal: 221, ordine: 2 },
+        { pasto: "Pre-workout", icona: "💪", alimenti: "Pane integrale 50 g; banana 120 g (alt.: pane 50 g + miele 20 g)", kcal: 229, ordine: 3 },
+        { pasto: "Spuntino", icona: "🍇", alimenti: "Fiocchi di latte 150 g; un frutto", kcal: 214, ordine: 5 },
+        { pasto: "Pre nanna", icona: "🥛", alimenti: "Latte 250 ml; cereali 30 g (alt.: proteine 30 g)", kcal: 232, ordine: 7 }
     ],
     OFF: [
-        { pasto: "Colazione", icona: "🥞", alimenti: "Whey 30 g; latte parz. scremato 250 ml; cereali 40 g; biscotti integrali 20 g; mela 180 g", kcal: 563, ordine: 1 },
-        { pasto: "Spuntino", icona: "🍎", alimenti: "Yogurt greco 0% 170 g; mandorle 20 g", kcal: 216, ordine: 2 },
-        { pasto: "Spuntino", icona: "🍇", alimenti: "Fiocchi di latte 150 g; pera 180 g", kcal: 250, ordine: 5 },
-        { pasto: "Extra", icona: "🥝", alimenti: "Kiwi 150 g", kcal: 92, ordine: 7 }
+        { pasto: "Colazione", icona: "🥞", alimenti: "Proteine 30 g; latte 250 ml; cereali 40 g; biscotti integrali 20 g; un frutto", kcal: 532, ordine: 1 },
+        { pasto: "Spuntino", icona: "🍎", alimenti: "Yogurt greco 0% 170 g; mandorle 20 g", kcal: 214, ordine: 2 },
+        { pasto: "Spuntino", icona: "🍇", alimenti: "Fiocchi di latte 150 g; un frutto", kcal: 214, ordine: 5 },
+        { pasto: "Pre nanna", icona: "🥛", alimenti: "Latte 250 ml; cereali 30 g (alt.: proteine 30 g)", kcal: 232, ordine: 7 }
+    ],
+    // Weekend: piano fisso, senza varianti
+    SAB: [
+        { pasto: "Colazione", icona: "🥞", alimenti: "Proteine di soia 30 g; latte 250 ml; cereali; biscotti; frutto", kcal: 589, ordine: 1 },
+        { pasto: "Spuntino", icona: "🍎", alimenti: "Yogurt", kcal: 150, ordine: 2 },
+        { pasto: "Pranzo", icona: "🍽️", alimenti: "Più carboidrati che proteine. Opzionale: aggiungi pollo 130 g o merluzzo 180 g", kcal: 750, ordine: 4, key: true },
+        { pasto: "Cena", icona: "🍕", alimenti: "Pizza e birra (circa 1.050 kcal)", kcal: 1050, ordine: 6, key: true }
+    ],
+    DOM: [
+        { pasto: "Colazione", icona: "🥞", alimenti: "Proteine di soia 30 g; latte 250 ml; cereali; biscotti; frutto", kcal: 589, ordine: 1 },
+        { pasto: "Spuntino", icona: "🍎", alimenti: "Skyr 170 g; mandorle 20 g", kcal: 221, ordine: 2 },
+        { pasto: "Pranzo", icona: "🍽️", alimenti: "Riso basmati 160 g; Pollo 130 g; Verdure miste 250 g; Olio EVO 10 g", kcal: 845, ordine: 4, key: true },
+        { pasto: "Spuntino", icona: "🍇", alimenti: "Fiocchi di latte 150 g; un frutto", kcal: 214, ordine: 5 },
+        { pasto: "Cena", icona: "🌙", alimenti: "Bresaola 90 g; Pane integrale 90 g; Verdure miste 250 g; Olio EVO 10 g", kcal: 500, ordine: 6, key: true },
+        { pasto: "Pre nanna", icona: "🥛", alimenti: "Latte 250 ml; cereali 30 g (alt.: proteine 30 g)", kcal: 232, ordine: 7 }
     ]
 };
 
-// Varianti e kcal di pranzo e cena allineate al file "Piani alimentari v4"
+// Varianti e kcal di pranzo e cena allineate al file "Piani alimentari v6"
 const variantiON = [
-    { id: "on_v1", nome: "1- Pollo + salmone", pranzo: "Riso basmati 140 g; Pollo 180 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 820, cena: "Salmone 150 g; Patate 330 g; Insalata 250 g; Olio EVO 5 g", kcal_c: 635 },
-    { id: "on_v2", nome: "2- Pollo + merluzzo", pranzo: "Riso basmati 140 g; Pollo 180 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 845, cena: "Merluzzo 200 g; Cous cous 105 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 705 },
-    { id: "on_v3", nome: "3- Pollo + merluzzo", pranzo: "Pasta 140 g; Pollo 180 g; Passata 150 g; Verdure miste 200 g; Olio EVO 10 g", kcal_p: 880, cena: "Merluzzo 220 g; Cous cous 105 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 720 },
-    { id: "on_v4", nome: "4- Tonno + bresaola", pranzo: "Pasta integrale 140 g; Tonno naturale 150 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 790, cena: "Bresaola 100 g; Pane integrale 130 g; Verdure miste 300 g; Olio EVO 10 g; 1 frutto medio", kcal_c: 690 },
-    { id: "on_v5", nome: "5- Tonno + manzo", pranzo: "Pasta integrale 140 g; Tonno naturale 150 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 775, cena: "Manzo magro 170 g; Pane integrale 130 g; Broccoli 300 g; Olio EVO 10 g", kcal_c: 730 },
-    { id: "on_v6", nome: "6- Ceci e pollo + merluzzo", pranzo: "Riso basmati 140 g; Ceci 150 g cotti e sgocciolati; Pollo 150 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 970, cena: "Merluzzo 220 g; Pane integrale 130 g; Spinaci 300 g; Olio EVO 10 g", kcal_c: 660 },
-    { id: "on_v7", nome: "7- Pollo + manzo", pranzo: "Pasta 140 g; Pollo 180 g; Passata 150 g; Zucchine 200 g; Olio EVO 10 g", kcal_p: 865, cena: "Manzo magro 170 g; Patate 330 g; Insalata 250 g; Olio EVO 10 g", kcal_c: 595 },
-    { id: "on_v8", nome: "8- Manzo + POLLO a cena", pranzo: "Riso basmati 150 g; Manzo magro 170 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 890, cena: "Pollo 150 g; Patate 330 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 585 },
-    { id: "on_v9", nome: "9- Gamberi + POLLO a cena", pranzo: "Riso basmati 150 g; Gamberi sgusciati 200 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 830, cena: "Pollo 150 g; Pane integrale 150 g; Spinaci 300 g; Olio EVO 10 g", kcal_c: 700 }
+    { id: "on_v1", nome: "1- Pollo + salmone", pranzo: "Riso basmati 160 g; Pollo 100 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 795, cena: "Salmone 110 g; Patate 200 g; Insalata 200 g; Olio EVO 5 g", kcal_c: 430 },
+    { id: "on_v2", nome: "2- Pollo + merluzzo", pranzo: "Riso basmati 160 g; Pollo 100 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 820, cena: "Merluzzo 130 g; Cous cous 60 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 445 },
+    { id: "on_v3", nome: "3- Pollo + merluzzo", pranzo: "Pasta 160 g; Pollo 100 g; Passata 150 g; Verdure miste 200 g; Olio EVO 10 g", kcal_p: 845, cena: "Merluzzo 130 g; Pane integrale 80 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 425 },
+    { id: "on_v4", nome: "4- Tonno + bresaola", pranzo: "Pasta integrale 160 g; Tonno naturale 110 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 815, cena: "Bresaola 70 g; Pane integrale 80 g; Verdure miste 200 g; Olio EVO 10 g; 1 frutto medio", kcal_c: 505 },
+    { id: "on_v5", nome: "5- Tonno + manzo", pranzo: "Pasta integrale 160 g; Tonno naturale 110 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 780, cena: "Manzo magro 100 g; Pane integrale 70 g; Broccoli 200 g; Olio EVO 10 g", kcal_c: 445 },
+    { id: "on_v6", nome: "6- Ceci e pollo + merluzzo", pranzo: "Riso basmati 140 g; Ceci 120 g cotti e sgocciolati; Pollo 70 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 835, cena: "Merluzzo 130 g; Pane integrale 80 g; Spinaci 200 g; Olio EVO 10 g", kcal_c: 415 },
+    { id: "on_v7", nome: "7- Pollo + manzo", pranzo: "Pasta 160 g; Pollo 100 g; Passata 150 g; Zucchine 200 g; Olio EVO 10 g", kcal_p: 830, cena: "Manzo magro 100 g; Patate 250 g; Insalata 200 g; Olio EVO 10 g", kcal_c: 430 },
+    { id: "on_v8", nome: "8- Manzo + POLLO a cena", pranzo: "Riso basmati 160 g; Manzo magro 120 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 855, cena: "Pollo 100 g; Patate 250 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 430 },
+    { id: "on_v9", nome: "9- Gamberi + POLLO a cena", pranzo: "Riso basmati 160 g; Gamberi sgusciati 140 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 805, cena: "Pollo 100 g; Pane integrale 80 g; Spinaci 200 g; Olio EVO 10 g", kcal_c: 430 }
 ];
 
 const variantiOFF = [
-    { id: "off_v1", nome: "1- Tonno + manzo", pranzo: "Pasta integrale 145 g; Tonno naturale 120 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 760, cena: "Manzo magro 170 g; Pane integrale 130 g; Broccoli 300 g; Olio EVO 10 g", kcal_c: 730 },
-    { id: "off_v2", nome: "2- Pollo + merluzzo", pranzo: "Riso basmati 140 g; Pollo 180 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 845, cena: "Merluzzo 200 g; Cous cous 105 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 705 },
-    { id: "off_v3", nome: "3- Ceci e pollo + merluzzo", pranzo: "Riso basmati 110 g; Ceci 180 g cotti e sgocciolati; Pollo 120 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 865, cena: "Merluzzo 220 g; Pane integrale 120 g; Spinaci 300 g; Olio EVO 10 g", kcal_c: 635 },
-    { id: "off_v4", nome: "4- Tonno + merluzzo", pranzo: "Pasta integrale 145 g; Tonno naturale 120 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 760, cena: "Merluzzo 220 g; Pane integrale 150 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 715 },
-    { id: "off_v5", nome: "5- Ceci e pollo + merluzzo", pranzo: "Riso basmati 125 g; Ceci 150 g cotti e sgocciolati; Pollo 120 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 880, cena: "Merluzzo 220 g; Pane integrale 110 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 615 },
-    { id: "off_v6", nome: "6- Pollo + bresaola", pranzo: "Riso basmati 140 g; Pollo 150 g; Verdure miste 300 g; Olio EVO 10 g", kcal_p: 820, cena: "Bresaola 100 g; Pane integrale 140 g; Verdure miste 300 g; Olio EVO 10 g", kcal_c: 665 },
-    { id: "off_v7", nome: "7- Pollo + pollo", pranzo: "Pasta 150 g; Pollo 170 g; Passata 150 g; Zucchine 200 g; Olio EVO 10 g", kcal_p: 880, cena: "Pollo 130 g; Patate 400 g; Insalata 250 g; Olio EVO 10 g", kcal_c: 580 },
-    { id: "off_v8", nome: "8- Gamberi + salmone", pranzo: "Riso basmati 150 g; Gamberi sgusciati 180 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 835, cena: "Salmone 150 g; Patate 330 g; Insalata 250 g; Olio EVO 5 g", kcal_c: 635 }
+    { id: "off_v1", nome: "1- Tonno + manzo", pranzo: "Pasta integrale 160 g; Tonno naturale 100 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 770, cena: "Manzo magro 100 g; Pane integrale 70 g; Broccoli 200 g; Olio EVO 10 g", kcal_c: 445 },
+    { id: "off_v2", nome: "2- Pollo + merluzzo", pranzo: "Riso basmati 140 g; Pollo 100 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 750, cena: "Merluzzo 130 g; Cous cous 60 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 445 },
+    { id: "off_v3", nome: "3- Ceci e pollo + merluzzo", pranzo: "Riso basmati 120 g; Ceci 120 g cotti e sgocciolati; Pollo 70 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 765, cena: "Merluzzo 130 g; Pane integrale 80 g; Spinaci 200 g; Olio EVO 10 g", kcal_c: 415 },
+    { id: "off_v4", nome: "4- Tonno + merluzzo", pranzo: "Pasta integrale 160 g; Tonno naturale 100 g sgocciolato; Pomodori 250 g; Olio EVO 10 g", kcal_p: 770, cena: "Merluzzo 130 g; Pane integrale 80 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 425 },
+    { id: "off_v5", nome: "5- Ceci e pollo + merluzzo", pranzo: "Riso basmati 130 g; Ceci 120 g cotti e sgocciolati; Pollo 70 g; Zucchine 250 g; Olio EVO 10 g", kcal_p: 800, cena: "Merluzzo 130 g; Pane integrale 80 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 425 },
+    { id: "off_v6", nome: "6- Pollo + bresaola", pranzo: "Riso basmati 140 g; Pollo 100 g; Verdure miste 300 g; Olio EVO 10 g", kcal_p: 755, cena: "Bresaola 70 g; Pane integrale 80 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 435 },
+    { id: "off_v7", nome: "7- Pollo + pollo", pranzo: "Pasta 160 g; Pollo 100 g; Passata 150 g; Zucchine 200 g; Olio EVO 10 g", kcal_p: 830, cena: "Pollo 100 g; Patate 250 g; Verdure miste 200 g; Olio EVO 10 g", kcal_c: 430 },
+    { id: "off_v8", nome: "8- Gamberi + salmone", pranzo: "Riso basmati 160 g; Gamberi sgusciati 140 g; Peperoni 250 g; Olio EVO 10 g", kcal_p: 830, cena: "Salmone 110 g; Patate 200 g; Insalata 200 g; Olio EVO 5 g", kcal_c: 430 }
 ];
 
 
@@ -72,32 +88,36 @@ const CATEGORIE = ["Basi", "Proteine", "Verdure e sughi", "Frutta", "Condimenti"
 
 // [alimento, quantità] per pranzo (p) e cena (c) di ogni variante
 const INGREDIENTI = {
-    on_v1: { p: [["riso",140],["pollo",180],["zucchine",250],["olio",10]], c: [["salmone",150],["patate",330],["insalata",250],["olio",5]] },
-    on_v2: { p: [["riso",140],["pollo",180],["peperoni",250],["olio",10]], c: [["merluzzo",200],["couscous",105],["verdure",300],["olio",10]] },
-    on_v3: { p: [["pasta",140],["pollo",180],["passata",150],["verdure",200],["olio",10]], c: [["merluzzo",220],["couscous",105],["verdure",300],["olio",10]] },
-    on_v4: { p: [["pasta_int",140],["tonno",150],["pomodori",250],["olio",10]], c: [["bresaola",100],["pane",130],["verdure",300],["olio",10],["frutto",1]] },
-    on_v5: { p: [["pasta_int",140],["tonno",150],["pomodori",250],["olio",10]], c: [["manzo",170],["pane",130],["broccoli",300],["olio",10]] },
-    on_v6: { p: [["riso",140],["ceci",150],["pollo",150],["zucchine",250],["olio",10]], c: [["merluzzo",220],["pane",130],["spinaci",300],["olio",10]] },
-    on_v7: { p: [["pasta",140],["pollo",180],["passata",150],["zucchine",200],["olio",10]], c: [["manzo",170],["patate",330],["insalata",250],["olio",10]] },
-    on_v8: { p: [["riso",150],["manzo",170],["peperoni",250],["olio",10]], c: [["pollo",150],["patate",330],["verdure",300],["olio",10]] },
-    on_v9: { p: [["riso",150],["gamberi",200],["zucchine",250],["olio",10]], c: [["pollo",150],["pane",150],["spinaci",300],["olio",10]] },
-    off_v1: { p: [["pasta_int",145],["tonno",120],["pomodori",250],["olio",10]], c: [["manzo",170],["pane",130],["broccoli",300],["olio",10]] },
-    off_v2: { p: [["riso",140],["pollo",180],["peperoni",250],["olio",10]], c: [["merluzzo",200],["couscous",105],["verdure",300],["olio",10]] },
-    off_v3: { p: [["riso",110],["ceci",180],["pollo",120],["zucchine",250],["olio",10]], c: [["merluzzo",220],["pane",120],["spinaci",300],["olio",10]] },
-    off_v4: { p: [["pasta_int",145],["tonno",120],["pomodori",250],["olio",10]], c: [["merluzzo",220],["pane",150],["verdure",300],["olio",10]] },
-    off_v5: { p: [["riso",125],["ceci",150],["pollo",120],["zucchine",250],["olio",10]], c: [["merluzzo",220],["pane",110],["verdure",300],["olio",10]] },
-    off_v6: { p: [["riso",140],["pollo",150],["verdure",300],["olio",10]], c: [["bresaola",100],["pane",140],["verdure",300],["olio",10]] },
-    off_v7: { p: [["pasta",150],["pollo",170],["passata",150],["zucchine",200],["olio",10]], c: [["pollo",130],["patate",400],["insalata",250],["olio",10]] },
-    off_v8: { p: [["riso",150],["gamberi",180],["peperoni",250],["olio",10]], c: [["salmone",150],["patate",330],["insalata",250],["olio",5]] }
+    on_v1: { p: [["riso",160],["pollo",100],["zucchine",250],["olio",10]], c: [["salmone",110],["patate",200],["insalata",200],["olio",5]] },
+    on_v2: { p: [["riso",160],["pollo",100],["peperoni",250],["olio",10]], c: [["merluzzo",130],["couscous",60],["verdure",200],["olio",10]] },
+    on_v3: { p: [["pasta",160],["pollo",100],["passata",150],["verdure",200],["olio",10]], c: [["merluzzo",130],["pane",80],["verdure",200],["olio",10]] },
+    on_v4: { p: [["pasta_int",160],["tonno",110],["pomodori",250],["olio",10]], c: [["bresaola",70],["pane",80],["verdure",200],["olio",10],["frutto",1]] },
+    on_v5: { p: [["pasta_int",160],["tonno",110],["pomodori",250],["olio",10]], c: [["manzo",100],["pane",70],["broccoli",200],["olio",10]] },
+    on_v6: { p: [["riso",140],["ceci",120],["pollo",70],["zucchine",250],["olio",10]], c: [["merluzzo",130],["pane",80],["spinaci",200],["olio",10]] },
+    on_v7: { p: [["pasta",160],["pollo",100],["passata",150],["zucchine",200],["olio",10]], c: [["manzo",100],["patate",250],["insalata",200],["olio",10]] },
+    on_v8: { p: [["riso",160],["manzo",120],["peperoni",250],["olio",10]], c: [["pollo",100],["patate",250],["verdure",200],["olio",10]] },
+    on_v9: { p: [["riso",160],["gamberi",140],["zucchine",250],["olio",10]], c: [["pollo",100],["pane",80],["spinaci",200],["olio",10]] },
+    off_v1: { p: [["pasta_int",160],["tonno",100],["pomodori",250],["olio",10]], c: [["manzo",100],["pane",70],["broccoli",200],["olio",10]] },
+    off_v2: { p: [["riso",140],["pollo",100],["peperoni",250],["olio",10]], c: [["merluzzo",130],["couscous",60],["verdure",200],["olio",10]] },
+    off_v3: { p: [["riso",120],["ceci",120],["pollo",70],["zucchine",250],["olio",10]], c: [["merluzzo",130],["pane",80],["spinaci",200],["olio",10]] },
+    off_v4: { p: [["pasta_int",160],["tonno",100],["pomodori",250],["olio",10]], c: [["merluzzo",130],["pane",80],["verdure",200],["olio",10]] },
+    off_v5: { p: [["riso",130],["ceci",120],["pollo",70],["zucchine",250],["olio",10]], c: [["merluzzo",130],["pane",80],["verdure",200],["olio",10]] },
+    off_v6: { p: [["riso",140],["pollo",100],["verdure",300],["olio",10]], c: [["bresaola",70],["pane",80],["verdure",200],["olio",10]] },
+    off_v7: { p: [["pasta",160],["pollo",100],["passata",150],["zucchine",200],["olio",10]], c: [["pollo",100],["patate",250],["verdure",200],["olio",10]] },
+    off_v8: { p: [["riso",160],["gamberi",140],["peperoni",250],["olio",10]], c: [["salmone",110],["patate",200],["insalata",200],["olio",5]] },
+    // Domenica: pasti fissi (il sabato non ha ingredienti definiti)
+    dom: { p: [["riso",160],["pollo",130],["verdure",250],["olio",10]], c: [["bresaola",90],["pane",90],["verdure",250],["olio",10]] }
 };
 
-const GIORNI = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì"];
+const GIORNI = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
+const FERIALI = GIORNI.slice(0, 5);          // giorni con scelta ON/OFF e varianti
+const WEEKEND = { "sabato": "SAB", "domenica": "DOM" }; // piano fisso
 const STORAGE_KEY = "fitTrackerStateV2_BraveAzzurro"; // invariata: i dati già salvati restano
 
 const DEFAULT_STATE = {
-    struttura: { "lunedì": "ON", "martedì": "OFF", "mercoledì": "ON", "giovedì": "OFF", "venerdì": "ON" },
-    sceltePasti: { "lunedì": "on_v1", "martedì": "off_v1", "mercoledì": "on_v2", "giovedì": "off_v3", "venerdì": "on_v7" },
-    prep: { "lunedì": { p: true, c: true }, "martedì": { p: true, c: true }, "mercoledì": { p: true, c: true }, "giovedì": { p: true, c: true }, "venerdì": { p: true, c: true } }
+    struttura: { "lunedì": "ON", "martedì": "OFF", "mercoledì": "ON", "giovedì": "OFF", "venerdì": "ON", ...WEEKEND },
+    sceltePasti: { "lunedì": "on_v1", "martedì": "off_v1", "mercoledì": "on_v2", "giovedì": "off_v3", "venerdì": "on_v7", "domenica": "dom" },
+    prep: { "lunedì": { p: true, c: true }, "martedì": { p: true, c: true }, "mercoledì": { p: true, c: true }, "giovedì": { p: true, c: true }, "venerdì": { p: true, c: true }, "domenica": { p: false, c: false } }
 };
 
 /* ---------- Stato ---------- */
@@ -108,7 +128,7 @@ function loadState() {
             const sp = { ...DEFAULT_STATE.sceltePasti, ...(s.sceltePasti || {}) };
             for (const g in sp) { if (sp[g] === "on_v10") sp[g] = "on_v9"; }  // rinumerazione varianti
             return {
-                struttura: { ...DEFAULT_STATE.struttura, ...(s.struttura || {}) },
+                struttura: { ...DEFAULT_STATE.struttura, ...(s.struttura || {}), ...WEEKEND },
                 sceltePasti: sp,
                 prep: { ...DEFAULT_STATE.prep, ...(s.prep || {}) }
             };
@@ -132,7 +152,7 @@ function toast(msg) {
 }
 function todayIndex() {
     const d = new Date().getDay(); // 0=dom
-    return d >= 1 && d <= 5 ? d - 1 : 0; // nel weekend mostra lunedì
+    return d === 0 ? 6 : d - 1;
 }
 let currentOggiIndex = todayIndex();
 
@@ -156,14 +176,14 @@ document.querySelectorAll(".nav-btn").forEach(btn => {
 function renderDayBar() {
     const bar = $("daybar");
     bar.innerHTML = "";
-    const realToday = new Date().getDay() - 1;
+    const realToday = todayIndex();
     GIORNI.forEach((g, i) => {
         const type = appState.struttura[g];
         const b = document.createElement("button");
         b.className = "day-chip" + (i === currentOggiIndex ? " sel" : "") + (i === realToday ? " today" : "");
         b.setAttribute("role", "tab");
         b.setAttribute("aria-selected", i === currentOggiIndex);
-        b.innerHTML = `<span class="d">${g.slice(0, 3)}</span><span class="t ${type}">${type}</span>`;
+        b.innerHTML = `<span class="d">${g.slice(0, 3)}</span><span class="t ${type}">${type === "SAB" || type === "DOM" ? "WE" : type}</span>`;
         b.addEventListener("click", () => { currentOggiIndex = i; renderOggi(); });
         bar.appendChild(b);
     });
@@ -172,7 +192,7 @@ function renderDayBar() {
 function mealsForDay(giorno) {
     const type = appState.struttura[giorno];
     const list = baseMeals[type].map(m => ({ ...m }));
-    const v = findVariante(type, appState.sceltePasti[giorno]);
+    const v = WEEKEND[giorno] ? null : findVariante(type, appState.sceltePasti[giorno]);
     if (v) {
         list.push({ pasto: "Pranzo", icona: "🍽️", alimenti: v.pranzo, kcal: v.kcal_p, ordine: 4, key: true, sub: v.nome });
         list.push({ pasto: "Cena", icona: "🌙", alimenti: v.cena, kcal: v.kcal_c, ordine: 6, key: true, sub: v.nome });
@@ -188,7 +208,7 @@ function renderOggi() {
     const total = meals.reduce((s, m) => s + m.kcal, 0);
 
     $("oggi-total-kcal").textContent = total;
-    $("oggi-day-type").textContent = `${cap(giorno)} · ${type === "ON" ? "Allenamento (ON)" : "Riposo (OFF)"}`;
+    $("oggi-day-type").textContent = `${cap(giorno)} · ${type === "ON" ? "Allenamento (ON)" : type === "OFF" ? "Riposo (OFF)" : "Weekend"}`;
 
     const split = $("hero-split");
     split.innerHTML = "";
@@ -217,7 +237,7 @@ function renderOggi() {
 function renderStruttura() {
     const container = $("struttura-giorni-container");
     container.innerHTML = "";
-    GIORNI.forEach(g => {
+    FERIALI.forEach(g => {
         const row = document.createElement("div");
         row.className = "row";
         const cur = appState.struttura[g];
@@ -228,12 +248,18 @@ function renderStruttura() {
             </select>`;
         container.appendChild(row);
     });
+    Object.keys(WEEKEND).forEach(g => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = `<span>${g}</span><span class="muted">Weekend · piano fisso</span>`;
+        container.appendChild(row);
+    });
 }
 
 function applyPlan(struttura, label) {
     if (!confirm(`Caricare il piano ${label}? Le varianti scelte verranno azzerate.`)) return;
-    appState.struttura = struttura;
-    GIORNI.forEach(g => { appState.sceltePasti[g] = struttura[g] === "ON" ? "on_v1" : "off_v1"; });
+    appState.struttura = { ...struttura, ...WEEKEND };
+    FERIALI.forEach(g => { appState.sceltePasti[g] = struttura[g] === "ON" ? "on_v1" : "off_v1"; });
     saveState(); renderStruttura(); renderDayBar();
     toast(`Piano ${label} caricato`);
 }
@@ -241,7 +267,7 @@ $("btn-plan-3").addEventListener("click", () => applyPlan({ "lunedì": "ON", "ma
 $("btn-plan-4").addEventListener("click", () => applyPlan({ "lunedì": "ON", "martedì": "ON", "mercoledì": "OFF", "giovedì": "ON", "venerdì": "ON" }, "4 allenamenti"));
 
 $("save-struttura").addEventListener("click", () => {
-    GIORNI.forEach(g => {
+    FERIALI.forEach(g => {
         const val = $(`select-struct-${g}`).value;
         if (appState.struttura[g] !== val) {
             appState.struttura[g] = val;
@@ -255,7 +281,7 @@ $("save-struttura").addEventListener("click", () => {
 function renderScegliPasti() {
     const container = $("scegli-pasti-container");
     container.innerHTML = "";
-    GIORNI.forEach(g => {
+    FERIALI.forEach(g => {
         const type = appState.struttura[g];
         let current = appState.sceltePasti[g];
         if (!findVariante(type, current)) { current = listFor(type)[0].id; appState.sceltePasti[g] = current; saveState(); }
@@ -288,18 +314,20 @@ function updateLivePreview(giorno, varianteId, type) {
 }
 
 /* ---------- PREP ---------- */
-const SHORT = { "lunedì": "lun", "martedì": "mar", "mercoledì": "mer", "giovedì": "gio", "venerdì": "ven" };
+const ingFor = (g) => INGREDIENTI[WEEKEND[g] ? (g === "domenica" ? "dom" : null) : appState.sceltePasti[g]];
+const PREP_GIORNI = GIORNI.filter(g => g !== "sabato"); // il sabato non ha ingredienti definiti
+const SHORT = { "lunedì": "lun", "martedì": "mar", "mercoledì": "mer", "giovedì": "gio", "venerdì": "ven", "sabato": "sab", "domenica": "dom" };
 
 function renderPrep() {
     const host = $("prep-giorni");
     host.innerHTML = "";
-    GIORNI.forEach(g => {
+    PREP_GIORNI.forEach(g => {
         const type = appState.struttura[g];
         const st = appState.prep[g] || { p: false, c: false };
         const row = document.createElement("div");
         row.className = "prep-row";
         row.innerHTML = `
-            <label class="chk day"><input type="checkbox" data-g="${g}" data-k="day"><span class="dn">${g}<span class="tag ${type}">${type}</span></span></label>
+            <label class="chk day"><input type="checkbox" data-g="${g}" data-k="day"><span class="dn">${g}<span class="tag ${type}">${type === "DOM" ? "WE" : type}</span></span></label>
             <label class="chk"><input type="checkbox" data-g="${g}" data-k="p" ${st.p ? "checked" : ""}><span>Pranzo</span></label>
             <label class="chk"><input type="checkbox" data-g="${g}" data-k="c" ${st.c ? "checked" : ""}><span>Cena</span></label>`;
         const day = row.querySelector('[data-k="day"]');
@@ -322,7 +350,7 @@ function buildPrep() {
     const meals = [];      // { gi, giorno, k, items }
     GIORNI.forEach((g, gi) => {
         const st = appState.prep[g] || {};
-        const ing = INGREDIENTI[appState.sceltePasti[g]];
+        const ing = ingFor(g);
         if (!ing) return;
         [["p", "pranzo"], ["c", "cena"]].forEach(([k, label]) => {
             if (!st[k]) return;

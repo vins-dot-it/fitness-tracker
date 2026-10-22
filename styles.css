@@ -125,20 +125,21 @@ main {
 .muted { color: var(--muted); font-size: .72rem; }
 
 /* ---------- Day bar ---------- */
-.daybar { display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; }
+.daybar { display: grid; grid-template-columns: repeat(7, 1fr); gap: .25rem; }
 .day-chip {
     border: 1px solid var(--line);
     background: var(--card);
     border-radius: 14px;
-    padding: .5rem 0 .45rem;
+    padding: .5rem 0 .45rem; min-width: 0;
     display: flex; flex-direction: column; align-items: center; gap: .15rem;
     cursor: pointer;
     box-shadow: var(--shadow);
 }
-.day-chip .d { font-size: .7rem; font-weight: 800; text-transform: capitalize; }
-.day-chip .t { font-size: .55rem; font-weight: 800; letter-spacing: .06em; padding: 1px 6px; border-radius: 99px; }
+.day-chip .d { font-size: .66rem; font-weight: 800; text-transform: capitalize; }
+.day-chip .t { font-size: .5rem; font-weight: 800; letter-spacing: .04em; padding: 1px 5px; border-radius: 99px; }
 .day-chip .t.ON { background: var(--on-soft); color: var(--on); }
 .day-chip .t.OFF { background: var(--off-soft); color: var(--off); }
+.day-chip .t.SAB, .day-chip .t.DOM { background: var(--primary-soft); color: var(--primary); }
 .day-chip.sel { background: var(--fill); border-color: var(--fill); color: var(--on-fill); }
 .day-chip.sel .t { background: var(--sel-tag); color: inherit; }
 .day-chip.today:not(.sel) { border-color: var(--primary); }
@@ -299,3 +300,6 @@ input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px s
 .sendrow .btn { margin-left: auto; white-space: nowrap; min-width: 7rem; padding: .55rem 1rem; min-height: 2.5rem; border-radius: 12px; }
 .sendrow .btn:disabled { opacity: .45; cursor: default; }
 .link { background: none; border: 0; color: var(--primary); font-weight: 800; font-size: .72rem; padding: .5rem .5rem; cursor: pointer; }
+
+.tag.WE, .tag.SAB, .tag.DOM { background: var(--primary-soft); color: var(--primary); }
+.foot { text-align: center; color: var(--muted); font-size: .6rem; font-weight: 600; letter-spacing: .04em; padding: 1.4rem 0 .2rem; }

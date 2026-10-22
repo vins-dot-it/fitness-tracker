@@ -316,7 +316,13 @@ const ingFor = (g) => (WEEKEND[g] ? null : INGREDIENTI[appState.sceltePasti[g]])
 const PREP_GIORNI = FERIALI; // il Prep copre solo lun–ven
 const SHORT = { "lunedì": "lun", "martedì": "mar", "mercoledì": "mer", "giovedì": "gio", "venerdì": "ven", "sabato": "sab", "domenica": "dom" };
 
+let cookIdx = null;   // giorno di cottura scelto; null = oggi
+const cookDay = () => (cookIdx === null ? todayIndex() : cookIdx);
+
 function renderPrep() {
+    const sel = $("prep-cook");
+    sel.innerHTML = GIORNI.map((g, i) => `<option value="${i}" ${i === cookDay() ? "selected" : ""}>${cap(g)}${i === todayIndex() ? " (oggi)" : ""}</option>`).join("");
+    sel.onchange = () => { cookIdx = Number(sel.value); renderPrepRecap(); };
     const host = $("prep-giorni");
     host.innerHTML = "";
     PREP_GIORNI.forEach(g => {
@@ -392,11 +398,12 @@ function renderPrepRecap() {
     });
     recap.innerHTML = html;
 
-    // Avvisi di conservazione: si assume la cottura il giorno prima del primo pasto selezionato
-    const first = Math.min(...meals.map(m => m.gi));
+    // Avvisi di conservazione: si conta dal giorno di cottura (di default oggi, modificabile)
+    const cook = cookDay();
     const issues = {};
     meals.forEach(m => {
-        const age = m.gi - first + 1;
+        let age = m.gi - cook;
+        if (age < 0) { if (cook >= 5) age += 7; else return; }   // giorni già passati: nessun avviso
         m.items.forEach(([key]) => {
             const v = ALIMENTI[key].vita;
             if (v && age > v) (issues[key] = issues[key] || []).push(`${SHORT[m.giorno]} ${m.label} (${age} gg)`);
@@ -407,7 +414,7 @@ function renderPrepRecap() {
         warn.hidden = false;
         warn.innerHTML = `<strong>Conservazione in frigo</strong>` + keys.map(k =>
             `${ALIMENTI[k].n} (max ${ALIMENTI[k].vita} gg dalla cottura): ${[...new Set(issues[k])].join(", ")}.`).join("<br>") +
-            `<br><em>Cuoci questi alimenti a parte più avanti oppure congelali. Stima con cottura il giorno prima del primo pasto.</em>`;
+            `<br><em>Cuoci questi alimenti a parte più avanti oppure congelali. Calcolo con cottura ${GIORNI[cook] === GIORNI[todayIndex()] ? "oggi" : "il"} ${GIORNI[cook]}.</em>`;
     } else { warn.hidden = true; }
     updateSendBar();
 }
